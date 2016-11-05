@@ -18,6 +18,8 @@
 
 <script type="text/javascript">
 	function Form() {
+		$("#Id").val($("#Sel").val());
+		alert($("#Id").val());
 		if ($("#Name").val()=="") {
 			$("#NameTop").html("用户名为空");
 			return false;
@@ -50,7 +52,7 @@
 				<tr>
 					<td><label class="control-label" for="inputType">身份：</td>
 					<td>
-						<select style="width:100%">
+						<select id="Sel" style="width:100%;height:100%">
 							<option value="0">读者</option>
 							<option value="1">员工</option>
 							<option value="2">管理员</option>
@@ -63,7 +65,7 @@
 				</tr>
 				<tr>
 					<td><label class="control-label" for="inputEmail">账号：</label></td>
-					<td><input id="Name" name="Name" type="text" /></td>
+					<td><input id="Name" name="Name" type="text" style="width:100%;height:100%"/></td>
 					<td><label id="NameTop"></label></td>
 				</tr>
 				<tr>
@@ -71,7 +73,7 @@
 				</tr>
 				<tr>
 					<td><label class="control-label" for="inputPassword">密码：</label></td>
-					<td><input id="Password"  name="Password" type="password" /></td>
+					<td><input id="Password"  name="Password" type="password" style="width:100%;height:100%"/></td>
 					<td><label id="PwdTop"></label></td>
 				</tr>
 				<tr>
