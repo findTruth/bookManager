@@ -19,7 +19,6 @@
 <script type="text/javascript">
 	function Form() {
 		$("#Id").val($("#Sel").val());
-		alert($("#Id").val());
 		if ($("#Name").val()=="") {
 			$("#NameTop").html("用户名为空");
 			return false;
@@ -50,7 +49,10 @@
 					<td colspan="3">&nbsp;</td>
 				</tr>
 				<tr>
-					<td><label class="control-label" for="inputType">身份：</td>
+					<td>
+						<span class="glyphicon glyphicon-send"></span>
+						<label class="control-label" for="inputType">身份：</label>
+					</td>
 					<td>
 						<select id="Sel" style="width:100%;height:100%">
 							<option value="0">读者</option>
@@ -64,16 +66,22 @@
 					<td colspan="3">&nbsp;</td>
 				</tr>
 				<tr>
-					<td><label class="control-label" for="inputEmail">账号：</label></td>
-					<td><input id="Name" name="Name" type="text" style="width:100%;height:100%"/></td>
+					<td>
+						 <span class="glyphicon glyphicon-user"></span>
+						<label class="control-label" for="inputEmail">账号：</label>
+					</td>
+					<td><input id="Name" name="Name" type="text" style="width:100%;margin-top: -8px"/></td>
 					<td><label id="NameTop"></label></td>
 				</tr>
 				<tr>
 					<td colspan="3">&nbsp;</td>
 				</tr>
 				<tr>
-					<td><label class="control-label" for="inputPassword">密码：</label></td>
-					<td><input id="Password"  name="Password" type="password" style="width:100%;height:100%"/></td>
+					<td>
+						<span class="glyphicon glyphicon-briefcase"></span>
+						<label class="control-label" for="inputPassword">密码：</label>
+					</td>
+					<td><input id="Password"  name="Password" type="password" style="width:100%;margin-top: -8px"/></td>
 					<td><label id="PwdTop"></label></td>
 				</tr>
 				<tr>
