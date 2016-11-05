@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class ManagerController
  */
-@WebServlet({ "/Manager*", "/manager*", "/MANAGER" })
+@WebServlet("/manager/*")
 public class ManagerController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

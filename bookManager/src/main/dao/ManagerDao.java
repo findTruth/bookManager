@@ -1,5 +1,7 @@
 package main.dao;
 
-public interface ManagerDao {
+import main.entity.Manager;
 
+public interface ManagerDao {
+	public Manager findById(String id);
 }

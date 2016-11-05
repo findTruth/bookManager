@@ -1,0 +1,6 @@
+.LoginFormBody{
+	display:inline-block; zoom:1; *display:inline; vertical-align:middle; text-align:center; width:400px; padding:10px; border:1px solid #f60; background:#fc0;
+}
+.hiddenDiv{height:100%; overflow:hidden; display:inline-block; width:1px; overflow:hidden; margin-left:-1px; zoom:1; *display:inline; *margin-top:-1px; _margin-top:0; vertical-align:middle;}
+html { height:100%;}
+   body { height:100%; text-align:center;}

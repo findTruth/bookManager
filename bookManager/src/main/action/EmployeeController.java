@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class EmployeeController
  */
-@WebServlet({ "/Employee*", "/EMPLOYEE*", "/employee*" })
+@WebServlet("/employee/*")
 public class EmployeeController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
