@@ -26,7 +26,7 @@ public class DBhelper_mysql {
 			e.printStackTrace();
 		}
 	}
-	public Connection getConnection(){
+	public static Connection getConnection(){
 		Connection conn = null;
 		try {
 			Class.forName(driver);
@@ -40,7 +40,7 @@ public class DBhelper_mysql {
 		}
 		return conn;
 	}
-	public boolean closeConnection(ResultSet rs,Statement s,Connection conn){
+	public static boolean closeConnection(ResultSet rs,Statement s,Connection conn){
 		try {
 			if (rs!=null) {
 				rs.close();
