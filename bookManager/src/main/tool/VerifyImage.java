@@ -86,7 +86,7 @@ private static Color getRandColor(int fc, int bc) {
  * @return boolean
  * @throws Exception
  */ 
-public static boolean getImage(HttpServletRequest request, HttpServletResponse response) throws Exception{ 
+static boolean getImage(HttpServletRequest request, HttpServletResponse response) throws Exception{ 
     response.reset(); 
     response.setContentType("image/jpeg"); 
     // 设置页面不缓存 

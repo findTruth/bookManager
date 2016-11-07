@@ -5,3 +5,16 @@
 	用于加密密码
 3、UUID方法
 	用于生成32位id码
+4、getVerifyImage方法
+	用于生成验证码，直接在jsp调用
+	验证码的值为request.getSession().setAttribute("codeValue", codeValue);
+	该值存放在session中
+
+接口详情
+	格式：
+		接口uri：/bookManager/book/List.do
+		说明：打印书籍列表
+		参数：press 出版社
+			author 作者
+			等等。。。
+		发送方式：get/post（这里只有一个方式）

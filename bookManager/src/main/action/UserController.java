@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import main.tool.Tools;
+
 /**
  * Servlet implementation class UserController
  */
@@ -16,6 +18,12 @@ public class UserController extends HttpServlet {
 
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String path = Tools.cut(request.getRequestURI());
+		if ("/li".equals(path)) {
+			
+		} else {
+			request.getRequestDispatcher("../404.jsp").forward(request, response);
+		}
 	}
 
 	
