@@ -1,9 +1,14 @@
 package main.tool;
 
-import java.util.List;
+
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import sun.util.resources.CalendarData;
+
 
 public class Tools {
 	public final static String cut(String uri){
@@ -23,6 +28,12 @@ public class Tools {
 		}
 		return true;
 		
+	}
+	
+	public final static String getDate(){
+		Calendar c1 = Calendar.getInstance();
+        c1.setTime(new Date());
+		return c1.getTime().toString();
 	}
 	
 }

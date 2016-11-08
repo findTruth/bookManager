@@ -26,6 +26,12 @@ public class ToolContorller extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String path = Tools.cut(request.getRequestURI());
+		if ("/adminLogin".equals(path)) {
+			
+		} else {
+			request.getRequestDispatcher("../404.jsp").forward(request, response);
+		}
 	}
 
 }

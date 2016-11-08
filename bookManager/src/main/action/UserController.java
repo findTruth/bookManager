@@ -37,6 +37,9 @@ public class UserController extends HttpServlet {
 		
 		if ("/regist".equals(path)) {
 			
+		}else if ("/login".equals(path)) {
+			System.out.println("info:"+Tools.getDate()+" user:"+request.getParameter("user")+" Login action");
+			
 		}else {
 			request.getRequestDispatcher("../404.jsp").forward(request, response);
 		}
