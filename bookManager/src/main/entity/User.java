@@ -2,48 +2,34 @@ package main.entity;
 
 public class User {
 	private String UUID;
-	private String UNAME;
-	private String NICNAME;
-	private String PASSWORD;
 	private String PHONE;
-	private String QQ;
-	private int STATUS;
+	private String EMAIL;
+	private String PASSWORD;
+	private String ANSWER;
+	private String QUESTION;
+	private String NICNAME;
+	private String UNAME;
+	private int STAYUS;
+	
 	
 	public User() {
+		
 	}
 	
-	public User(String uUID, String uNAME, String nICNAME, String pASSWORD, String pHONE, String qQ, int sTATUS) {
-		UUID = uUID;
-		UNAME = uNAME;
-		NICNAME = nICNAME;
-		PASSWORD = pASSWORD;
+	public User(String pHONE, String eMAIL, String pASSWORD, String aNSWER, String qUESTION) {
+		super();
 		PHONE = pHONE;
-		QQ = qQ;
-		STATUS = sTATUS;
+		EMAIL = eMAIL;
+		PASSWORD = pASSWORD;
+		ANSWER = aNSWER;
+		QUESTION = qUESTION;
 	}
+
 	public String getUUID() {
 		return UUID;
 	}
 	public void setUUID(String uUID) {
 		UUID = uUID;
-	}
-	public String getUNAME() {
-		return UNAME;
-	}
-	public void setUNAME(String uNAME) {
-		UNAME = uNAME;
-	}
-	public String getNICNAME() {
-		return NICNAME;
-	}
-	public void setNICNAME(String nICNAME) {
-		NICNAME = nICNAME;
-	}
-	public String getPASSWORD() {
-		return PASSWORD;
-	}
-	public void setPASSWORD(String pASSWORD) {
-		PASSWORD = pASSWORD;
 	}
 	public String getPHONE() {
 		return PHONE;
@@ -51,17 +37,48 @@ public class User {
 	public void setPHONE(String pHONE) {
 		PHONE = pHONE;
 	}
-	public String getQQ() {
-		return QQ;
+	public String getEMAIL() {
+		return EMAIL;
 	}
-	public void setQQ(String qQ) {
-		QQ = qQ;
+	public void setEMAIL(String eMAIL) {
+		EMAIL = eMAIL;
 	}
-	public int getSTATUS() {
-		return STATUS;
+	public String getPASSWORD() {
+		return PASSWORD;
 	}
-	public void setSTATUS(int sTATUS) {
-		STATUS = sTATUS;
+	public void setPASSWORD(String pASSWORD) {
+		PASSWORD = pASSWORD;
 	}
+	public String getANSWER() {
+		return ANSWER;
+	}
+	public void setANSWER(String aNSWER) {
+		ANSWER = aNSWER;
+	}
+	public String getNICNAME() {
+		return NICNAME;
+	}
+	public void setNICNAME(String nICNAME) {
+		NICNAME = nICNAME;
+	}
+	public String getUNAME() {
+		return UNAME;
+	}
+	public void setUNAME(String uNAME) {
+		UNAME = uNAME;
+	}
+	public int getSTAYUS() {
+		return STAYUS;
+	}
+	public void setSTAYUS(int sTAYUS) {
+		STAYUS = sTAYUS;
+	}
+	public String getQUESTION() {
+		return QUESTION;
+	}
+	public void setQUESTION(String qUESTION) {
+		QUESTION = qUESTION;
+	}
+
 	
 }

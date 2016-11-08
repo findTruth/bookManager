@@ -28,8 +28,13 @@ public class UserController extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		response.setContentType("text/html;charset=utf-8");
 		String path = Tools.cut(request.getRequestURI());
-		PrintWriter out=response.getWriter();
-		out.print(path);
+//		PrintWriter out=response.getWriter();
+		String PHONE=request.getParameter("mobile");
+		String EMAIL=request.getParameter("email");
+		String PASSWORD=request.getParameter("password2");
+		String QUESTION=request.getParameter("selected");
+		String ANSWER=request.getParameter("answer"); 
+		
 		if ("/regist".equals(path)) {
 			
 		}else {
