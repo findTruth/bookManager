@@ -1,10 +1,14 @@
 package main.dao.impl;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
+
 
 import main.dao.UserDao;
 import main.entity.User;
+import main.tool.Tools;
 import main.util.DBhelper_mysql;
 
 public class UserDaoImpl implements UserDao{
@@ -30,9 +34,30 @@ public class UserDaoImpl implements UserDao{
 	@Override
 	public boolean add(User user) {
 		boolean flag=false;
-		
-		Connection conn=DBhelper_mysql.getConnection();
-		String sql="insert into TB_user() values(?,?,?,?,?,?)";
+		String PHONE=user.getPHONE();
+		String EMAIL=user.getEMAIL();
+		String PASSWORD=user.getPASSWORD();
+		String QUESTION=user.getQUESTION();
+		String ANSWER=user.getANSWER(); 
+		try {
+			Connection conn=DBhelper_mysql.getConnection();
+			String sql="insert into TB_User(UUID,UPHONE,EMAIL,PASSWORD,QUESTION,ANSWER) values(?,?,?,?,?,?)";
+			PreparedStatement ps=conn.prepareStatement(sql);
+			ps.setString(1, Tools.UUID());
+			ps.setString(2, PHONE);
+			ps.setString(3, EMAIL);
+			ps.setString(4, PASSWORD);
+			ps.setString(5, QUESTION);
+			ps.setString(6, ANSWER);
+			int n=ps.executeUpdate();
+			if (n==1) {
+				flag=true;
+			}
+			DBhelper_mysql.closeConnection(null, ps, conn);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return flag;
 	}
 

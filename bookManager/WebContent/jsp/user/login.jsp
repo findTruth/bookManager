@@ -74,8 +74,8 @@
     <form method="post" action="<%=basePath %>user/login.do" id="Form">
     <li><input name="user" type="text" class="loginuser" value="" onclick="JavaScript:this.value=''"/><label id="userTop"></label></li>
     <li><input name="pwd" type="password" class="loginpwd" value="" onclick="JavaScript:this.value=''"/><label id="pwdTop"></label></li>
-    <li>验证码：<input type="text" name="yzm" class="LoginYzm"><img src="${pageContext.request.contextPath }/tool/VerifyImage.do" title="看不清，点击刷新" onclick="this.src='<%=basePath %>tool/VerifyImage.do?rand="+"<%=Math.random()  %>"/>
-    &nbsp;&nbsp;<input name="" type="button" class="loginbtn" value="登录"  onclick="sub()"  /><label><a href="#">忘记密码？</a></label></li>
+    <li id="yzm">验证码：<input type="text" name="yzm" class="LoginYzm"><img src="${pageContext.request.contextPath }/tool/VerifyImage.do" onclick="this.src='<%=basePath %>tool/VerifyImage.do?rand="+"<%=Math.random()  %>"/><label><a href="http://localhost:8080/bookManager/jsp/user/login.jsp" font-size="20">看不清？</a></label></li>
+    <li id="yzm">&nbsp;&nbsp;<input name="" type="button" class="loginbtn" value="登录"  onclick="sub()"  /><label><a href="#" id="mima">忘记密码？</a></label></li>
     </form>
     </ul>
     

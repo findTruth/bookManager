@@ -1,5 +1,8 @@
 package main.biz;
 
-public interface UserBiz {
+import main.entity.User;
 
+public interface UserBiz {
+	//增加用户
+	public boolean add(User user);
 }
