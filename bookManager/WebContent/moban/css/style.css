@@ -309,3 +309,11 @@ h2{font-weight:normal;}
 	line-height: 48px;
 	font-size: 14px;
 }
+.adminsystemlogo{background:url(../images/adminloginlogo.png) no-repeat center;width:100%; height:71px; margin-top:75px;}
+.adminloginbox{width:692px; height:336px; background:url(../images/adminlogininfo.png) no-repeat; margin-top:30px;}
+.adminloginbox ul{margin-top:88px; margin-left:285px;}
+.adminloginbox ul li{margin-bottom:25px;}
+.adminloginbox ul li label{color:#687f92; padding-left:25px;}
+.adminloginbox ul li label a{color:#687f92;}
+.adminloginbox ul li label a:hover{color:#3d96c9;}
+.adminloginbox ul li label input{margin-right:5px;}

@@ -17,22 +17,27 @@
 <script type="text/javascript" src="<%=basePath %>js/bootstrap.min.js"></script>
 <script language="javascript">
 	$(function(){
-    $('.loginbox').css({'position':'absolute','left':($(window).width()-692)/2});
+    $('.adminloginbox').css({'position':'absolute','left':($(window).width()-692)/2});
 	$(window).resize(function(){  
-    $('.loginbox').css({'position':'absolute','left':($(window).width()-692)/2});
+    $('.adminloginbox').css({'position':'absolute','left':($(window).width()-692)/2});
     })  
 });  
 </script> 
 <script type="text/javascript">
 	function sub() {
-        if ($("input[name=user]").val()==""||$("input[name=user]").val()=="admin") {
-            $("#userTop").html("用户名为空");
-            $("#userTop").css("color","red");
+        if ($("input[name=Name]").val()=="") {
+            $("#nameTop").html("用户名为空");
+            $("#nameTop").css("color","red");
             return false;
         }
-        if ($("input[name=pwd]").val()==""||$("input[name=pwd]").val()=="密码") {
+        if ($("input[name=Pwd]").val()=="") {
             $("#pwdTop").html("密码为空");
             $("#pwdTop").css("color","red");
+            return false;
+        }
+        if ($("input[name=Yzm]").val()=="") {
+            $("#yzmTop").html("验证码为空");
+            $("#yzmTop").css("color","red");
             return false;
         }
 
@@ -62,15 +67,20 @@
     
     <div class="loginbody">
     
-    <span class="systemlogo"></span> 
+    <span class="adminsystemlogo"></span> 
        
-    <div class="loginbox">
+    <div class="adminloginbox">
     
     <ul>
-    <form method="post" action="user/login" id="Form">
-    <li><input name="user" type="text" class="loginuser" value="admin" onclick="JavaScript:this.value=''"/><label id="userTop"></label></li>
-    <li><input name="pwd" type="text" class="loginpwd" value="密码" onclick="JavaScript:this.value=''"/><label id="pwdTop"></label></li>
-    <li><input name="" type="button" class="loginbtn" value="登录"  onclick="sub()"  /><label><input name="" type="checkbox" value="" checked="checked" />记住密码</label><label><a href="#">忘记密码？</a></label></li>
+    <form method="post" action="<%=basePath %>tool/adminLogin.do" id="Form">
+    <li><input name="Name" type="text" class="loginuser" value="" onclick="JavaScript:this.value=''"/><div style="position: absolute; left: 270px;"><label id="nameTop"></label></div></li>
+    <li><input name="Pwd" type="text" class="loginpwd" value="" onclick="JavaScript:this.value=''"/><div style="position: absolute; left: 270px;"><label id="pwdTop"></label></div></li>
+    <li>验证码：<input type="text" name="Yzm" class="LoginYzm">
+	    <img src="${pageContext.request.contextPath }/tool/VerifyImage.do" title="看不清，点击刷新" onclick="this.src='<%=basePath %>tool/VerifyImage.do?rand="+"<%=Math.random()  %>"/>
+	    &nbsp;&nbsp;<input name="" type="button" class="loginbtn" value="登录"  onclick="sub()"  />
+	    <label><a href="#">忘记密码？</a></label>
+	    <div style="position: absolute; left: 270px;"><label id="yzmTop"></label></div>
+	    <div style="position: absolute; left: 270px;"><label id="resultTop">${Top }</label></div></li>
     </form>
     </ul>
     

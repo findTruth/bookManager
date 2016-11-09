@@ -10,7 +10,7 @@ public class Emp {
 	private String PHONE;
 	private String QQ;
 	private String ID;
-	private String AGE;
+	private int AGE;
 	private Date LASTLOGIN;
 	private int QUAN;
 	private int STATUS;
@@ -18,7 +18,7 @@ public class Emp {
 	public Emp() {
 	}
 	
-	public Emp(String eUID, String uNAME, String nAME, String pASSWORD, String pHONE, String qQ, String iD, String aGE,
+	public Emp(String eUID, String uNAME, String nAME, String pASSWORD, String pHONE, String qQ, String iD, int aGE,
 			Date lASTLOGIN, int qUAN, int sTATUS) {
 		EUID = eUID;
 		UNAME = uNAME;
@@ -74,10 +74,10 @@ public class Emp {
 	public void setID(String iD) {
 		ID = iD;
 	}
-	public String getAGE() {
+	public int getAGE() {
 		return AGE;
 	}
-	public void setAGE(String aGE) {
+	public void setAGE(int aGE) {
 		AGE = aGE;
 	}
 	public Date getLASTLOGIN() {
