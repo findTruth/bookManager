@@ -1,5 +1,8 @@
 package main.biz;
 
-public interface EmployeeBiz {
+import main.entity.Emp;
 
+public interface EmployeeBiz {
+	public Emp findByName(String name);
+	public Emp findById(String id);
 }
