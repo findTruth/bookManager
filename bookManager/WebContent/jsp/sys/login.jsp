@@ -73,8 +73,8 @@
     
     <ul>
     <form method="post" action="<%=basePath %>tool/adminLogin.do" id="Form">
-    <li><input name="Name" type="text" class="loginuser" value="" onclick="JavaScript:this.value=''"/><div style="position: absolute; left: 270px;"><label id="nameTop"></label></div></li>
-    <li><input name="Pwd" type="text" class="loginpwd" value="" onclick="JavaScript:this.value=''"/><div style="position: absolute; left: 270px;"><label id="pwdTop"></label></div></li>
+    <li><input name="Name" type="text" class="loginuser" value="" onclick="JavaScript:this.value=''" placeholder="请输入手机号或者邮箱"/><div style="position: absolute; left: 270px;"><label id="nameTop"></label></div></li>
+    <li><input name="Pwd" type="text" class="loginpwd" value="" onclick="JavaScript:this.value=''" placeholder="请输入您的密码"/><div style="position: absolute; left: 270px;"><label id="pwdTop"></label></div></li>
     <li>验证码：<input type="text" name="Yzm" class="LoginYzm">
 	    <img src="${pageContext.request.contextPath }/tool/VerifyImage.do" title="看不清，点击刷新" onclick="this.src='<%=basePath %>tool/VerifyImage.do?rand="+"<%=Math.random()  %>"/>
 	    &nbsp;&nbsp;<input name="" type="button" class="loginbtn" value="登录"  onclick="sub()"  />
