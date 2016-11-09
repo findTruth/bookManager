@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import main.biz.impl.UserBizImpl;
+import main.entity.User;
 import main.tool.Tools;
 
 /**
@@ -17,7 +19,7 @@ import main.tool.Tools;
 @WebServlet("/user/*")
 public class UserController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	UserBizImpl userbizimpl=new UserBizImpl();
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
@@ -28,18 +30,26 @@ public class UserController extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		response.setContentType("text/html;charset=utf-8");
 		String path = Tools.cut(request.getRequestURI());
-//		PrintWriter out=response.getWriter();
-		String PHONE=request.getParameter("mobile");
-		String EMAIL=request.getParameter("email");
-		String PASSWORD=request.getParameter("password2");
-		String QUESTION=request.getParameter("selected");
-		String ANSWER=request.getParameter("answer"); 
-		
+		PrintWriter out=response.getWriter();
 		if ("/regist".equals(path)) {
-			
+			String PHONE=request.getParameter("mobile");
+			String EMAIL=request.getParameter("email");
+			String PASSWORD=request.getParameter("password2");
+			String QUESTION=request.getParameter("question1");
+			String ANSWER=request.getParameter("answer"); 
+			User user=new User(PHONE, EMAIL, PASSWORD, ANSWER, QUESTION);
+			if (userbizimpl.add(user)) {			
+				response.setHeader("refresh","1;url=http://localhost:8080/bookManager/jsp/user/login.jsp");
+			}else {
+				request.getRequestDispatcher("../404.jsp").forward(request, response);
+			}
 		}else if ("/login".equals(path)) {
-			System.out.println("info:"+Tools.getDate()+" user:"+request.getParameter("user")+" Login action");
-			
+				String user=request.getParameter("user");
+				String pwd=request.getParameter("pwd");
+				String yzm=Tools.getDate();
+				out.print(user);
+				out.print(pwd);
+				out.print(yzm);
 		}else {
 			request.getRequestDispatcher("../404.jsp").forward(request, response);
 		}

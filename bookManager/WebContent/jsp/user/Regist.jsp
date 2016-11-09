@@ -120,7 +120,7 @@
           	<div class='div_submit_button'></div>
             <div class='div_submit_button' id="button_button_1"><input id="submit" type="submit" value="注册" class='button_button_1'></div>
             <div class='div_submit_button' id='button_button_2'> <input id="submit" type="reset" value="重置" class='button_button_1'></div>
-          	<div class='div_submit_button' id='button_button_3'> <input id="submit" type="button" value="返回" class='button_button_1' onclick="location.href='http://www.baidu.com'"></div>
+          	<div class='div_submit_button' id='button_button_3'> <input id="submit" type="button" value="返回" class='button_button_1' onclick="location.href='<%=basePath %>jsp/user/login.jsp'"></div>
           </div>
         </form>
          </div>
