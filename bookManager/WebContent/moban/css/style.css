@@ -50,6 +50,9 @@ h2{font-weight:normal;}
 .loginbm a:hover{color:#fff;}
 
 
+/*协议*/
+.loginbody2{background:url(../images/loginbg3.png) no-repeat center center; width:100%; height:675px; overflow:hidden; position:absolute; top:47px;font-family:"Microsoft YaHei","SimHei","SimSun";font-size: 40px}
+
 /*top.html*/
 .header{height:88px;}
 .topleft{height:88px;background:url(../images/topleft.jpg) no-repeat;float:left; width:300px;}
