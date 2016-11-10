@@ -37,9 +37,14 @@ public class Tools {
 		return c1.getTime().toString();
 	}
 	
-	public final static String formatDate(java.sql.Date date){
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd H:m:s");
-		return format.format(date);
+	public final static String formatDate(Date date){
+		System.out.println(date.getTime());
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		if (date!=null) {
+			return format.format(date);
+		} else {
+			return "无数据";
+		}
 	}
 	
 }

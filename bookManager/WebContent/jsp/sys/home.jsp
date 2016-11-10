@@ -29,7 +29,7 @@
     
     <div class="welinfo">
     <span><img src="<%=basePath %>moban/images/sun.png" alt="天气" /></span>
-    <b>${manager.UNAME}早上好，欢迎使用图书管理系统</b>email:${manager.Email }
+    <b>${manager.UNAME}早上好，欢迎使用图书管理系统</b>email:${manager.EMAIL }
     <a href="#">账号设置</a>
     </div>
     

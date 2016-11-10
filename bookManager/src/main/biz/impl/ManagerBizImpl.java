@@ -19,7 +19,7 @@ public class ManagerBizImpl implements ManagerBiz {
 
 	@Override
 	public void LastLoginTime(String id) {
-		
+		mdi.updateManagerLastLoginTime(id);
 	}
 
 }

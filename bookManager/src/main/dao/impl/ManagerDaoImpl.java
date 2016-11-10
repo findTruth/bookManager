@@ -27,8 +27,9 @@ public class ManagerDaoImpl implements ManagerDao {
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
 				manager = new Manager(rs.getString("MUID"), rs.getString("UNAME"), rs.getString("PASSWORD")
-						, rs.getString("EMAIL"), rs.getDate("LASTLOGINTIME"));
+						, rs.getString("EMAIL"), rs.getTimestamp("LASTLOGINTIME"));
 			}
+			System.out.println(rs.getTimestamp("LASTLOGINTIME"));
 			DBhelper_mysql.closeConnection(rs, ps, conn);
 		} catch (Exception e) {
 		}
@@ -36,9 +37,16 @@ public class ManagerDaoImpl implements ManagerDao {
 	}
 
 	@Override
-	public void updateManagerLastLoginTime() {
-		// TODO Auto-generated method stub
-		
+	public void updateManagerLastLoginTime(String id) {
+		String sql = "update TB_Manager set LASTLOGINTIME = now() where MUID = ?";
+		try {
+			Connection conn = DBhelper_mysql.getConnection();
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, id);
+			int n = ps.executeUpdate();
+			DBhelper_mysql.closeConnection(null, ps, conn);
+		} catch (Exception e) {
+		}
 	}
 
 }

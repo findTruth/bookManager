@@ -1,12 +1,15 @@
 package main.action;
 
 import java.io.IOException;
+import java.util.HashMap;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import main.biz.impl.ManagerBizImpl;
 import main.tool.Tools;
 
 /**
@@ -18,14 +21,12 @@ public class ManagerController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String path = Tools.cut(request.getRequestURI());
-		if ("/main".equals(path)) {
-			request.getRequestDispatcher("../jsp/sys/main.jsp").forward(request, response);
-		}else if ("/top".equals(path)) {
+		if ("/top".equals(path)) {
 			request.getRequestDispatcher("../jsp/sys/top.jsp").forward(request, response);
 		}else if ("/left".equals(path)) {
 			request.getRequestDispatcher("../jsp/sys/left.jsp").forward(request, response);
 		}else if ("/index".equals(path)) {
-			request.getRequestDispatcher("../jsp/sys/index.jsp").forward(request, response);
+			request.getRequestDispatcher("../jsp/sys/home.jsp").forward(request, response);
 		}else {
 			request.getRequestDispatcher("../404.jsp").forward(request, response);
 		}
@@ -36,6 +37,8 @@ public class ManagerController extends HttpServlet {
 		System.out.println(path);
 		if ("/main".equals(path)) {
 			request.setAttribute("page", "manager");
+			ManagerBizImpl mbi = new ManagerBizImpl();
+			mbi.LastLoginTime(((HashMap<String, String>)request.getSession().getAttribute("manager")).get("MUID"));
 			request.getRequestDispatcher("../jsp/sys/main.jsp").forward(request, response);
 		}else {
 			request.getRequestDispatcher("../404.jsp").forward(request, response);
