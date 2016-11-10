@@ -15,4 +15,11 @@ public class UserBizImpl implements UserBiz{
 		return flag;
 	}
 
+	@Override
+	//查找用户
+	public User check(String user, String pwd) {
+		User users=userdaoimpl.findByName(user, pwd);
+		return users;
+	}
+
 }
