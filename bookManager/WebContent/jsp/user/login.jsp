@@ -1,7 +1,6 @@
 ﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
 <% 
 	String path = request.getContextPath();
 	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -12,6 +11,7 @@
 <title>欢迎使用个人图书管理平台</title>
 <link href="<%=basePath %>moban/css/style.css" rel="stylesheet" type="text/css" />
 <script language="JavaScript" src="<%=basePath %>moban/js/jquery.js"></script>
+<script language='javascript' src="<%=basePath %>js/userreg.js"></script>
 <script src="<%=basePath %>moban/js/cloud.js" type="text/javascript"></script>
 <script type="text/javascript" src="<%=basePath %>js/jquery-3.1.0.min.js"></script>
 <script type="text/javascript" src="<%=basePath %>js/bootstrap.min.js"></script>
@@ -27,17 +27,17 @@
 <script type="text/javascript">
 	function sub() {
         if ($("input[name=user]").val()=="") {
-            $("#userTop").html("用户名为空");
-            $("#userTop").css("color","red");
-            $("#userTop").css("font-size","5");
+        	showTooltips('user_input','账号不能为空',1000);
             return false;
         }
         if ($("input[name=pwd]").val()=="") {
-            $("#pwdTop").html("密码为空");
-            $("#pwdTop").css("color","red");
-            $("#pwdTop").css("font-size","5");
+        	showTooltips('pwd_input','密码不能为空',1000);
             return false;
         }
+        if ($("input[name=yzm]").val()=="") {
+        	showTooltips('yzm_input','验证码不能为空',1000);
+        	return false;
+		}
 
         $("#Form").submit();
     }
@@ -72,10 +72,10 @@
     
     <ul>
     <form method="post" action="<%=basePath %>user/login.do" id="Form">
-    <li><input name="user" type="text" class="loginuser" value="" onclick="JavaScript:this.value=''" placeholder="请输入手机号或者邮箱"/><label id="userTop"></label></li>
-    <li><input name="pwd" type="password" class="loginpwd" value="" onclick="JavaScript:this.value=''" placeholder="请输入您的密码"/><label id="pwdTop"></label></li>
+    <li><input name="user" type="text" class="loginuser" value="" onclick="JavaScript:this.value=''" placeholder="请输入手机号或者邮箱" /> <div><span class="control-group" id="user_input"></span></div></li>
+    <li><input name="pwd" type="password" class="loginpwd" value="" onclick="JavaScript:this.value=''" placeholder="请输入您的密码"/><div><span class="control-group" id="pwd_input"></span></div></li>
     <li id="yzm">验证码：<input type="text" name="yzm" class="LoginYzm"><img src="${pageContext.request.contextPath }/tool/VerifyImage.do" onclick="this.src='<%=basePath %>tool/VerifyImage.do?rand="+"<%=Math.random()  %>"/><label><a href="<%=basePath %>jsp/user/login.jsp" font-size="20">看不清？</a></label></li>
-    <li id="yzm">&nbsp;&nbsp;<input name="" type="button" class="loginbtn" value="登录"  onclick="sub()"  />&nbsp;&nbsp;<input name="" type="button" class="loginbtn" value="注册"  onclick="location.href='<%=basePath %>jsp/user/Regist.jsp'" /><label><a href="#" id="mima">忘记密码？</a></label></li>
+    <li id="yzm">&nbsp;&nbsp;<input name="" type="button" class="loginbtn" value="登录"  onclick="sub()"  />&nbsp;&nbsp;<input name="" type="button" class="loginbtn" value="注册"  onclick="location.href='<%=basePath %>jsp/user/Regist.jsp'" /><label><a href="<%=basePath %>jsp/user/find.jsp" id="mima">忘记密码？</a></label></li>
     </form>
     </ul>
     

@@ -35,9 +35,10 @@ public class UserController extends HttpServlet {
 			String PHONE=request.getParameter("mobile");
 			String EMAIL=request.getParameter("email");
 			String PASSWORD=request.getParameter("password2");
+			String MD5password=Tools.MD5(PASSWORD);
 			String QUESTION=request.getParameter("question1");
 			String ANSWER=request.getParameter("answer"); 
-			User user=new User(PHONE, EMAIL, PASSWORD, ANSWER, QUESTION);
+			User user=new User(PHONE, EMAIL, MD5password, ANSWER, QUESTION);
 			if (userbizimpl.add(user)) {			
 				response.setHeader("refresh","1;url=http://localhost:8080/bookManager/jsp/user/login.jsp");
 			}else {
@@ -45,11 +46,25 @@ public class UserController extends HttpServlet {
 			}
 		}else if ("/login".equals(path)) {
 				String user=request.getParameter("user");
+				System.out.println(user);
 				String pwd=request.getParameter("pwd");
-				String yzm=Tools.getDate();
-				out.print(user);
-				out.print(pwd);
-				out.print(yzm);
+				System.out.println(pwd);
+				String MD5pwd=Tools.MD5(pwd);
+				System.out.println(MD5pwd);
+				String yzm=request.getParameter("yzm");
+				String yzm2= (String) request.getSession().getAttribute("codeValue");
+				if (yzm.equals(yzm2)) {
+					System.out.println("111");
+					if (userbizimpl.check(user, MD5pwd)!=null) {
+						response.setHeader("refresh", "1;url=http://localhost:8080/bookManager/jsp/user/Regist.jsp");
+					}else{
+						String message="账号或者密码错误，请重新输入";
+						request.setAttribute("loginmessage", message);
+						request.getRequestDispatcher("/user/login.jsp").forward(request, response);	
+					}
+				}else {
+					
+				}
 		}else {
 			request.getRequestDispatcher("../404.jsp").forward(request, response);
 		}

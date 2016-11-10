@@ -9,7 +9,7 @@ public class User {
 	private String QUESTION;
 	private String NICNAME;
 	private String UNAME;
-	private int STAYUS;
+	private int STATUS;
 	
 	
 	public User() {
@@ -67,11 +67,11 @@ public class User {
 	public void setUNAME(String uNAME) {
 		UNAME = uNAME;
 	}
-	public int getSTAYUS() {
-		return STAYUS;
+	public int getSTATUS() {
+		return STATUS;
 	}
-	public void setSTAYUS(int sTAYUS) {
-		STAYUS = sTAYUS;
+	public void setSTATUS(int sTATUS) {
+		STATUS = sTATUS;
 	}
 	public String getQUESTION() {
 		return QUESTION;

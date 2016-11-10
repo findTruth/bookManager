@@ -2,7 +2,9 @@ package main.dao.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -20,9 +22,29 @@ public class UserDaoImpl implements UserDao{
 	}
 
 	@Override
-	public User findById(String id) {
-		// TODO Auto-generated method stub
-		return null;
+	public User findByName(String user,String pwd) {
+		User users=new User();
+		try {
+			Connection conn=DBhelper_mysql.getConnection();
+			String sql="select UUID,UPHONE,EMAIL,PASSWORD,QUESTION,ANSWER from TB_User where UPHONE=? or EMAIL=? AND `PASSWORD`=?";
+			PreparedStatement ps=conn.prepareStatement(sql);
+			ps.setString(1, user);
+			ps.setString(2, user);
+			ps.setString(3, pwd);
+			ResultSet rs=ps.executeQuery();
+			while (rs.next()) {
+				users.setUUID(rs.getString("UUID"));
+				users.setPHONE(rs.getString("UPHONE"));
+				users.setEMAIL(rs.getString("EMAIL"));
+				users.setPASSWORD(rs.getString("PASSWORD"));
+				users.setSTATUS(rs.getInt("STATUS"));
+			}		
+			DBhelper_mysql.closeConnection(rs, ps, conn);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return users;
 	}
 
 	@Override
@@ -90,5 +112,12 @@ public class UserDaoImpl implements UserDao{
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+	@Override
+	public User findById(String user) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }

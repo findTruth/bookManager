@@ -114,7 +114,7 @@
           
           <div id="div_submit" class="div_submit">
           <div id="Agreement">
-          	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" checked="checked" name="verify"/><font size="5">我已经仔细阅读并接收<a href="#">《图书馆借书协议》</a></font> 
+          	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" checked="checked" name="verify"/><font size="5">我已经仔细阅读并接收<a href="<%=basePath %>jsp/user/readagree.jsp">《图书馆借书协议》</a></font> 
           <span class="control-group" id="checkbox_input">
           </div></br>
           	<div class='div_submit_button'></div>
@@ -170,13 +170,6 @@ function checkAnswer(answer) {
 		hideTooltips('answer_input');
 	}
 }	
-function checkAuthCode(authcode) {
-	if (authcode == '' || authcode.length != 6) {
-		showTooltips('code_input','验证码不正确',2000);
-	}else {
-		hideTooltips('code_input');
- }     
-}
 
 function check() {
 	hideAllTooltips();
