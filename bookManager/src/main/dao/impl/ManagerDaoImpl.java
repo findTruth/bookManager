@@ -19,19 +19,26 @@ public class ManagerDaoImpl implements ManagerDao {
 	@Override
 	public Manager findByName(String name) {
 		Manager manager = null;
-		String sql = "select MUID,UNAME,PASSWORD from TB_Manager where UNAME=?";
+		String sql = "select MUID,UNAME,PASSWORD,EMAIL,LASTLOGINTIME from TB_Manager where UNAME=?";
 		try {
 			Connection conn = DBhelper_mysql.getConnection();
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, name);
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
-				manager = new Manager(rs.getString("MUID"), rs.getString("UNAME"), rs.getString("PASSWORD"));
+				manager = new Manager(rs.getString("MUID"), rs.getString("UNAME"), rs.getString("PASSWORD")
+						, rs.getString("EMAIL"), rs.getDate("LASTLOGINTIME"));
 			}
 			DBhelper_mysql.closeConnection(rs, ps, conn);
 		} catch (Exception e) {
 		}
 		return manager;
+	}
+
+	@Override
+	public void updateManagerLastLoginTime() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

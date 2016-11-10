@@ -40,13 +40,11 @@ public class ToolContorller extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String path = Tools.cut(request.getRequestURI());
-		String path1 = request.getContextPath();
-		String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path1+"/";
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
 		if ("/adminLogin".equals(path)) {
 			PrintWriter out = response.getWriter();
-			System.out.println("user:"+request.getParameter("Name")+"pwd:"+request.getParameter("Pwd")+"yzm"+request.getParameter("Yzm")+"seyzm"+request.getSession().getAttribute("codeValue"));
+			System.out.println("user:"+request.getParameter("Name")+"  pwd:"+request.getParameter("Pwd")+"  yzm:"+request.getParameter("Yzm")+"  seyzm:"+request.getSession().getAttribute("codeValue"));
 			if (!request.getParameter("Yzm").equals(request.getSession().getAttribute("codeValue"))) {
 				request.setAttribute("Top", "验证码错误");
 				request.getRequestDispatcher("../jsp/sys/login.jsp").forward(request, response);
@@ -57,8 +55,8 @@ public class ToolContorller extends HttpServlet {
 				Emp emp = ebi.findByName(request.getParameter("Name"));
 				if (manager!=null&&emp!=null) {
 					if (Tools.MD5(request.getParameter("Pwd")).equals(manager.getPASSWORD())) {
-						out.append("mok");
-						out.close();
+						request.getSession().setAttribute("manager", new main.javaBean.Manager(manager).getHashmap());
+						request.getRequestDispatcher("../manager/main.do").forward(request, response);
 					}else if(Tools.MD5(request.getParameter("Pwd")).equals(emp.getPASSWORD())){
 						out.append("eok");
 						out.close();
@@ -69,8 +67,7 @@ public class ToolContorller extends HttpServlet {
 				}else if (manager!=null) {
 					System.out.println("req:"+Tools.MD5(request.getParameter("Pwd"))+"  sjk:"+manager.getPASSWORD());
 					if (Tools.MD5(request.getParameter("Pwd")).equals(manager.getPASSWORD())) {
-						out.append("2mok");
-						out.close();	
+						request.getRequestDispatcher("../manager/main.do").forward(request, response);
 					}else{
 						request.setAttribute("Top", "密码错误");
 						request.getRequestDispatcher("../jsp/sys/login.jsp").forward(request, response);

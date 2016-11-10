@@ -1,6 +1,7 @@
 package main.tool;
 
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -34,6 +35,11 @@ public class Tools {
 		Calendar c1 = Calendar.getInstance();
         c1.setTime(new Date());
 		return c1.getTime().toString();
+	}
+	
+	public final static String formatDate(java.sql.Date date){
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd H:m:s");
+		return format.format(date);
 	}
 	
 }

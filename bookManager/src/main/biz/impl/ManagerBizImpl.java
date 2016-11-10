@@ -17,4 +17,9 @@ public class ManagerBizImpl implements ManagerBiz {
 		return null;
 	}
 
+	@Override
+	public void LastLoginTime(String id) {
+		
+	}
+
 }
