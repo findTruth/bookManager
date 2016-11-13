@@ -108,8 +108,22 @@ public class EmployeeDaoImpl implements EmployeeDao {
 
 	@Override
 	public boolean updateEmpStatus(String id, int Status) {
-		// TODO Auto-generated method stub
-		return false;
+		String sql = "update TB_Emp set STATUS = ? where EUID=?";
+		try {
+			Connection conn = DBhelper_mysql.getConnection();
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setInt(1, Status);
+			ps.setString(2, id);
+			int n = ps.executeUpdate();
+			DBhelper_mysql.closeConnection(null, ps, conn);
+			if (n==0) {
+				return false;
+			}else{
+				return true;
+			}
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 }

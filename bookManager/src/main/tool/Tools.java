@@ -38,7 +38,6 @@ public class Tools {
 	}
 	
 	public final static String formatDate(Date date){
-		System.out.println(date.getTime());
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		if (date!=null) {
 			return format.format(date);

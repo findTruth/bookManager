@@ -22,8 +22,13 @@ public class BookController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-//		String path = Tools.cut(request.getRequestURI());
+		String path = Tools.cut(request.getRequestURI());
 //		request.getRequestDispatcher("../404.jsp").forward(request, response);
+		if ("/bookmanager".equals(path)) {
+			
+		} else {
+			request.getRequestDispatcher("../404.jsp").forward(request, response);
+		}
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

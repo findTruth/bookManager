@@ -22,11 +22,14 @@ public class ManagerController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String path = Tools.cut(request.getRequestURI());
 		if ("/top".equals(path)) {
-			request.getRequestDispatcher("../jsp/sys/top.jsp").forward(request, response);
+			request.getRequestDispatcher("../jsp/manager/top.jsp").forward(request, response);
 		}else if ("/left".equals(path)) {
-			request.getRequestDispatcher("../jsp/sys/left.jsp").forward(request, response);
+			request.getRequestDispatcher("../jsp/manager/left.jsp").forward(request, response);
 		}else if ("/index".equals(path)) {
-			request.getRequestDispatcher("../jsp/sys/home.jsp").forward(request, response);
+			request.getRequestDispatcher("../jsp/manager/home.jsp").forward(request, response);
+		}else if ("/home".equals(path)) {
+			request.setAttribute("manager", request.getSession().getAttribute("manager"));
+			request.getRequestDispatcher("../jsp/manager/main.jsp").forward(request, response);
 		}else {
 			request.getRequestDispatcher("../404.jsp").forward(request, response);
 		}
@@ -36,10 +39,10 @@ public class ManagerController extends HttpServlet {
 		String path = Tools.cut(request.getRequestURI());
 		System.out.println(path);
 		if ("/main".equals(path)) {
-			request.setAttribute("page", "manager");
+//			request.setAttribute("page", "manager");
 			ManagerBizImpl mbi = new ManagerBizImpl();
 			mbi.LastLoginTime(((HashMap<String, String>)request.getSession().getAttribute("manager")).get("MUID"));
-			request.getRequestDispatcher("../jsp/sys/main.jsp").forward(request, response);
+			request.getRequestDispatcher("../jsp/manager/main.jsp").forward(request, response);
 		}else {
 			request.getRequestDispatcher("../404.jsp").forward(request, response);
 		}

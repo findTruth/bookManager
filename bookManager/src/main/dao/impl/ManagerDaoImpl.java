@@ -29,7 +29,6 @@ public class ManagerDaoImpl implements ManagerDao {
 				manager = new Manager(rs.getString("MUID"), rs.getString("UNAME"), rs.getString("PASSWORD")
 						, rs.getString("EMAIL"), rs.getTimestamp("LASTLOGINTIME"));
 			}
-			System.out.println(rs.getTimestamp("LASTLOGINTIME"));
 			DBhelper_mysql.closeConnection(rs, ps, conn);
 		} catch (Exception e) {
 		}

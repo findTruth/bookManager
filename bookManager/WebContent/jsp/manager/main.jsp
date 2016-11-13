@@ -12,10 +12,10 @@
 <title>信息管理系统界面</title>
 </head>
 <frameset rows="88,*" cols="*" frameborder="no" border="0" framespacing="0">
-  <frame src="<%=basePath %>${page }/top.do" name="topFrame" scrolling="No" noresize="noresize" id="topFrame" title="topFrame" />
+  <frame src="<%=basePath %>manager/top.do" name="topFrame" scrolling="No" noresize="noresize" id="topFrame" title="topFrame" />
   <frameset cols="187,*" frameborder="no" border="0" framespacing="0">
-    <frame src="<%=basePath %>${page }/left.do" name="leftFrame" scrolling="No" noresize="noresize" id="leftFrame" title="leftFrame" />
-    <frame src="<%=basePath %>${page }/index.do" name="rightFrame" id="rightFrame" title="rightFrame" />
+    <frame src="<%=basePath %>manager/left.do" name="leftFrame" scrolling="No" noresize="noresize" id="leftFrame" title="leftFrame" />
+    <frame src="<%=basePath %>manager/index.do" name="rightFrame" id="rightFrame" title="rightFrame" />
   </frameset>
 </frameset>
 <noframes><body>

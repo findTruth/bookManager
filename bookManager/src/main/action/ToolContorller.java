@@ -26,6 +26,9 @@ public class ToolContorller extends HttpServlet {
 		String path = Tools.cut(request.getRequestURI());
 		if ("/VerifyImage".equals(path)) {
 			Tools.getVerifyImage(request, response);
+		}else if ("/clear".equals(path)) {
+			request.getSession().invalidate();
+			response.sendRedirect("../");
 		}else if ("/getUUID".equals(path)) {
 			response.setCharacterEncoding("utf-8");
 			PrintWriter out = response.getWriter();
