@@ -99,11 +99,10 @@ $(document).ready(function(){
     <td><%=++i %></td>
     <td><a href="#"><%=b.getNAME() %></a><p><%=b.getDATE() %></p></td>
     <td class="imgtd"><img src="<%=basePath %><%=b.getAUTHOR() %>" /></td>
-    <td>后台界面<p>ID: 82122</p></td>
-    <td>开放浏览</td>
-    <td>admin</td>
+    <td><%=b.getPRESS() %></td>
+    <td><%=b.getAUTHOR() %></td>
+    <td><%=b.getVALUE() %></td>
     <td>已审核</td>
-    <td>128</td>
     </tr>
     <%
     		}
