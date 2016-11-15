@@ -90,7 +90,7 @@ $(document).ready(function(){
     
     <tbody>
     <%
-    	List<Book> list = request.getAttribute("list");
+    	List<Book> list = (List<Book>)request.getAttribute("list");
     	if(list!=null){
     		int i = 0;
     		for(Book b : list){

@@ -26,6 +26,10 @@ public class BookController extends HttpServlet {
 //		request.getRequestDispatcher("../404.jsp").forward(request, response);
 		if ("/bookmanager".equals(path)) {
 			
+		}else if ("/bookkindmanager".equals(path)) {
+			
+		}else if ("/bookrecordmanager".equals(path)) {
+			
 		} else {
 			request.getRequestDispatcher("../404.jsp").forward(request, response);
 		}
