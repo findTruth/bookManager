@@ -26,7 +26,7 @@ public class UserDaoImpl implements UserDao{
 		User users=new User();
 		try {
 			Connection conn=DBhelper_mysql.getConnection();
-			String sql="select UUID,UPHONE,EMAIL,PASSWORD,QUESTION,ANSWER from TB_User where UPHONE=? or EMAIL=? AND `PASSWORD`=?";
+			String sql="select UUID,UPHONE,EMAIL,PASSWORD,QUESTION,ANSWER,NICNAME,UNAME from TB_User where (UPHONE=? or EMAIL=?) AND PASSWORD=?";
 			PreparedStatement ps=conn.prepareStatement(sql);
 			ps.setString(1, user);
 			ps.setString(2, user);
@@ -34,10 +34,13 @@ public class UserDaoImpl implements UserDao{
 			ResultSet rs=ps.executeQuery();
 			while (rs.next()) {
 				users.setUUID(rs.getString("UUID"));
+				System.out.println(rs.getString("UUID"));
 				users.setPHONE(rs.getString("UPHONE"));
 				users.setEMAIL(rs.getString("EMAIL"));
 				users.setPASSWORD(rs.getString("PASSWORD"));
 				users.setSTATUS(rs.getInt("STATUS"));
+				users.setNICNAME(rs.getString("NICNAME"));
+				users.setUNAME(rs.getString("UNAME"));
 			}		
 			DBhelper_mysql.closeConnection(rs, ps, conn);
 		} catch (SQLException e) {
@@ -114,9 +117,88 @@ public class UserDaoImpl implements UserDao{
 	}
 
 	@Override
-	public User findById(String user) {
+	public User findById(String UUID) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public String checkphone(String phone) {
+		String UUID=null;
+		try {
+			Connection conn=DBhelper_mysql.getConnection();
+			String sql="select UUID,UPHONE from TB_User where UPHONE=?";
+			PreparedStatement ps=conn.prepareStatement(sql);
+			ps.setString(1, phone);
+			ResultSet rs=ps.executeQuery();
+			while (rs.next()) {
+				UUID=rs.getString("UUID");		
+			}
+			DBhelper_mysql.closeConnection(rs, ps, conn);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return UUID;
+	}
+
+	@Override
+	public String checkemail(String email) {
+		String UUID=null;
+		try {
+			Connection conn=DBhelper_mysql.getConnection();
+			String sql="select UUID,EMAIL from TB_User where EMAIL=?";
+			PreparedStatement ps=conn.prepareStatement(sql);
+			ps.setString(1, email);
+			ResultSet rs=ps.executeQuery();
+			while (rs.next()) {
+				UUID=rs.getString("UUID");		
+			}
+			DBhelper_mysql.closeConnection(rs, ps, conn);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return UUID;
+	}
+
+	@Override
+	public String checkNCMB(String ncname, String question, String answer) {
+		String UUID=null;
+		try {
+			Connection conn=DBhelper_mysql.getConnection();
+			String sql="select UUID,NICNAME,QUESTION,ANSWER from TB_User where NICNAME=? AND QUESTION=? AND ANSWER=?";
+			PreparedStatement ps=conn.prepareStatement(sql);
+			ps.setString(1, ncname);
+			ps.setString(2, question);
+			ps.setString(3, answer);
+			ResultSet rs=ps.executeQuery();
+			while (rs.next()) {
+				UUID=rs.getString("UUID");		
+			}
+			DBhelper_mysql.closeConnection(null, ps, conn);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return UUID;
+	}
+
+	@Override
+	public boolean update(String UUID, String pwd) {
+		boolean flag=false;
+		try {
+			Connection conn=DBhelper_mysql.getConnection();
+			String sql="update TB_User set PASSWORD=? WHERE UUID=?";
+			PreparedStatement ps=conn.prepareStatement(sql);
+			ps.setString(1, pwd);
+			ps.setString(2, UUID);
+		int n=ps.executeUpdate();
+		if (n==1) {
+			flag=true;
+		}
+		DBhelper_mysql.closeConnection(null, ps, conn);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return flag;
 	}
 
 

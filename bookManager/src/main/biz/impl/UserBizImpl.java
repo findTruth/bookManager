@@ -16,10 +16,41 @@ public class UserBizImpl implements UserBiz{
 	}
 
 	@Override
-	//查找用户
+	//登录查找
 	public User check(String user, String pwd) {
 		User users=userdaoimpl.findByName(user, pwd);
 		return users;
+	}
+
+	@Override
+	//查找手机号码
+	public String checkphone(String phone) {
+		String UUID;
+		UUID=userdaoimpl.checkphone(phone);	
+		return UUID;
+	}
+
+	@Override
+	//查找邮箱
+	public String checkemail(String email) {
+		String UUID;
+		UUID=userdaoimpl.checkemail(email);
+		return UUID;
+	}
+
+	@Override
+	//查找昵称和密保问题
+	public String checkNCMB(String ncname, String question, String answer) {
+		String UUID;
+		UUID=userdaoimpl.checkNCMB(ncname, question, answer);
+		return UUID;
+	}
+
+	@Override
+	public boolean update(String UUID,String pwd) {
+		boolean flag=false;
+		flag=userdaoimpl.update(UUID, pwd);
+		return flag;
 	}
 
 }

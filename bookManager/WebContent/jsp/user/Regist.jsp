@@ -79,7 +79,7 @@
               <div class="field-group">
                 <label class="required title"><s>*</s>问题一</label>
                  <span class="control-group" id="question_input"></span>
-                <span class="control-group" id="email_input">
+                <span class="control-group" id="email_input1">
                 <div>
                   <select name="question1" id="question1">
 					<option selected="selected" value="0">请选择密保问题</option>
