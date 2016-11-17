@@ -44,6 +44,29 @@
         $("#Form").submit();
     }
 </script>
+<script type="text/javascript">
+    $(function(){
+        $("input[name='Name']").blur(function() {
+            var name = $("input[name='Name']").val();
+            $.ajax({
+                type:'POST',
+                url: '<%=basePath%>tool/nametop.do?name='+name,
+                success: function(data){
+                    $("#resultTop").html(data);
+                }
+            });
+        });
+        $("#yzm").click(function(){
+            $.ajax({
+                type:'GET',
+                url: '<%=basePath%>tool/VerifyImage.do',
+                success:function(data){
+                    $("#yzm").attr("src","<%=basePath%>tool/VerifyImage.do");
+                }
+            });
+        });
+    });
+</script>
 </head>
 
 <body style="background-color:#1c77ac; background-image:url(<%=basePath %>moban/images/light.png); background-repeat:no-repeat; background-position:center top; overflow:hidden;">
@@ -76,7 +99,7 @@
     <li><input name="Name" type="text" class="loginuser" value="" onclick="JavaScript:this.value=''" placeholder="请输入手机号或者邮箱"/><div style="position: absolute; left: 270px;"><label id="nameTop"></label></div></li>
     <li><input name="Pwd" type="text" class="loginpwd" value="" onclick="JavaScript:this.value=''" placeholder="请输入您的密码"/><div style="position: absolute; left: 270px;"><label id="pwdTop"></label></div></li>
     <li>验证码：<input type="text" name="Yzm" class="LoginYzm">
-	    <img src="${pageContext.request.contextPath }/tool/VerifyImage.do" title="看不清，点击刷新" onclick="this.src='<%=basePath %>tool/VerifyImage.do?rand="+"<%=Math.random()  %>"/>
+	    <img src="${pageContext.request.contextPath }/tool/VerifyImage.do" id="yzm" title="看不清，点击刷新"/>
 	    &nbsp;&nbsp;<input name="" type="button" class="loginbtn" value="登录"  onclick="sub()"  />
 	    <label><a href="#">忘记密码？</a></label>
 	    <div style="position: absolute; left: 270px;"><label id="yzmTop"></label></div>

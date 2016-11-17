@@ -36,7 +36,7 @@ public class ToolContorller extends HttpServlet {
 			out.println("PASSWORD is 2:"+Tools.MD5("2"));
 			out.println("UUID:"+Tools.UUID());
 			out.close();
-		} else {
+		}else {
 			request.getRequestDispatcher("../404.jsp").forward(request, response);
 		}
 	}
@@ -88,6 +88,19 @@ public class ToolContorller extends HttpServlet {
 					request.getRequestDispatcher("../jsp/sys/login.jsp").forward(request, response);
 				}
 			}
+		}else if("/nametop".equals(path)){
+			String name = request.getParameter("name");
+			PrintWriter out = response.getWriter();
+			ManagerBizImpl mbi = new ManagerBizImpl();
+			EmployeeBizImpl ebi = new EmployeeBizImpl();
+			Manager manager  = mbi.findByName(name);
+			Emp emp = ebi.findByName(name);
+			if (manager==null || emp==null) {
+				out.print("<label style='color:red'>用户名错误</label>");
+			}else{
+				out.print("<label style='color:red'>√</label>");
+			}
+			out.close();
 		} else {
 			request.getRequestDispatcher("../404.jsp").forward(request, response);
 		}
