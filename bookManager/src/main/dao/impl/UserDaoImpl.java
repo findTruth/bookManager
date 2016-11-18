@@ -26,7 +26,7 @@ public class UserDaoImpl implements UserDao{
 		User users=new User();
 		try {
 			Connection conn=DBhelper_mysql.getConnection();
-			String sql="select UUID,UPHONE,EMAIL,PASSWORD,QUESTION,ANSWER,NICNAME,UNAME from TB_User where (UPHONE=? or EMAIL=?) AND PASSWORD=?";
+			String sql="select UUID,UPHONE,EMAIL,PASSWORD,QUESTION,ANSWER,NICNAME,UNAME,STATUS from TB_User where (UPHONE=? or EMAIL=?) AND PASSWORD=?";
 			PreparedStatement ps=conn.prepareStatement(sql);
 			ps.setString(1, user);
 			ps.setString(2, user);
@@ -34,7 +34,6 @@ public class UserDaoImpl implements UserDao{
 			ResultSet rs=ps.executeQuery();
 			while (rs.next()) {
 				users.setUUID(rs.getString("UUID"));
-				System.out.println(rs.getString("UUID"));
 				users.setPHONE(rs.getString("UPHONE"));
 				users.setEMAIL(rs.getString("EMAIL"));
 				users.setPASSWORD(rs.getString("PASSWORD"));

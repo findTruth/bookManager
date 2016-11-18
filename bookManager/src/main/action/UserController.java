@@ -2,6 +2,7 @@ package main.action;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import main.biz.impl.ManagerBizImpl;
 import main.biz.impl.UserBizImpl;
 import main.entity.User;
 import main.tool.Tools;
@@ -22,7 +24,22 @@ public class UserController extends HttpServlet {
 	UserBizImpl userbizimpl=new UserBizImpl();
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		String path = Tools.cut(request.getRequestURI());
+		if ("/top".equals(path)) {
+			request.getRequestDispatcher("../jsp/user/top.jsp").forward(request, response);
+		}else if ("/left".equals(path)) {
+			request.getRequestDispatcher("../jsp/user/left.jsp").forward(request, response);
+		}else if ("/index".equals(path)) {
+			request.getRequestDispatcher("../jsp/user/#图书列表").forward(request, response);
+		}else if ("/userGeRen".equals(path)) {
+			request.getRequestDispatcher("../jsp/user/userGeRen.jsp").forward(request, response);
+		}else if ("/userShouCang".equals(path)) {
+			request.getRequestDispatcher("../jsp/user/userShouCang.jsp").forward(request, response);
+		}else if ("/userJieShu".equals(path)) {
+			request.getRequestDispatcher("../jsp/user/userJieShu.jsp").forward(request, response);
+		}else{
+			request.getRequestDispatcher("../404.jsp").forward(request, response);
+		}
 	}
 
 	
@@ -53,7 +70,7 @@ public class UserController extends HttpServlet {
 				if (yzm.equals(yzm2)) {
 					User user1=userbizimpl.check(user, MD5pwd);
 					if (user1.getUUID()!=null) {
-						response.setHeader("refresh", "1;url=../jsp/user/Regist.jsp");
+						response.setHeader("refresh", "1;url=../jsp/user/main.jsp");
 					}else{
 						String message="账号或者密码错误，请重新输入";
 						request.setAttribute("loginmessage", message);
@@ -77,7 +94,7 @@ public class UserController extends HttpServlet {
 				 String UUID=userbizimpl.checkphone(phone);
 				 if (UUID!=null) {
 					 if (userbizimpl.update(UUID, MD5pwd)) {
-						response.sendRedirect("../jsp/user/main.jsp?UUID="+UUID+"");
+						 request.getRequestDispatcher("../jsp/user/login.jsp").forward(request, response);	
 					}
 				}else {
 					String message="你输入的手机号码不存在，请仔细想想";
@@ -89,7 +106,7 @@ public class UserController extends HttpServlet {
 				 if (UUID!=null) {
 					 System.out.println("222");
 					 if (userbizimpl.update(UUID, MD5pwd)) {
-						 response.sendRedirect("../jsp/user/main.jsp?UUID="+UUID+"");
+						 request.getRequestDispatcher("../jsp/user/login.jsp").forward(request, response);	
 						}
 				}else {
 					String message="你输入的邮箱不存在，请仔细想想";
@@ -101,7 +118,7 @@ public class UserController extends HttpServlet {
 				if (UUID!=null) {
 					System.out.println("333");
 					 if (userbizimpl.update(UUID, MD5pwd)) {
-						 response.sendRedirect("../jsp/user/main.jsp?UUID="+UUID+"");
+						 request.getRequestDispatcher("../jsp/user/login.jsp").forward(request, response);	
 						}
 				}else {
 					String message="您还没有设置昵称或者您输入密保问题有误，请选择其它方式找回密码或者仔细想想";
@@ -109,6 +126,8 @@ public class UserController extends HttpServlet {
 					request.getRequestDispatcher("../jsp/user/find.jsp").forward(request, response);
 				}		
 			}
+		}else if ("/main".equals(path)) {
+			request.getRequestDispatcher("../jsp/manager/main.jsp").forward(request, response);
 		}else {
 			request.getRequestDispatcher("../404.jsp").forward(request, response);
 		}
