@@ -49,7 +49,6 @@ public class ToolContorller extends HttpServlet {
 			PrintWriter out = response.getWriter();
 			System.out.println("user:"+request.getParameter("Name")+"  pwd:"+request.getParameter("Pwd")+"  yzm:"+request.getParameter("Yzm")+"  seyzm:"+request.getSession().getAttribute("codeValue"));
 			if (!request.getParameter("Yzm").equals(request.getSession().getAttribute("codeValue"))) {
-				System.out.println(123123);
 				out.println("{\"msg\":\"验证码错误\"}");
 				out.close();
 			}else{
@@ -60,7 +59,8 @@ public class ToolContorller extends HttpServlet {
 				if (manager!=null&&emp!=null) {
 					if (Tools.MD5(request.getParameter("Pwd")).equals(manager.getPASSWORD())) {
 						request.getSession().setAttribute("manager", new main.javaBean.Manager(manager).getHashmap());
-						request.getRequestDispatcher("../manager/main.do").forward(request, response);
+						out.println("{\"result\":\"0\"}");
+						out.close();
 					}else if(Tools.MD5(request.getParameter("Pwd")).equals(emp.getPASSWORD())){
 						out.append("eok");
 						out.close();

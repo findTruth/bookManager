@@ -30,7 +30,15 @@ public class ManagerController extends HttpServlet {
 		}else if ("/home".equals(path)) {
 			request.setAttribute("manager", request.getSession().getAttribute("manager"));
 			request.getRequestDispatcher("../jsp/manager/main.jsp").forward(request, response);
-		}else {
+		}
+		else if ("/main".equals(path)) {
+//			request.setAttribute("page", "manager");
+			ManagerBizImpl mbi = new ManagerBizImpl();
+			mbi.LastLoginTime(((HashMap<String, String>)request.getSession().getAttribute("manager")).get("MUID"));
+//			response.sendRedirect("../jsp/manager/main.jsp");
+			request.getRequestDispatcher("../jsp/manager/main.jsp").forward(request, response);
+		}
+		else {
 			request.getRequestDispatcher("../404.jsp").forward(request, response);
 		}
 	}
@@ -42,6 +50,7 @@ public class ManagerController extends HttpServlet {
 //			request.setAttribute("page", "manager");
 			ManagerBizImpl mbi = new ManagerBizImpl();
 			mbi.LastLoginTime(((HashMap<String, String>)request.getSession().getAttribute("manager")).get("MUID"));
+//			response.sendRedirect("../jsp/manager/main.jsp");
 			request.getRequestDispatcher("../jsp/manager/main.jsp").forward(request, response);
 		}else {
 			request.getRequestDispatcher("../404.jsp").forward(request, response);
