@@ -24,35 +24,43 @@
 });  
 </script> 
 <script type="text/javascript">
-	function sub() {
-        if ($("input[name=Name]").val()=="") {
-            $("#nameTop").html("用户名为空");
-            $("#nameTop").css("color","red");
-            return false;
-        }
-        if ($("input[name=Pwd]").val()=="") {
-            $("#pwdTop").html("密码为空");
-            $("#pwdTop").css("color","red");
-            return false;
-        }
-        if ($("input[name=Yzm]").val()=="") {
-            $("#yzmTop").html("验证码为空");
-            $("#yzmTop").css("color","red");
-            return false;
-        }
-
-        $("#Form").submit();
-    }
+	
 </script>
 <script type="text/javascript">
     $(function(){
-        $("input[name='Name']").blur(function() {
-            var name = $("input[name='Name']").val();
+    	$("input[name=Name]").click(function(){
+            $("#nameTop").html("");
+        });
+        $("input[name=Pwd]").click(function(){
+            $("#pwdTop").html("");
+        });
+        $("input[name=Yzm]").click(function(){
+            $("#yzmTop").html("");
+        });
+        $("#sub").click(function(){
+            if ($("input[name=Name]").val()=="") {
+            $("#nameTop").html("用户名为空");
+            $("#nameTop").css("color","red");
+            return false;
+            }
+            if ($("input[name=Pwd]").val()=="") {
+                $("#pwdTop").html("密码为空");
+                $("#pwdTop").css("color","red");
+                return false;
+            }
+            if ($("input[name=Yzm]").val()=="") {
+                $("#yzmTop").html("验证码为空");
+                $("#yzmTop").css("color","red");
+                return false;
+            }
+
             $.ajax({
                 type:'POST',
-                url: '<%=basePath%>tool/nametop.do?name='+name,
-                success: function(data){
-                    $("#resultTop").html(data);
+                dataType: 'json',
+                url:'<%=basePath%>tool/adminLogin.do?Name='+$("input[name=Name]").val()+'&Pwd='+$("input[name=Pwd]").val()+'&Yzm='+$("input[name=Yzm]").val(),
+                success:function(data,textStatus){
+                    var objs = eval(data);
+                    $("#resultTop").html(objs.msg);
                 }
             });
         });
@@ -95,15 +103,15 @@
     <div class="adminloginbox">
     
     <ul>
-    <form method="post" action="<%=basePath %>tool/adminLogin.do" id="Form">
+    <form method="post"  id="Form">
     <li><input name="Name" type="text" class="loginuser" value="" onclick="JavaScript:this.value=''" placeholder="请输入手机号或者邮箱"/><div style="position: absolute; left: 270px;"><label id="nameTop"></label></div></li>
     <li><input name="Pwd" type="text" class="loginpwd" value="" onclick="JavaScript:this.value=''" placeholder="请输入您的密码"/><div style="position: absolute; left: 270px;"><label id="pwdTop"></label></div></li>
     <li>验证码：<input type="text" name="Yzm" class="LoginYzm">
 	    <img src="${pageContext.request.contextPath }/tool/VerifyImage.do" id="yzm" title="看不清，点击刷新"/>
-	    &nbsp;&nbsp;<input name="" type="button" class="loginbtn" value="登录"  onclick="sub()"  />
+	    &nbsp;&nbsp;<input name="" id="sub" type="button" class="loginbtn" value="登录"   />
 	    <label><a href="#">忘记密码？</a></label>
 	    <div style="position: absolute; left: 270px;"><label id="yzmTop"></label></div>
-	    <div style="position: absolute; left: 270px;"><label id="resultTop">${Top }</label></div></li>
+	    <div style="position: absolute; left: 270px;"><label id="resultTop"></label></div></li>
     </form>
     </ul>
     

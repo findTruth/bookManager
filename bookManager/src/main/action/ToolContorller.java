@@ -49,8 +49,9 @@ public class ToolContorller extends HttpServlet {
 			PrintWriter out = response.getWriter();
 			System.out.println("user:"+request.getParameter("Name")+"  pwd:"+request.getParameter("Pwd")+"  yzm:"+request.getParameter("Yzm")+"  seyzm:"+request.getSession().getAttribute("codeValue"));
 			if (!request.getParameter("Yzm").equals(request.getSession().getAttribute("codeValue"))) {
-				request.setAttribute("Top", "验证码错误");
-				request.getRequestDispatcher("../jsp/sys/login.jsp").forward(request, response);
+				System.out.println(123123);
+				out.println("{\"msg\":\"验证码错误\"}");
+				out.close();
 			}else{
 				ManagerBizImpl mbi = new ManagerBizImpl();
 				EmployeeBizImpl ebi = new EmployeeBizImpl();
@@ -64,44 +65,31 @@ public class ToolContorller extends HttpServlet {
 						out.append("eok");
 						out.close();
 					}else{
-						request.setAttribute("Top", "密码错误");
-						request.getRequestDispatcher("../jsp/sys/login.jsp").forward(request, response);
+						out.println("{\"msg\":\"密码错误\"}");
+						out.close();
 					}
 				}else if (manager!=null) {
 					System.out.println("req:"+Tools.MD5(request.getParameter("Pwd"))+"  sjk:"+manager.getPASSWORD());
 					if (Tools.MD5(request.getParameter("Pwd")).equals(manager.getPASSWORD())) {
 						request.getRequestDispatcher("../manager/main.do").forward(request, response);
 					}else{
-						request.setAttribute("Top", "密码错误");
-						request.getRequestDispatcher("../jsp/sys/login.jsp").forward(request, response);
+						out.println("{\"msg\":\"密码错误\"}");
+						out.close();
 					}
 				}else if (emp!=null) {
 					if(Tools.MD5(request.getParameter("Pwd")).equals(emp.getPASSWORD())){
 						out.append("2eok");
 						out.close();
 					}else{
-						request.setAttribute("Top", "密码错误");
-						request.getRequestDispatcher("../jsp/sys/login.jsp").forward(request, response);
+						out.println("{\"msg\":\"密码错误\"}");
+						out.close();
 					}
 				}else{
-					request.setAttribute("Top", "没有该账号错误");
-					request.getRequestDispatcher("../jsp/sys/login.jsp").forward(request, response);
+					out.println("{\"msg\":\"没有该账号错误\"}");
+					out.close();
 				}
 			}
-		}else if("/nametop".equals(path)){
-			String name = request.getParameter("name");
-			PrintWriter out = response.getWriter();
-			ManagerBizImpl mbi = new ManagerBizImpl();
-			EmployeeBizImpl ebi = new EmployeeBizImpl();
-			Manager manager  = mbi.findByName(name);
-			Emp emp = ebi.findByName(name);
-			if (manager==null || emp==null) {
-				out.print("<label style='color:red'>用户名错误</label>");
-			}else{
-				out.print("<label style='color:red'>√</label>");
-			}
-			out.close();
-		} else {
+		}else {
 			request.getRequestDispatcher("../404.jsp").forward(request, response);
 		}
 	}
