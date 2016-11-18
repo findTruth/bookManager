@@ -10,8 +10,112 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>无标题文档</title>
-<link href="css/style.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="js/jquery.js"></script>
+<link href="<%=basePath%>moban/css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="<%=basePath%>moban/js/jquery.js"></script>
+<script type="text/javascript">
+    function getJSONData(pn) {  
+    // alert(pn);  
+    $.getJSON("<%=basePath%>book/list.do", function(data) {  
+        var totalCount = data.totalCount; // 总记录数  
+        var pageSize = 10; // 每页显示几条记录  
+        var pageTotal = Math.ceil(totalCount / pageSize); // 总页数  
+        var startPage = pageSize * (pn - 1);  
+        var endPage = startPage + pageSize - 1;  
+        var $tbody = $("#list");
+        $tbody.empty();  
+        for (var i = 0; i < pageSize; i++) {  
+            $tbody.append('<tr class="tr-tag"></tr>');  
+        }  
+        var dataRoot = data.jsonRoot;  
+        if (pageTotal == 1) {     // 当只有一页时  
+            for (var j = 0; j < totalCount; j++) {  
+                $(".tr-tag").eq(j).append("<td class='col1'><input type='checkbox' value='"+parseInt(j + 1)+"'/></td>")  
+                .append("<td class='col2'>" + parseInt(j + 1)  
+                        + "</td>").append("<td class='col3'>" + dataRoot[j].NAME + "<p>" + dataRoot[j].DATE + "</p>"
+                        + "</td>").append("<td class='col4'>" + "图片"  
+                        + "</td>").append("<td class='col5'>" + dataRoot[j].PRESS  
+                        + "</td>").append("<td class='col6'>" + dataRoot[j].AUTHOR  
+                        + "</td>").append("<td class='col7'>" + dataRoot[j].VALUE  
+                        + "</td>").append("<td class='col8'>" + dataRoot[j].KINDNO  
+                        + "</td>").append("<td class='col9'>" + "123123"  
+                        + "</td>");
+            }  
+        } else {  
+            for (var j = startPage, k = 0; j < endPage, k < pageSize; j++, k++) {  
+                if( j == totalCount){  
+                    break;       // 当遍历到最后一条记录时，跳出循环  
+                }  
+                $(".tr-tag").eq(j).append("<td class='col1'><input type='checkbox' value='"+parseInt(j + 1)+"'/></td>")  
+                .append("<td class='col2'>" + parseInt(j + 1)  
+                        + "</td>").append("<td class='col3'>" + dataRoot[j].NAME + "<p>" + dataRoot[j].DATE + "</p>"
+                        + "</td>").append("<td class='col4'>" + "图片"  
+                        + "</td>").append("<td class='col5'>" + dataRoot[j].PRESS  
+                        + "</td>").append("<td class='col6'>" + dataRoot[j].AUTHOR  
+                        + "</td>").append("<td class='col7'>" + dataRoot[j].VALUE  
+                        + "</td>").append("<td class='col8'>" + dataRoot[j].KINDNO  
+                        + "</td>").append("<td class='col9'>" + "123123"  
+                        + "</td>");
+            }  
+        }  
+        $(".page-count").text(pageTotal);  
+    })  
+}  
+function getPage() {  
+    $.getJSON("<%=basePath%>book/list.do", function(data) {  
+
+                pn = 1;  
+                var totalCount = data.totalCount; // 总记录数  
+                var pageSize = 10; // 每页显示几条记录  
+                var pageTotal = Math.ceil(totalCount / pageSize); // 总页数  
+                $("#next").click(function() {  
+                            if (pn == pageTotal) {  
+                                alert("后面没有了");  
+                                pn = pageTotal;  
+                            } else {  
+                                pn++;  
+                                gotoPage(pn);  
+                            }  
+                        });  
+                $("#prev").click(function() {  
+                            if (pn == 1) {  
+                                alert("前面没有了");  
+                                pn = 1;  
+                            } else {  
+                                pn--;  
+                                gotoPage(pn);  
+                            }  
+                        })  
+                $("#firstPage").click(function() {  
+                            pn = 1;  
+                            gotoPage(pn);  
+                        });  
+                $("#lastPage").click(function() {  
+                            pn = pageTotal;  
+                            gotoPage(pn);  
+                        });  
+                $("#page-jump").click(function(){  
+                    if($(".page-num").val()  <= pageTotal && $(".page-num").val() != ''){  
+                        pn = $(".page-num").val();  
+                        gotoPage(pn);  
+                    }else{  
+                        alert("您输入的页码有误！");  
+                        $(".page-num").val('').focus();  
+                    }  
+                })  
+                $("#firstPage").trigger("click");  
+                  
+            })  
+}  
+function gotoPage(pn) {  
+    //alert(pn);  
+    $(".current-page").text(pn);  
+    getJSONData(pn)  
+}  
+  
+ $(function(){
+    getPage(); 
+ })
+</script>
 <script language="javascript">
 $(function(){	
 	//导航切换
@@ -19,6 +123,7 @@ $(function(){
 		$(".imglist li.selected").removeClass("selected")
 		$(this).addClass("selected");
 	})	
+    
 })	
 </script>
 <script type="text/javascript">
@@ -59,15 +164,15 @@ $(document).ready(function(){
     <div class="tools">
     
     	<ul class="toolbar">
-        <li class="click"><span><img src="images/t01.png" /></span>添加</li>
-        <li class="click"><span><img src="images/t02.png" /></span>修改</li>
-        <li><span><img src="images/t03.png" /></span>删除</li>
-        <li><span><img src="images/t04.png" /></span>统计</li>
+        <li class="click"><span><img src="<%=basePath%>moban/images/t01.png" /></span>添加</li>
+        <li class="click"><span><img src="<%=basePath%>moban/images/t02.png" /></span>修改</li>
+        <li><span><img src="<%=basePath%>moban/images/t03.png" /></span>删除</li>
+        <li><span><img src="<%=basePath%>moban/images/t04.png" /></span>统计</li>
         </ul>
         
         
         <ul class="toolbar1">
-        <li><span><img src="images/t05.png" /></span>设置</li>
+        <li><span><img src="<%=basePath%>moban/images/t05.png" /></span>设置</li>
         </ul>
     
     </div>
@@ -77,6 +182,7 @@ $(document).ready(function(){
     
     <thead>
     <tr>
+    <th><input type="checkbox" name="" value="全选"></th>
     <th>序号</th>
     <th>书名</th>
     <th width="100px;">缩略图</th>
@@ -88,17 +194,17 @@ $(document).ready(function(){
     </tr>
     </thead>
     
-    <tbody>
-    <%
-    	List<Book> list = (List<Book>)request.getAttribute("list");
-    	if(list!=null){
-    		int i = 0;
-    		for(Book b : list){
-    %>
+    <tbody id="list">
+        <!-- <%
+        	List<Book> list = (List<Book>)request.getAttribute("list");
+        	if(list!=null){
+        		int i = 0;
+        		for(Book b : list){
+        %>
     <tr>
     <td><%=++i %></td>
     <td><a href="#"><%=b.getNAME() %></a><p><%=b.getDATE() %></p></td>
-    <td class="imgtd"><img src="<%=basePath %><%=b.getAUTHOR() %>" /></td>
+    <td class="imgtd"><img src="<%=basePath %><%=b.getAUTHOR() %>" title="图片" alt="暂无数据"/></td>
     <td><%=b.getPRESS() %></td>
     <td><%=b.getAUTHOR() %></td>
     <td><%=b.getVALUE() %></td>
@@ -113,7 +219,7 @@ $(document).ready(function(){
     </tr>
     <%
     	}
-    %>
+    %> -->
     </tbody>
     
     </table>
@@ -124,17 +230,19 @@ $(document).ready(function(){
     
    
     <div class="pagin">
-    	<div class="message">共<i class="blue">1256</i>条记录，当前显示第&nbsp;<i class="blue">2&nbsp;</i>页</div>
+    	<div class="message">共<i class="blue page-count"></i>条记录，当前显示第&nbsp;<i class="blue current-page"></i>&nbsp;页</div>
         <ul class="paginList">
-        <li class="paginItem"><a href="javascript:;"><span class="pagepre"></span></a></li>
-        <li class="paginItem"><a href="javascript:;">1</a></li>
+        <li class="paginItem"><a id="prev"><span class="pagepre"></span></a></li>
+        
+        <li class="paginItem"><a id="firstPage">1</a></li>
+        <!--
         <li class="paginItem current"><a href="javascript:;">2</a></li>
         <li class="paginItem"><a href="javascript:;">3</a></li>
         <li class="paginItem"><a href="javascript:;">4</a></li>
         <li class="paginItem"><a href="javascript:;">5</a></li>
         <li class="paginItem more"><a href="javascript:;">...</a></li>
-        <li class="paginItem"><a href="javascript:;">10</a></li>
-        <li class="paginItem"><a href="javascript:;"><span class="pagenxt"></span></a></li>
+        <li class="paginItem"><a href="javascript:;">10</a></li> -->
+        <li class="paginItem"><a id="next"><span class="pagenxt"></span></a></li>
         </ul>
     </div>
     
@@ -143,7 +251,7 @@ $(document).ready(function(){
     	<div class="tiptop"><span>提示信息</span><a></a></div>
         
       <div class="tipinfo">
-        <span><img src="images/ticon.png" /></span>
+        <span><img src="<%=basePath%>moban/images/ticon.png" /></span>
         <div class="tipright">
         <p>是否确认对信息的修改 ？</p>
         <cite>如果是请点击确定按钮 ，否则请点取消。</cite>
@@ -166,7 +274,7 @@ $(document).ready(function(){
     	<div class="tiptop"><span>提示信息</span><a></a></div>
         
       <div class="tipinfo">
-        <span><img src="images/ticon.png" /></span>
+        <span><img src="<%=basePath%>moban/images/ticon.png" /></span>
         <div class="tipright">
         <p>是否确认对信息的修改 ？</p>
         <cite>如果是请点击确定按钮 ，否则请点取消。</cite>
@@ -185,5 +293,8 @@ $(document).ready(function(){
 	</script>
     
 </body>
+
+
+
 
 </html>

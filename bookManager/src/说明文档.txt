@@ -18,3 +18,8 @@
 			author 作者
 			等等。。。
 		发送方式：get/post（这里只有一个方式）
+		
+接口uri:/bookManager/book/bookmanager.do
+说明：打印书籍列表
+参数：无
+发送方式：get
