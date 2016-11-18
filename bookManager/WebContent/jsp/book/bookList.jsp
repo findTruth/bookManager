@@ -70,18 +70,18 @@ function getPage() {
                 var pageSize = 10; // 每页显示几条记录  
                 var pageTotal = Math.ceil(totalCount / pageSize); // 总页数  
                 $(".paginList").empty();
-                $(".paginList").append("<li class='paginItem'><a id='prev' class='wait'><span class='pagepre'></span></a></li>");
+                $(".paginList").append("<li class='paginItem'><a id='prev'><span class='pagepre'></span></a></li>");
                 for (var i = 1; i <= pageTotal; i++) {
                     if (i == 1) {
-                        $(".paginList").append("<li class='paginItem'><a id='firstPage' name='"+i+"' class='paginItema wait'>"+i+"</a></li>");
+                        $(".paginList").append("<li class='paginItem'><a id='firstPage' name='"+i+"' class='paginItemb'>"+i+"</a></li>");
                     }else if(i == pageTotal){
-                        $(".paginList").append("<li class='paginItem'><a id='lastPage' name='"+i+"' class='paginItema wait'>"+i+"</a></li>");
+                        $(".paginList").append("<li class='paginItem'><a id='lastPage' name='"+i+"' class='paginItema'>"+i+"</a></li>");
                     }else{
-                        $(".paginList").append("<li class='paginItem'><a name='"+i+"' class='paginItema wait'>"+i+"</a></li>");
+                        $(".paginList").append("<li class='paginItem'><a name='"+i+"' class='paginItema'>"+i+"</a></li>");
                     }
                     
                 }
-                $(".paginList").append("<li class='paginItem'><a id='next' class='wait'><span class='pagenxt'></span></a></li>");
+                $(".paginList").append("<li class='paginItem'><a id='next'><span class='pagenxt'></span></a></li>");
                 $("#next").click(function() {  
                             if (pn == pageTotal) {  
                                 alert("后面没有了");  
@@ -122,7 +122,13 @@ function getPage() {
                         alert("您输入的页码有误！");  
                         $(".page-num").val('').focus();  
                     }  
-                })  
+                });
+                $(".paginItema").click(function(){
+                    var pn = $(this).attr('name');
+                    $(".paginItem").attr("class","paginItem");
+                    $(".paginItem").eq(pn).addClass("current");
+                    gotoPage(pn);  
+                });
                 $("#firstPage").trigger("click");  
                   
             })  
