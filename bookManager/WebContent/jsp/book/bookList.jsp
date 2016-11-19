@@ -28,6 +28,7 @@
         }  
         var dataRoot = data.jsonRoot;  
         if (pageTotal == 1) {     // 当只有一页时  
+
             for (var j = 0; j < totalCount; j++) {  
                 $(".tr-tag").eq(j).append("<td class='col1'><input type='checkbox' value='"+parseInt(j + 1)+"'/></td>")  
                 .append("<td class='col2'>" + parseInt(j + 1)  
@@ -41,11 +42,12 @@
                         + "</td>");
             }  
         } else {  
+
             for (var j = startPage, k = 0; j < endPage, k < pageSize; j++, k++) {  
                 if( j == totalCount){  
                     break;       // 当遍历到最后一条记录时，跳出循环  
                 }  
-                $(".tr-tag").eq(j).append("<td class='col1'><input type='checkbox' value='"+parseInt(j + 1)+"'/></td>")  
+                 $(".tr-tag").eq(k).append("<td class='col1'><input type='checkbox' value='"+parseInt(j + 1)+"'/></td>")  
                 .append("<td class='col2'>" + parseInt(j + 1)  
                         + "</td>").append("<td class='col3'>" + dataRoot[j].NAME + "<p>" + dataRoot[j].DATE + "</p>"
                         + "</td>").append("<td class='col4'>" + "图片"  
@@ -57,7 +59,7 @@
                         + "</td>");
             }  
         }  
-        $(".page-count").text(pageTotal);  
+        $(".page-count").text(totalCount);  
     })  
 }  
 function getPage() {  
@@ -67,12 +69,27 @@ function getPage() {
                 var totalCount = data.totalCount; // 总记录数  
                 var pageSize = 10; // 每页显示几条记录  
                 var pageTotal = Math.ceil(totalCount / pageSize); // 总页数  
+                $(".paginList").empty();
+                $(".paginList").append("<li class='paginItem'><a id='prev'><span class='pagepre'></span></a></li>");
+                for (var i = 1; i <= pageTotal; i++) {
+                    if (i == 1) {
+                        $(".paginList").append("<li class='paginItem'><a id='firstPage' name='"+i+"' class='paginItemb'>"+i+"</a></li>");
+                    }else if(i == pageTotal){
+                        $(".paginList").append("<li class='paginItem'><a id='lastPage' name='"+i+"' class='paginItema'>"+i+"</a></li>");
+                    }else{
+                        $(".paginList").append("<li class='paginItem'><a name='"+i+"' class='paginItema'>"+i+"</a></li>");
+                    }
+                    
+                }
+                $(".paginList").append("<li class='paginItem'><a id='next'><span class='pagenxt'></span></a></li>");
                 $("#next").click(function() {  
                             if (pn == pageTotal) {  
                                 alert("后面没有了");  
                                 pn = pageTotal;  
                             } else {  
                                 pn++;  
+                                $(".paginItem").attr("class","paginItem");
+                                $(".paginItem").eq(pn).addClass("current");
                                 gotoPage(pn);  
                             }  
                         });  
@@ -82,11 +99,15 @@ function getPage() {
                                 pn = 1;  
                             } else {  
                                 pn--;  
+                                $(".paginItem").attr("class","paginItem");
+                                $(".paginItem").eq(pn).addClass("current");
                                 gotoPage(pn);  
                             }  
                         })  
                 $("#firstPage").click(function() {  
                             pn = 1;  
+                            $(".paginItem").attr("class","paginItem");
+                            $(".paginItem").eq(pn).addClass("current");
                             gotoPage(pn);  
                         });  
                 $("#lastPage").click(function() {  
@@ -101,7 +122,13 @@ function getPage() {
                         alert("您输入的页码有误！");  
                         $(".page-num").val('').focus();  
                     }  
-                })  
+                });
+                $(".paginItema").click(function(){
+                    var pn = $(this).attr('name');
+                    $(".paginItem").attr("class","paginItem");
+                    $(".paginItem").eq(pn).addClass("current");
+                    gotoPage(pn);  
+                });
                 $("#firstPage").trigger("click");  
                   
             })  
@@ -111,10 +138,14 @@ function gotoPage(pn) {
     $(".current-page").text(pn);  
     getJSONData(pn)  
 }  
-  
+
  $(function(){
     getPage(); 
  })
+</script>
+<script type="text/javascript">
+    // $(document).ready(function () { $("#loadgif").hide();});
+    // $(".wait").click(function () { $("#loadgif").show();});
 </script>
 <script language="javascript">
 $(function(){	
@@ -224,25 +255,27 @@ $(document).ready(function(){
     
     </table>
     
-    
+    <!-- <div id="loadgif" style="width:66px;height:66px;position:absolute;top:50%;left:50%;">
+　　  <img  alt="加载中..." src="<%=basePath%>res/sys/wait.gif"/>
+    </div> -->
     
     
     
    
     <div class="pagin">
-    	<div class="message">共<i class="blue page-count"></i>条记录，当前显示第&nbsp;<i class="blue current-page"></i>&nbsp;页</div>
+    	<div class="message">共<i class="blue page-count"></i>条纪录，当前显示第&nbsp;<i class="blue current-page"></i>&nbsp;页</div>
         <ul class="paginList">
-        <li class="paginItem"><a id="prev"><span class="pagepre"></span></a></li>
+        <!-- <li class="paginItem"><a id="prev"><span class="pagepre"></span></a></li>
         
         <li class="paginItem"><a id="firstPage">1</a></li>
-        <!--
+        
         <li class="paginItem current"><a href="javascript:;">2</a></li>
         <li class="paginItem"><a href="javascript:;">3</a></li>
         <li class="paginItem"><a href="javascript:;">4</a></li>
         <li class="paginItem"><a href="javascript:;">5</a></li>
         <li class="paginItem more"><a href="javascript:;">...</a></li>
-        <li class="paginItem"><a href="javascript:;">10</a></li> -->
-        <li class="paginItem"><a id="next"><span class="pagenxt"></span></a></li>
+        <li class="paginItem"><a href="javascript:;">10</a></li> 
+        <li class="paginItem"><a id="next"><span class="pagenxt"></span></a></li> -->
         </ul>
     </div>
     
