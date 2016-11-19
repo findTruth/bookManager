@@ -200,5 +200,24 @@ public class UserDaoImpl implements UserDao{
 		return flag;
 	}
 
+	@Override
+	public String findYxSj(String EMAIL, String UPHONE) {
+		String UUID=null;
+		try {
+			Connection conn=DBhelper_mysql.getConnection();
+			String sql="select UUID from TB_User where EMAIL=? or UPHONE=?";
+			PreparedStatement ps=conn.prepareStatement(sql);
+			ps.setString(1, EMAIL);
+			ps.setString(2, UPHONE);
+			ResultSet rs=ps.executeQuery();
+			while (rs.next()) {
+				 UUID=rs.getString("UUID");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return UUID;
+	}
+
 
 }

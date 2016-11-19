@@ -3,6 +3,8 @@ package main.biz;
 import main.entity.User;
 
 public interface UserBiz {
+	//判断注册用户
+	public String findYxSj(String EMAIL,String UPHONE);
 	//增加用户
 	public boolean add(User user);
 	//登录查找

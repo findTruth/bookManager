@@ -32,11 +32,11 @@ public class UserController extends HttpServlet {
 		}else if ("/index".equals(path)) {
 			request.getRequestDispatcher("../jsp/user/#图书列表").forward(request, response);
 		}else if ("/userGeRen".equals(path)) {
-			request.getRequestDispatcher("../jsp/user/userGeRen.jsp").forward(request, response);
+			request.getRequestDispatcher("../jsp/user/userGeRen2.do").forward(request, response);
 		}else if ("/userShouCang".equals(path)) {
-			request.getRequestDispatcher("../jsp/user/userShouCang.jsp").forward(request, response);
+			request.getRequestDispatcher("../jsp/user/userShouCang2.do").forward(request, response);
 		}else if ("/userJieShu".equals(path)) {
-			request.getRequestDispatcher("../jsp/user/userJieShu.jsp").forward(request, response);
+			request.getRequestDispatcher("../jsp/user/userJieShu2.do").forward(request, response);
 		}else{
 			request.getRequestDispatcher("../404.jsp").forward(request, response);
 		}
@@ -56,10 +56,19 @@ public class UserController extends HttpServlet {
 			String QUESTION=request.getParameter("question1");
 			String ANSWER=request.getParameter("answer"); 
 			User user=new User(PHONE, EMAIL, MD5password, ANSWER, QUESTION);
-			if (userbizimpl.add(user)) {			
-				response.setHeader("refresh","1;url=http://localhost:8080/bookManager/jsp/user/login.jsp");
+				if (userbizimpl.add(user)) {			
+					response.setHeader("refresh","1;url=http://localhost:8080/bookManager/jsp/user/login.jsp");
+				}else {
+					request.getRequestDispatcher("../404.jsp").forward(request, response);
+				}				
+		}else if ("/Panduanregist".equals(path)) {
+			String UUID=userbizimpl.findYxSj(request.getParameter("email"), request.getParameter("mobile"));
+			if (UUID==null) {
+				out.println("{\"msg\":\"邮箱和手机号码可用\"}");
+				out.close();
 			}else {
-				request.getRequestDispatcher("../404.jsp").forward(request, response);
+				out.println("{\"msg\":\"邮箱或者手机号码已经存在\"}");
+				out.close();
 			}
 		}else if ("/login".equals(path)) {
 				String user=request.getParameter("user");
@@ -128,6 +137,12 @@ public class UserController extends HttpServlet {
 			}
 		}else if ("/main".equals(path)) {
 			request.getRequestDispatcher("../jsp/manager/main.jsp").forward(request, response);
+		}else if ("/userGeRen2".equals(path)) {
+			request.getRequestDispatcher("../jsp/user/userGeRen.jsp ").forward(request, response);
+		}else if ("/userShouCang2".equals(path)) {
+			request.getRequestDispatcher("../jsp/user/userShouCang.jsp").forward(request, response);
+		}else if ("/userJieShu2".equals(path)) {
+			request.getRequestDispatcher("../jsp/user/userJieShu.jsp ").forward(request, response);
 		}else {
 			request.getRequestDispatcher("../404.jsp").forward(request, response);
 		}

@@ -53,4 +53,10 @@ public class UserBizImpl implements UserBiz{
 		return flag;
 	}
 
+	@Override
+	public String findYxSj(String EMAIL, String UPHONE) {
+		String UUID=userdaoimpl.findYxSj(EMAIL, UPHONE);
+		return UUID;
+	}
+
 }

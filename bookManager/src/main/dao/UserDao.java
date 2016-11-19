@@ -16,6 +16,8 @@ public interface UserDao {
 	public boolean updateUserPhone(String id,String Phone);
 	public boolean updateUserQQ(String id,String QQ);
 	public boolean updateUserStatus(String id,int Status);
+	//注册页面
+	public String findYxSj(String EMAIL,String UPHONE);//判断是否注册
 	//修改密码查找
 	public String checkphone(String phone);//手机查找
 	public String checkemail(String email);//邮箱查找
