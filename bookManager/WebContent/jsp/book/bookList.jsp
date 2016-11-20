@@ -6,7 +6,8 @@
 <% 
 	String path = request.getContextPath();
 	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%><html>
+%>
+<html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>无标题文档</title>
@@ -165,15 +166,15 @@ $(document).ready(function(){
   
   $(".tiptop a").click(function(){
   $(".tip").fadeOut(200);
-});
+	});
 
   $(".sure").click(function(){
   $(".tip").fadeOut(100);
-});
+	});
 
   $(".cancel").click(function(){
   $(".tip").fadeOut(100);
-});
+	});
 
 });
 </script>
@@ -213,15 +214,15 @@ $(document).ready(function(){
     
     <thead>
     <tr>
-    <th><input type="checkbox" name="" value="全选"></th>
-    <th>序号</th>
-    <th>书名</th>
+    <th style="width:30px"><input type="checkbox" name="" value="全选"></th>
+    <th style="width:30px">序号</th>
+    <th style="width:100px">书名</th>
     <th width="100px;">缩略图</th>
-    <th>出版社</th>
-    <th>作者</th>
-    <th>价格</th>
-    <th>类型</th>
-    <th>操作</th>
+    <th style="width:50px">出版社</th>
+    <th style="width:60px">作者</th>
+    <th style="width:60px">价格</th>
+    <th style="width:60px">类型</th>
+    <th style="width:60px">操作</th>
     </tr>
     </thead>
     

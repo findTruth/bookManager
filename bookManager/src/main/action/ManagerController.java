@@ -1,6 +1,8 @@
 package main.action;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.HashMap;
 
 import javax.servlet.ServletException;
@@ -21,6 +23,7 @@ public class ManagerController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String path = Tools.cut(request.getRequestURI());
+		
 		if ("/top".equals(path)) {
 			request.getRequestDispatcher("../jsp/manager/top.jsp").forward(request, response);
 		}else if ("/left".equals(path)) {
@@ -34,7 +37,12 @@ public class ManagerController extends HttpServlet {
 		else if ("/main".equals(path)) {
 //			request.setAttribute("page", "manager");
 			ManagerBizImpl mbi = new ManagerBizImpl();
-			mbi.LastLoginTime(((HashMap<String, String>)request.getSession().getAttribute("manager")).get("MUID"));
+			try {
+				mbi.LastLoginTime(((HashMap<String, String>)request.getSession().getAttribute("manager")).get("MUID"));
+			} catch (SQLException e) {
+				response.getWriter().append("网络连接异常");
+				response.getWriter().close();
+			}
 //			response.sendRedirect("../jsp/manager/main.jsp");
 			request.getRequestDispatcher("../jsp/manager/main.jsp").forward(request, response);
 		}
@@ -45,11 +53,15 @@ public class ManagerController extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String path = Tools.cut(request.getRequestURI());
-		System.out.println(path);
 		if ("/main".equals(path)) {
 //			request.setAttribute("page", "manager");
 			ManagerBizImpl mbi = new ManagerBizImpl();
-			mbi.LastLoginTime(((HashMap<String, String>)request.getSession().getAttribute("manager")).get("MUID"));
+			try {
+				mbi.LastLoginTime(((HashMap<String, String>)request.getSession().getAttribute("manager")).get("MUID"));
+			} catch (SQLException e) {
+				response.getWriter().append("网络连接异常");
+				response.getWriter().close();
+			}
 //			response.sendRedirect("../jsp/manager/main.jsp");
 			request.getRequestDispatcher("../jsp/manager/main.jsp").forward(request, response);
 		}else {

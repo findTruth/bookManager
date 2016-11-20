@@ -17,13 +17,13 @@ public class BookDaoImpl implements BookDao {
 	public List<Book> list() {
 		Connection conn = DBhelper_mysql.getConnection();
 		List<Book> list = new ArrayList<>();
-		String sql = "select BUID,NAME,DATE,PRESS,AUTHOR,VALUE,KINDNO,STATUS from TB_Book";
+		String sql = "select b.BUID,b.NAME,b.DATE,b.PRESS,b.AUTHOR,b.VALUE,(select c.KINDNAME from TB_BookKinds c where b.KINDNO=c.KINDNO) AS KIND,b.STATUS from TB_Book b";
 		try {
 			Statement ps = conn.createStatement();
 			ResultSet rs = ps.executeQuery(sql);
 			Book book = null;
 			while (rs.next()) {
-				book = new Book(rs.getString("BUID"), rs.getString("NAME"), rs.getTimestamp("DATE"), rs.getString("PRESS"), rs.getString("AUTHOR"), rs.getString("VALUE"), rs.getString("KINDNO"), rs.getInt("STATUS"));
+				book = new Book(rs.getString("BUID"), rs.getString("NAME"), rs.getTimestamp("DATE"), rs.getString("PRESS"), rs.getString("AUTHOR"), rs.getString("VALUE"), rs.getString("KIND"), rs.getInt("STATUS"));
 				list.add(book);
 			}
 		} catch (Exception e) {

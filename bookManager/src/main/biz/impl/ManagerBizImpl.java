@@ -1,13 +1,15 @@
 package main.biz.impl;
 
+import java.sql.SQLException;
+
 import main.biz.ManagerBiz;
 import main.dao.impl.ManagerDaoImpl;
 import main.entity.Manager;
 
-public class ManagerBizImpl implements ManagerBiz {
+public class ManagerBizImpl implements ManagerBiz{
 	ManagerDaoImpl mdi = new ManagerDaoImpl();
 	@Override
-	public Manager findByName(String name) {
+	public Manager findByName(String name) throws SQLException {
 		return mdi.findByName(name);
 	}
 
@@ -18,7 +20,7 @@ public class ManagerBizImpl implements ManagerBiz {
 	}
 
 	@Override
-	public void LastLoginTime(String id) {
+	public void LastLoginTime(String id) throws SQLException {
 		mdi.updateManagerLastLoginTime(id);
 	}
 

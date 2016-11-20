@@ -57,7 +57,7 @@
             $.ajax({
                 type:'POST',
                 dataType: 'json',
-                url:'<%=basePath%>tool/adminLogin.do?Name='+$("input[name=Name]").val()+'&Pwd='+$("input[name=Pwd]").val()+'&Yzm='+$("input[name=Yzm]").val(),
+                url:'<%=basePath%>tool/adminLogin.do?Name='+$("input[name=Name]").val()+'&Pwd='+$("input[name=Pwd]").val()+'&Yzm='+$("input[name=Yzm]").val()+"&d="+new Date().getTime(),
                 success:function(data,textStatus){
                     var objs = eval(data);
                     $("#resultTop").html(objs.msg);
