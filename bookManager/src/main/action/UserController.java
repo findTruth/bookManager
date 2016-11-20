@@ -152,11 +152,11 @@ public class UserController extends HttpServlet {
 			}
 		}else if ("/userGeRen2".equals(path)) {
 			String Nicname=request.getParameter("nicheng");
-			String Ation1=request.getParameter("country");
+			String Ation1=request.getParameter("sheng");
 			System.out.println(Ation1);
-			String Ation2=request.getParameter("province");
+			String Ation2=request.getParameter("shi");
 			System.out.println(Ation2);
-			String Ation3=request.getParameter("city");
+			String Ation3=request.getParameter("xian");
 			System.out.println(Ation3);
 			String Sex=request.getParameter("sex");
 			String yuanmima=request.getParameter("yuanmima");

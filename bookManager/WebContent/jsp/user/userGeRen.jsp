@@ -24,6 +24,27 @@
 	})  
 }); 
 </script>
+<script>
+	function sub(){
+		if ($("#country").val()!="请选择省份") {
+			$("input[name='sheng']").val($("#country").val());
+		}else{
+			return false;
+		}
+		if ($("#province").val()!="请选择省份") {
+			$("input[name='shi']").val($("#province").val());
+		}else{
+			return false;
+		}
+		if ($("#city").val()!="请选择省份") {
+			$("input[name='xian']").val($("#city").val());
+		}else{
+			return false;
+		}
+		
+		$("#Form").submit();
+	}
+</script>
 <script type="text/javascript">
 	window.onload=function(){
 			if (<%=Ation1!=null%>&&<%=Ation2!=null%>&&<%=Ation3!=null%>) {			
@@ -250,7 +271,7 @@ input[type="submit"]{background:url("<%=basePath %>/img/rs/buttom.png") no-repea
     <li><a href="#">个人中心</a></li>
     </ul>
     </div></br>
-  <form action="<%=basePath %>/user/userGeRen2.do" method="post">
+  <form id="Form" action="<%=basePath %>/user/userGeRen2.do" method="post">
  <div class='neirong'>
  	<div id='da'>昵    称：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="nicheng" class='text' value="<%=Ncname%>"></div></br>
  	<div id='da'>地  区：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -288,6 +309,9 @@ input[type="submit"]{background:url("<%=basePath %>/img/rs/buttom.png") no-repea
 <select id="city" name="city" style='width:100px;height: 30px;'>
 <option value="0" selected="selected">请选择县级</option>
 </select>
+<input type="hidden" name="sheng" value=""/>
+<input type="hidden" name="shi" value=""/>
+<input type="hidden" name="xian" value=""/>
 </div></br>
  	<div class='xingbie' id='da'>
  			<label id='da'>性    别</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -300,7 +324,7 @@ input[type="submit"]{background:url("<%=basePath %>/img/rs/buttom.png") no-repea
  	</div></br>
  	<div id='da'>原始密码：&nbsp;<input type="password" name="yuanmima" class='text'></div></br>
  	<div id='da'>新密码：&nbsp;&nbsp;&nbsp;&nbsp;<input type="password" name="xinmima" class='text'></div></br>
-   	<div><center><input type="submit" value="确认修改"></center></div>
+   	<div><center><input type="button" value="确认修改" onclick="sub()"></center></div>
  	</div>
    </form>
 
