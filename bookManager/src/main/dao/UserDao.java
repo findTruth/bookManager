@@ -2,6 +2,8 @@ package main.dao;
 
 import java.util.List;
 
+import main.entity.Book;
+import main.entity.BookRecord;
 import main.entity.User;
 
 public interface UserDao {
@@ -23,4 +25,10 @@ public interface UserDao {
 	public String checkemail(String email);//邮箱查找
 	public String checkNCMB(String ncname, String question, String answer);//查找昵称和密保问题
 	public boolean update(String UUID,String pwd);//根据UUID，修改密码
+	//个人中心页面
+	public User find(String UUID);//根据UUID查找个人中心相关数据
+	public boolean findNcname(String Nicname);//查找昵称是否存在
+	
+	//用户借书记录
+	public List<BookRecord> list(String longUUID);
 }

@@ -9,7 +9,16 @@ public class BookRecord {
 	private Date STARTTIME;
 	private Date OVERTIME;
 	private int STATUS;
+	private String Bname;
 	
+	public String getBname() {
+		return Bname;
+	}
+
+	public void setBname(String bname) {
+		Bname = bname;
+	}
+
 	public BookRecord() {
 	}
 	
