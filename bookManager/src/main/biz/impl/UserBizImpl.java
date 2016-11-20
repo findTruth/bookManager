@@ -1,7 +1,11 @@
 package main.biz.impl;
 
+import java.util.List;
+
 import main.biz.UserBiz;
+import main.dao.impl.BookDaoImpl;
 import main.dao.impl.UserDaoImpl;
+import main.entity.BookRecord;
 import main.entity.User;
 
 public class UserBizImpl implements UserBiz{
@@ -51,6 +55,29 @@ public class UserBizImpl implements UserBiz{
 		boolean flag=false;
 		flag=userdaoimpl.update(UUID, pwd);
 		return flag;
+	}
+
+	@Override
+	public String findYxSj(String EMAIL, String UPHONE) {
+		String UUID=userdaoimpl.findYxSj(EMAIL, UPHONE);
+		return UUID;
+	}
+
+	@Override
+	public User find(String UUID) {
+		User user=userdaoimpl.find(UUID);
+		return user;
+	}
+
+	@Override
+	public boolean findNicname(String Nicname) {
+		boolean flag=userdaoimpl.findNcname(Nicname);
+		return flag;
+	}
+
+	@Override
+	public List<BookRecord> bookrecordList() {
+		return userdaoimpl.list();
 	}
 
 }

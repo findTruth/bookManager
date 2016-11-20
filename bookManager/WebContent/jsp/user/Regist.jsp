@@ -37,7 +37,7 @@
                   <input class="register_input" type="text" id="mobile" name="mobile" maxLength="11" value="" onblur="__changeUserName('mobile');">
                 </div>
                 </span>
-                <label class="tips">您将使用您的手机号码登录，请输入正确的手机号码，且第一位数必须为1</label>
+                <label class="tips">您将使用您的手机号码登录，手机号码为11位，且第一位数必须为1</label>
               </div>
               <div class="field-group">
                 <label class="required title">邮箱</label>
@@ -52,7 +52,7 @@
                 <label class="required title">设置密码</label>
                 <span class="control-group" id="password1_input">
                 <div class="input_add_long_background">
-                  <input class="register_input" type="password" id="password1" name="password1" maxLength="20" value="" onblur="checkPwd1(this.value);" onkeyup="checkPassword();"/>
+                  <input class="register_input" type="password" id="password1" name="password1" maxLength="20" value="" onblur="checkPwd1(this.value);" />
                 </div>
                 </span>
                 <label class="tips">请使用6~20个英文字母（区分大小写）、符号或数字</label>
@@ -132,6 +132,21 @@ function __changeUserName(of){
 	  if (username.search(/^[\w\.+-]+@[\w\.+-]+$/) == -1) {
 			showTooltips('email_input','请输入正确的Email地址',2000);
 			return;
+	}else {
+		 $.ajax({
+             type:'POST',
+             dataType: 'json',
+             url:'<%=basePath%>user/Panduanregist.do?email='+$("input[name=email]").val()+'&mobile='+$("input[name=mobile]").val(),
+             success:function(data,textStatus){
+                 var objs = eval(data);
+                 if (objs.msg=='邮箱和手机号码可用') {
+                	 $('#email_input').css("color","green"); 
+                	 showTooltips('email_input',objs.msg,4000)
+				}else {					
+                 showTooltips('email_input',objs.msg,4000);         
+				}
+             }
+         });
 	}					
   }
   else{
@@ -154,13 +169,6 @@ function checkPwd2(pwd2) {
 		hideTooltips('password1_input');
 	}else {
 		showTooltips('password1_input2','两次输入的密码不一样',2000);
-	}
-}
-function checkEmail(email) {
-	if (email.search(/^.+@.+$/) == -1) {
-		showTooltips('email_input','邮箱格式不正确',2000);
-	}else {
-		hideTooltips('email_input');
 	}
 }
 function checkAnswer(answer) {
