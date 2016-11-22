@@ -19,7 +19,7 @@ public class EmployeeController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String path = Tools.cut(request.getRequestURI());
 		if ("/li".equals(path)) {
-			
+			//TODO ONE
 		} else {
 			request.getRequestDispatcher("../404.jsp").forward(request, response);
 		}
