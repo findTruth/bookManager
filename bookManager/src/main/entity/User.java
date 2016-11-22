@@ -10,8 +10,45 @@ public class User {
 	private String NICNAME;
 	private String UNAME;
 	private int STATUS;
+	private int SEX;
+	private String ATION1;
+	private String ATION2;
+	private String ATION3;
 	
+	public int getSEX() {
+		return SEX;
+	}
+
+	public void setSEX(int sEX) {
+		SEX = sEX;
+	}
+
 	
+
+	public String getATION1() {
+		return ATION1;
+	}
+
+	public void setATION1(String aTION1) {
+		ATION1 = aTION1;
+	}
+
+	public String getATION2() {
+		return ATION2;
+	}
+
+	public void setATION2(String aTION2) {
+		ATION2 = aTION2;
+	}
+
+	public String getATION3() {
+		return ATION3;
+	}
+
+	public void setATION3(String aTION3) {
+		ATION3 = aTION3;
+	}
+
 	public User() {
 		
 	}

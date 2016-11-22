@@ -1,4 +1,4 @@
-<%@page import="main.entity.Book"%>
+<%@page import="main.javaBean.Bookrecord"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -6,8 +6,7 @@
 <% 
 	String path = request.getContextPath();
 	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
-<html>
+%><html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>无标题文档</title>
@@ -16,7 +15,7 @@
 <script type="text/javascript">
     function getJSONData(pn) {  
     // alert(pn);  
-    $.getJSON("<%=basePath%>book/list.do", function(data) {  
+    $.getJSON("<%=basePath%>user/userJieShu2.do", function(data) {  
         var totalCount = data.totalCount; // 总记录数  
         var pageSize = 10; // 每页显示几条记录  
         var pageTotal = Math.ceil(totalCount / pageSize); // 总页数  
@@ -33,13 +32,10 @@
             for (var j = 0; j < totalCount; j++) {  
                 $(".tr-tag").eq(j).append("<td class='col1'><input type='checkbox' value='"+parseInt(j + 1)+"'/></td>")  
                 .append("<td class='col2'>" + parseInt(j + 1)  
-                        + "</td>").append("<td class='col3'>" + dataRoot[j].NAME + "<p>" + dataRoot[j].DATE + "</p>"
-                        + "</td>").append("<td class='col4'>" + "图片"  
-                        + "</td>").append("<td class='col5'>" + dataRoot[j].PRESS  
-                        + "</td>").append("<td class='col6'>" + dataRoot[j].AUTHOR  
-                        + "</td>").append("<td class='col7'>" + dataRoot[j].VALUE  
-                        + "</td>").append("<td class='col8'>" + dataRoot[j].KINDNO  
-                        + "</td>").append("<td class='col9'>" + "123123"  
+                        + "</td>").append("<td class='col3'>" + dataRoot[j].BNAME 
+                        + "</td>").append("<td class='col4'>" + dataRoot[j].STARTTIME  
+                        + "</td>").append("<td class='col5'>" + dataRoot[j].OVERTIME  
+                        + "</td>").append("<td class='col6'>" + dataRoot[j].STATUS  
                         + "</td>");
             }  
         } else {  
@@ -50,21 +46,18 @@
                 }  
                  $(".tr-tag").eq(k).append("<td class='col1'><input type='checkbox' value='"+parseInt(j + 1)+"'/></td>")  
                 .append("<td class='col2'>" + parseInt(j + 1)  
-                        + "</td>").append("<td class='col3'>" + dataRoot[j].NAME + "<p>" + dataRoot[j].DATE + "</p>"
-                        + "</td>").append("<td class='col4'>" + "图片"  
-                        + "</td>").append("<td class='col5'>" + dataRoot[j].PRESS  
-                        + "</td>").append("<td class='col6'>" + dataRoot[j].AUTHOR  
-                        + "</td>").append("<td class='col7'>" + dataRoot[j].VALUE  
-                        + "</td>").append("<td class='col8'>" + dataRoot[j].KINDNO  
-                        + "</td>").append("<td class='col9'>" + "123123"  
-                        + "</td>");
+                		 + "</td>").append("<td class='col3'>" + dataRoot[j].BNAME 
+                                 + "</td>").append("<td class='col4'>" + dataRoot[j].STARTTIME  
+                                 + "</td>").append("<td class='col5'>" + dataRoot[j].OVERTIME  
+                                 + "</td>").append("<td class='col6'>" + dataRoot[j].STATUS  
+                                 + "</td>");
             }  
         }  
         $(".page-count").text(totalCount);  
     })  
 }  
 function getPage() {  
-    $.getJSON("<%=basePath%>book/list.do", function(data) {  
+    $.getJSON("<%=basePath%>user/userJieShu2.do", function(data) {  
 
                 pn = 1;  
                 var totalCount = data.totalCount; // 总记录数  
@@ -144,10 +137,6 @@ function gotoPage(pn) {
     getPage(); 
  })
 </script>
-<script type="text/javascript">
-    // $(document).ready(function () { $("#loadgif").hide();});
-    // $(".wait").click(function () { $("#loadgif").show();});
-</script>
 <script language="javascript">
 $(function(){	
 	//导航切换
@@ -166,15 +155,15 @@ $(document).ready(function(){
   
   $(".tiptop a").click(function(){
   $(".tip").fadeOut(200);
-	});
+});
 
   $(".sure").click(function(){
   $(".tip").fadeOut(100);
-	});
+});
 
   $(".cancel").click(function(){
   $(".tip").fadeOut(100);
-	});
+});
 
 });
 </script>
@@ -186,8 +175,8 @@ $(document).ready(function(){
 	<div class="place">
     <span>位置：</span>
     <ul class="placeul">
-    <li><a href="#">首页</a></li>
-    <li><a href="#">图片列表</a></li>
+    <li><a href="main.jsp">首页</a></li>
+    <li><a href="#">借书记录</a></li>
     </ul>
     </div>
     
@@ -214,33 +203,28 @@ $(document).ready(function(){
     
     <thead>
     <tr>
-    <th style="width:30px"><input type="checkbox" name="" value="全选"></th>
-    <th style="width:30px">序号</th>
-    <th style="width:100px">书名</th>
-    <th width="100px;">缩略图</th>
-    <th style="width:50px">出版社</th>
-    <th style="width:60px">作者</th>
-    <th style="width:60px">价格</th>
-    <th style="width:60px">类型</th>
-    <th style="width:60px">操作</th>
+    <th><input type="checkbox" name="" value="全选"></th>
+    <th>序号</th>
+    <th>书名</th>
+    <th>借书开始时间</th>
+    <th>借书归还时间</th>
     </tr>
     </thead>
     
     <tbody id="list">
         <!-- <%
-        	List<Book> list = (List<Book>)request.getAttribute("list");
+        	List<Bookrecord> list = (List<Bookrecord>)request.getAttribute("list");
         	if(list!=null){
         		int i = 0;
-        		for(Book b : list){
+        		for(Bookrecord b : list){
         %>
     <tr>
     <td><%=++i %></td>
-    <td><a href="#"><%=b.getNAME() %></a><p><%=b.getDATE() %></p></td>
-    <td class="imgtd"><img src="<%=basePath %><%=b.getAUTHOR() %>" title="图片" alt="暂无数据"/></td>
-    <td><%=b.getPRESS() %></td>
-    <td><%=b.getAUTHOR() %></td>
-    <td><%=b.getVALUE() %></td>
-    <td>已审核</td>
+    <td><%=b.getBname() %></td>
+    <td><%=b.getSTARTTIME()%></td>
+    <td><%=b.getOVERTIME()%></td>
+    <td><%=b.getSTATUS() %></td>
+    
     </tr>
     <%
     		}
@@ -256,28 +240,13 @@ $(document).ready(function(){
     
     </table>
     
-    <!-- <div id="loadgif" style="width:66px;height:66px;position:absolute;top:50%;left:50%;">
-　　  <img  alt="加载中..." src="<%=basePath%>res/sys/wait.gif"/>
-    </div> -->
     
     
     
    
     <div class="pagin">
     	<div class="message">共<i class="blue page-count"></i>条纪录，当前显示第&nbsp;<i class="blue current-page"></i>&nbsp;页</div>
-        <ul class="paginList">
-        <!-- <li class="paginItem"><a id="prev"><span class="pagepre"></span></a></li>
-        
-        <li class="paginItem"><a id="firstPage">1</a></li>
-        
-        <li class="paginItem current"><a href="javascript:;">2</a></li>
-        <li class="paginItem"><a href="javascript:;">3</a></li>
-        <li class="paginItem"><a href="javascript:;">4</a></li>
-        <li class="paginItem"><a href="javascript:;">5</a></li>
-        <li class="paginItem more"><a href="javascript:;">...</a></li>
-        <li class="paginItem"><a href="javascript:;">10</a></li> 
-        <li class="paginItem"><a id="next"><span class="pagenxt"></span></a></li> -->
-        </ul>
+       
     </div>
     
     

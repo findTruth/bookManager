@@ -57,17 +57,21 @@
             $.ajax({
                 type:'POST',
                 dataType: 'json',
-                url:'<%=basePath%>tool/adminLogin.do?Name='+$("input[name=Name]").val()+'&Pwd='+$("input[name=Pwd]").val()+'&Yzm='+$("input[name=Yzm]").val(),
+                url:'<%=basePath%>tool/adminLogin.do?Name='+$("input[name=Name]").val()+'&Pwd='+$("input[name=Pwd]").val()+'&Yzm='+$("input[name=Yzm]").val()+"&d="+new Date().getTime(),
                 success:function(data,textStatus){
                     var objs = eval(data);
                     $("#resultTop").html(objs.msg);
+                    if (objs.result==0) {
+                        window.location.href="<%=basePath%>manager/main.do"
+                    }
                 }
             });
         });
+
         $("#yzm").click(function(){
             $.ajax({
                 type:'GET',
-                url: '<%=basePath%>tool/VerifyImage.do',
+                url: '<%=basePath%>tool/VerifyImage.do'+'?d='+new Date().getTime(),
                 success:function(data){
                     $("#yzm").attr("src","<%=basePath%>tool/VerifyImage.do");
                 }
@@ -103,7 +107,7 @@
     <div class="adminloginbox">
     
     <ul>
-    <form method="post"  id="Form">
+    <form method="post"  id="Form" action="<%=basePath%>tool/adminLogin.do">
     <li><input name="Name" type="text" class="loginuser" value="" onclick="JavaScript:this.value=''" placeholder="请输入手机号或者邮箱"/><div style="position: absolute; left: 270px;"><label id="nameTop"></label></div></li>
     <li><input name="Pwd" type="text" class="loginpwd" value="" onclick="JavaScript:this.value=''" placeholder="请输入您的密码"/><div style="position: absolute; left: 270px;"><label id="pwdTop"></label></div></li>
     <li>验证码：<input type="text" name="Yzm" class="LoginYzm">

@@ -2,6 +2,7 @@ package main.action;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,6 +15,7 @@ import main.biz.impl.ManagerBizImpl;
 import main.entity.Emp;
 import main.entity.Manager;
 import main.tool.Tools;
+import main.tool.json.JsonObject;
 
 /**
  * Servlet implementation class ToolContorller
@@ -45,27 +47,50 @@ public class ToolContorller extends HttpServlet {
 		String path = Tools.cut(request.getRequestURI());
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
+		response.setHeader("Pragma","No-cache"); 
+		response.setHeader("Cache-Control","no-cache"); 
+		response.setDateHeader("Expires", 0);
 		if ("/adminLogin".equals(path)) {
 			PrintWriter out = response.getWriter();
 			System.out.println("user:"+request.getParameter("Name")+"  pwd:"+request.getParameter("Pwd")+"  yzm:"+request.getParameter("Yzm")+"  seyzm:"+request.getSession().getAttribute("codeValue"));
 			if (!request.getParameter("Yzm").equals(request.getSession().getAttribute("codeValue"))) {
-				System.out.println(123123);
-				out.println("{\"msg\":\"验证码错误\"}");
+				JsonObject json = new JsonObject();
+				json.put("result", "1");
+				json.put("msg", "验证码错误");
+				out.println(json.getJSON());
 				out.close();
 			}else{
 				ManagerBizImpl mbi = new ManagerBizImpl();
 				EmployeeBizImpl ebi = new EmployeeBizImpl();
-				Manager manager = mbi.findByName(request.getParameter("Name"));
+				Manager manager = null;
+				try {
+					manager = mbi.findByName(request.getParameter("Name"));
+				} catch (SQLException e) {
+					JsonObject json = new JsonObject();
+					json.put("result", "1");
+					json.put("msg", "网络连接错误");
+					out.print(json.getJSON());
+					out.close();
+				}
 				Emp emp = ebi.findByName(request.getParameter("Name"));
 				if (manager!=null&&emp!=null) {
 					if (Tools.MD5(request.getParameter("Pwd")).equals(manager.getPASSWORD())) {
 						request.getSession().setAttribute("manager", new main.javaBean.Manager(manager).getHashmap());
-						request.getRequestDispatcher("../manager/main.do").forward(request, response);
+						JsonObject json = new JsonObject();
+						json.put("result", "0");
+						json.put("msg", "登陆成功");
+						out.print(json.getJSON());
+						out.close();
 					}else if(Tools.MD5(request.getParameter("Pwd")).equals(emp.getPASSWORD())){
+						System.out.println("eok");
 						out.append("eok");
 						out.close();
 					}else{
-						out.println("{\"msg\":\"密码错误\"}");
+						System.out.println("m!ok e!ok");
+						JsonObject json = new JsonObject();
+						json.put("result", "1");
+						json.put("msg", "密码错误");
+						out.print(json.getJSON());
 						out.close();
 					}
 				}else if (manager!=null) {
@@ -73,7 +98,10 @@ public class ToolContorller extends HttpServlet {
 					if (Tools.MD5(request.getParameter("Pwd")).equals(manager.getPASSWORD())) {
 						request.getRequestDispatcher("../manager/main.do").forward(request, response);
 					}else{
-						out.println("{\"msg\":\"密码错误\"}");
+						JsonObject json = new JsonObject();
+						json.put("result", "1");
+						json.put("msg", "密码错误");
+						out.print(json.getJSON());
 						out.close();
 					}
 				}else if (emp!=null) {
@@ -81,11 +109,18 @@ public class ToolContorller extends HttpServlet {
 						out.append("2eok");
 						out.close();
 					}else{
-						out.println("{\"msg\":\"密码错误\"}");
+						JsonObject json = new JsonObject();
+						json.put("result", "1");
+						json.put("msg", "密码错误");
+						out.print(json.getJSON());
 						out.close();
 					}
 				}else{
-					out.println("{\"msg\":\"没有该账号错误\"}");
+					System.out.println("else");
+					JsonObject json = new JsonObject();
+					json.put("result", "1");
+					json.put("msg", "密码错误");
+					out.print(json.getJSON());
 					out.close();
 				}
 			}
