@@ -18,7 +18,7 @@ $(function(){
 		$(".nav li a.selected").removeClass("selected")
 		$(this).addClass("selected");
 	})	
-})	
+});	
 </script>
 
 
@@ -43,7 +43,7 @@ $(function(){
     </ul>
      
     <div class="user">
-    <span>${manager.UNAME }</span>
+    <span><%=request.getSession().getAttribute("User") %></span>
     </div>    
     
     </div>

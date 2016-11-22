@@ -2,10 +2,11 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <% 
-	String Ncname=(String)request.getAttribute("Ncname");
+	String Nicname=(String)request.getAttribute("Nicname");
 	String Ation1=(String)request.getAttribute("Ation1");
 	String Ation2=(String)request.getAttribute("Ation2");
 	String Ation3=(String)request.getAttribute("Ation3");
+	int Sex=(int)request.getAttribute("Sex");
 	String path = request.getContextPath();
 	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
@@ -28,38 +29,29 @@
 	function sub(){
 		if ($("#country").val()!="请选择省份") {
 			$("input[name='sheng']").val($("#country").val());
-		}else{
-			return false;
+		}else {
+			 return false;
 		}
 		if ($("#province").val()!="请选择省份") {
 			$("input[name='shi']").val($("#province").val());
-		}else{
-			return false;
+		}else {
+			 return false;
 		}
 		if ($("#city").val()!="请选择省份") {
 			$("input[name='xian']").val($("#city").val());
-		}else{
-			return false;
+		}else {
+			 return false;
 		}
-		
 		$("#Form").submit();
 	}
 </script>
 <script type="text/javascript">
 	window.onload=function(){
-			if (<%=Ation1!=null%>&&<%=Ation2!=null%>&&<%=Ation3!=null%>) {			
-				 var obj1 = document.getElementById("country");
-				    for(i=0;i<obj1.length;i++){
-				        if(obj1[i].value==<%=Ation1%>)
-				            obj1[i].selected = true;
-				    }
-			}else {
 	    		var aslt=document.getElementsByTagName('select')[1];
 	   			var aotn=aslt.getElementsByTagName('option')[1];
 	   			aslt.onchange=function(){
 	      	 	 turnCity();
 	   			}					
-			}
 	};
 
 	function turn(){
@@ -250,7 +242,7 @@
 	}
 </script> 
 <style type="text/css">
-input[type="submit"]{background:url("<%=basePath %>/img/rs/buttom.png") no-repeat;font-size:15px;font-weight:600;color:#FFFFFF;border:0;font-family:"Microsoft YaHei","SimHei","SimSun";text-shadow:0 -1px 0 #535353;margin:5px 5px 0 0;padding:0 0 3px 0;display:block;width:106px;height:35px;text-align:center;font-weight:bold;line-height:33px;text-indent:20px;}
+input[type="submit"]{background:url("../img/rs/buttom.png") no-repeat;font-size:15px;font-weight:600;color:#FFFFFF;border:0;font-family:"Microsoft YaHei","SimHei","SimSun";text-shadow:0 -1px 0 #535353;margin:5px 5px 0 0;padding:0 0 3px 0;display:block;width:106px;height:35px;text-align:center;font-weight:bold;line-height:33px;text-indent:20px;}
 	#da{
 		font-size: 20px;
 	}
@@ -259,7 +251,36 @@ input[type="submit"]{background:url("<%=basePath %>/img/rs/buttom.png") no-repea
 		height: 40px;
 	}
 </style>
-
+<script>
+	$(function () {
+		if ($("#sheng").val()=="") {
+			
+		}else{
+			$("#country").val($("input[name='sheng']").val());
+			turn();
+			//$("#country option").removeAttr("selected");
+		}
+		if ($("#shi").val()=="") {
+			
+		}else{
+			$("#province").val($("input[name='shi']").val());
+			turnCity();
+			//$("#province option").removeAttr("selected");
+		}
+		if ($("#xian").val()=="") {
+			
+		}else{
+			$("#city").val($("input[name='xian']").val());
+			//$("#city option").removeAttr("selected");
+		}
+		var sex = ${Sex};
+		if (sex==1) {
+			$("input=[name='sex']").eq(0).attr("checked",true);
+		}else if(sex==2){
+			$("input=[name='sex']").eq(1).attr("checked",true);
+		}
+	});
+</script>
 </head>
 
 
@@ -273,7 +294,7 @@ input[type="submit"]{background:url("<%=basePath %>/img/rs/buttom.png") no-repea
     </div></br>
   <form id="Form" action="<%=basePath %>/user/userGeRen2.do" method="post">
  <div class='neirong'>
- 	<div id='da'>昵    称：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="nicheng" class='text' value="<%=Ncname%>"></div></br>
+ 	<div id='da'>昵    称：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="nicheng" class='text' value="<%=Nicname%>"></div></br>
  	<div id='da'>地  区：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <select  id="country" name="country" onchange="turn()" style='width:100px;height: 30px;'>
 <option value="请选择省份" selected="selected">请选择省份</option>
@@ -309,9 +330,9 @@ input[type="submit"]{background:url("<%=basePath %>/img/rs/buttom.png") no-repea
 <select id="city" name="city" style='width:100px;height: 30px;'>
 <option value="0" selected="selected">请选择县级</option>
 </select>
-<input type="hidden" name="sheng" value=""/>
-<input type="hidden" name="shi" value=""/>
-<input type="hidden" name="xian" value=""/>
+<input type="hidden" name="sheng" value="${Action1}"/>
+<input type="hidden" name="shi" value="${Action2}"/>
+<input type="hidden" name="xian" value="${Action3}"/>
 </div></br>
  	<div class='xingbie' id='da'>
  			<label id='da'>性    别</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

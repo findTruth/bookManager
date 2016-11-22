@@ -2,16 +2,18 @@ package main.tool.json;
 
 import java.util.List;
 
-import main.entity.BookRecord;
+import main.javaBean.Bookrecord;
+
+
 
 public class userJieShu {
-	public static String getBookRecordPage(List<BookRecord> list){
+	public static String getBookRecordPage(List<Bookrecord> list){
 		StringBuffer sb = new StringBuffer();
 		int totalRows = list.size();
 		sb.append("{\"totalCount\":\""+totalRows+"\",");  
         sb.append("\"jsonRoot\":[");  
         for (int i=0;i<list.size();i++) {  
-        	BookRecord book = (BookRecord)list.get(i);  
+        	Bookrecord book = (Bookrecord)list.get(i);  
             sb.append("{\"BNAME\":\""+ book.getBname());  
             sb.append("\",");    
             sb.append("\"STARTTIME\":\""+ book.getSTARTTIME());

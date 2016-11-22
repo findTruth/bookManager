@@ -3,8 +3,8 @@ package main.biz;
 import java.util.List;
 
 import main.entity.Book;
-import main.entity.BookRecord;
 import main.entity.User;
+import main.javaBean.Bookrecord;
 
 public interface UserBiz {
 	//判断注册用户
@@ -24,7 +24,9 @@ public interface UserBiz {
 	//个人中心页面数据
 	public User find(String UUID);
 	public boolean findNicname(String Nicname);
-	
+	public String findNc(String longUUID);//查找昵称
+	public boolean addndx(String longUUID,String  Nicname,String Action1,String Action2,String Action3,int Sex);
+	public boolean addndx(String longUUID,String  Nicname,String Action1,String Action2,String Action3,int Sex,String xinmima);
 	//借书记录
-	public List<BookRecord> bookrecordList();
+	public List<Bookrecord> bookrecordList(String longUUID);
 }

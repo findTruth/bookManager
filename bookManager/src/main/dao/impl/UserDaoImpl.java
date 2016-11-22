@@ -4,15 +4,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 
 import main.dao.UserDao;
-import main.entity.Book;
-import main.entity.BookRecord;
 import main.entity.User;
+import main.javaBean.Bookrecord;
 import main.tool.Tools;
 import main.util.DBhelper_mysql;
 
@@ -236,6 +234,7 @@ public class UserDaoImpl implements UserDao{
 				users.setATION1(rs.getString("ATION1"));
 				users.setATION2(rs.getString("ATION2"));
 				users.setATION3(rs.getString("ATION3"));
+				users.setSEX(rs.getInt("SEX"));
 			}		
 			DBhelper_mysql.closeConnection(rs, ps, conn);
 		} catch (SQLException e) {
@@ -268,20 +267,20 @@ public class UserDaoImpl implements UserDao{
 	}
 
 	@Override
-	public List<BookRecord> list(String longUUID) {
-		Connection conn = DBhelper_mysql.getConnection();
-		List<BookRecord> list = new ArrayList<>();
-		String sql = "select B.NAME as Name,T.STARTTIME,T.OVERTIME,T.STATUS from TB_BookRecord T,TB_Book B, where B.BUID=T.BUID AND T.UUID=?";
+	public List<Bookrecord> list(String longUUID) {
+		List<Bookrecord> list = new ArrayList<>();
 		try {
+			Connection conn = DBhelper_mysql.getConnection();
+			String sql = "select B.NAME as NAME,T.STARTTIME as STARTTIME,T.OVERTIME as OVERTIME,T.STATUS as STATUS from TB_BookRecord T,TB_Book B,TB_User U where (B.BUID=T.BUID AND T.UUID=U.UUID) ";
 			PreparedStatement ps = conn.prepareStatement(sql);
-			ps.setString(1, longUUID);
+//			ps.setString(1, longUUID);
 			ResultSet rs = ps.executeQuery(sql);
 			while (rs.next()) {
-				BookRecord bookrecord = null;
-				bookrecord.setBname(rs.getString("Name"));
-				bookrecord.setSTARTTIME(rs.getDate("T.STARTTIME"));
-				bookrecord.setOVERTIME(rs.getDate("T.OVERTIME"));
-				bookrecord.setSTATUS(rs.getInt("T.STATUS"));
+				Bookrecord bookrecord = new Bookrecord();
+				bookrecord.setBname(rs.getString("NAME"));	
+				bookrecord.setSTARTTIME(rs.getDate("STARTTIME"));
+				bookrecord.setOVERTIME(rs.getDate("OVERTIME"));
+				bookrecord.setSTATUS(rs.getInt("STATUS"));
 				list.add(bookrecord);
 			}
 		} catch (Exception e) {
@@ -290,5 +289,77 @@ public class UserDaoImpl implements UserDao{
 		return list;
 	}
 
+	@Override
+	public boolean addndx(String longUUID, String Nicname, String Action1, String Action2, String Action3, int Sex) {
+		boolean flag=false;
+		try {
+			Connection conn=DBhelper_mysql.getConnection();
+			String sql="update TB_User set NICNAME=?,Ation1=?,Ation2=?,Ation3=?,Sex=? where UUID=?";
+			PreparedStatement ps=conn.prepareStatement(sql);
+			ps.setString(1, Nicname);
+			ps.setString(2, Action1);
+			ps.setString(3, Action2);
+			ps.setString(4, Action3);
+			ps.setInt(5, Sex);
+			ps.setString(6, longUUID);
+			int n=ps.executeUpdate();
+			if (n==1) {
+				flag=true;
+			}
+			DBhelper_mysql.closeConnection(null, ps, conn);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return flag;
+	}
+
+	@Override
+	public boolean addndx(String longUUID, String Nicname, String Action1, String Action2, String Action3, int Sex,
+			String xinmima) {
+		
+		boolean flag=false;
+		try {
+			Connection conn=DBhelper_mysql.getConnection();
+			String sql="update TB_User set NICNAME=?,Ation1=?,Ation2=?,Ation3=?,Sex=?,PASSWORD=? where UUID=?";
+			PreparedStatement ps=conn.prepareStatement(sql);
+			ps.setString(1, Nicname);
+			ps.setString(2, Action1);
+			ps.setString(3, Action2);
+			ps.setString(4, Action3);
+			ps.setInt(5, Sex);
+			ps.setString(6, xinmima);
+			ps.setString(7, longUUID);
+			int n=ps.executeUpdate();
+			if (n==1) {
+				flag=true;
+			}
+			DBhelper_mysql.closeConnection(null, ps, conn);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return flag;
+	}
+
+	@Override
+	public String findNc(String longUUID) {
+		String  nicname=null;
+		try {
+			Connection conn=DBhelper_mysql.getConnection();
+			String sql="select NICNAME from TB_User where UUID=?";
+			PreparedStatement ps=conn.prepareStatement(sql);
+			ps.setString(1, longUUID);
+			ResultSet rs=ps.executeQuery();
+			while (rs.next()) {
+				nicname=rs.getString("NICNAME");
+			}		
+			DBhelper_mysql.closeConnection(rs, ps, conn);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}	
+		return nicname;
+	}
+	public static void main(String[] args) {
+//		Userdaoimpl userdaoimpl=new 
+	}
 
 }

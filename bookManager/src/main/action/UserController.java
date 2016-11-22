@@ -3,17 +3,20 @@ package main.action;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import main.biz.impl.BookBizImpl;
 import main.biz.impl.ManagerBizImpl;
 import main.biz.impl.UserBizImpl;
 import main.entity.User;
+import main.javaBean.Bookrecord;
 import main.tool.Tools;
 import main.tool.json.BookJsonList;
 import main.tool.json.userJieShu;
@@ -28,30 +31,35 @@ public class UserController extends HttpServlet {
 	String longUUID;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String path = Tools.cut(request.getRequestURI());
-		if ("/top".equals(path)) {
+		if ("/top".equals(path)) {	
 			request.getRequestDispatcher("../jsp/user/top.jsp").forward(request, response);
 		}else if ("/left".equals(path)) {
 			request.getRequestDispatcher("../jsp/user/left.jsp").forward(request, response);
 		}else if ("/index".equals(path)) {
-			request.getRequestDispatcher("../jsp/user/#图书列表").forward(request, response);
+			request.getRequestDispatcher("../book/bookmanager.do").forward(request, response);
 		}else if ("/userGeRen".equals(path)) {
 			User user=userbizimpl.find(longUUID);
 			String Nicname=user.getNICNAME();
 			String Action1=user.getATION1();
 			String Action2=user.getATION2();
 			String Action3=user.getATION3();
-			request.setAttribute("Ncname", Nicname);
-			request.setAttribute("Ation1", Action1);
-			request.setAttribute("Ation2", Action2);
-			request.setAttribute("Ation3", Action3);
+			int Sex=user.getSEX();
+			request.setAttribute("Nicname", Nicname);
+			request.setAttribute("Action1", Action1);
+			request.setAttribute("Action2", Action2);
+			request.setAttribute("Action3", Action3);
+			request.setAttribute("Sex", Sex);
 			request.getRequestDispatcher("../jsp/user/userGeRen.jsp").forward(request, response);
 		}else if ("/userShouCang".equals(path)) {
+			System.out.println("222");
 			request.getRequestDispatcher("../jsp/user/userShouCang.jsp").forward(request, response);
 		}else if ("/userJieShu".equals(path)) {
+			System.out.println("333");
+			request.getRequestDispatcher("../jsp/user/userJieShu.jsp ").forward(request, response);		
+		}else if ("/userJieShu2".equals(path)) {
 			response.setCharacterEncoding("utf-8");
 			response.setContentType("text/plain");
-			response.getWriter().append(userJieShu.getBookRecordPage(userbizimpl.bookrecordList()));
-			request.getRequestDispatcher("../jsp/user/userJieShu.jsp ").forward(request, response);
+			response.getWriter().append(userJieShu.getBookRecordPage(userbizimpl.bookrecordList(longUUID)));
 		}else{
 			request.getRequestDispatcher("../404.jsp").forward(request, response);
 		}
@@ -95,7 +103,9 @@ public class UserController extends HttpServlet {
 					User user1=userbizimpl.check(user, MD5pwd);
 					if (user1.getUUID()!=null) {
 						longUUID=user1.getUUID();
-						response.sendRedirect("../jsp/user/main.jsp");
+						HttpSession session=request.getSession();
+						session.setAttribute("User", user);
+						request.getRequestDispatcher("../jsp/user/main.jsp").forward(request, response);	
 					}else{
 						String message="账号或者密码错误，请重新输入";
 						request.setAttribute("loginmessage", message);
@@ -152,33 +162,41 @@ public class UserController extends HttpServlet {
 			}
 		}else if ("/userGeRen2".equals(path)) {
 			String Nicname=request.getParameter("nicheng");
+			String Ation123=request.getParameter("province");
 			String Ation1=request.getParameter("sheng");
-			System.out.println(Ation1);
 			String Ation2=request.getParameter("shi");
-			System.out.println(Ation2);
 			String Ation3=request.getParameter("xian");
-			System.out.println(Ation3);
-			String Sex=request.getParameter("sex");
+			int Sex=Integer.parseInt(request.getParameter("sex"));
 			String yuanmima=request.getParameter("yuanmima");
 			String xinmima=request.getParameter("xinmima");
-			if (userbizimpl.findNicname(Nicname)) {
-				if (yuanmima!=""||xinmima!="") {
+			if (!Nicname.equals(userbizimpl.findNicname(longUUID))) {
+				if (!userbizimpl.findNicname(Nicname)) {
+					if (yuanmima.equals("")||xinmima.equals("")) {
+							userbizimpl.addndx(longUUID,Nicname, Ation1, Ation2, Ation3, Sex);
+							request.getRequestDispatcher("../jsp/user/userGeRen.do").forward(request, response);
+						}else {
+							userbizimpl.addndx(longUUID,Nicname, Ation1, Ation2, Ation3, Sex,xinmima);
+							
+					} 
+				}else {
+					String message="昵称以存在，请重新输入";
+					request.setAttribute("errmessage", message);
+					request.getRequestDispatcher("../jsp/user/userGeRen.do").forward(request, response);
+				}		
+			}else {
+				if (yuanmima==null||xinmima==null) {
 					//只修改昵称、地区、性别
+						userbizimpl.addndx(longUUID,Nicname, Ation1, Ation2, Ation3, Sex);
 						request.getRequestDispatcher("../jsp/user/userGeRen.do").forward(request, response);
 					}else {
-					//修改昵称、地区、性别、密码
+						userbizimpl.addndx(longUUID,Nicname, Ation1, Ation2, Ation3, Sex,xinmima);
 						request.getRequestDispatcher("../jsp/user/userGeRen.do").forward(request, response);					
 				} 
-			}else {
-				String message="昵称以存在，请重新输入";
-				request.setAttribute("errmessage", message);
-				request.getRequestDispatcher("../jsp/user/userGeRen.do").forward(request, response);
-			}			
+			}	
 		}else if ("/userShouCang2".equals(path)) {
 			request.getRequestDispatcher("../jsp/user/userShouCang.do").forward(request, response);
-		}else if ("/userJieShu2".equals(path)) {
-			request.getRequestDispatcher("../jsp/user/userJieShu.do ").forward(request, response);
-		}	else {
+		}	
+		else {
 			request.getRequestDispatcher("../404.jsp").forward(request, response);
 		}
 	}

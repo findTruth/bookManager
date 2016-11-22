@@ -71,7 +71,7 @@
         $("#yzm").click(function(){
             $.ajax({
                 type:'GET',
-                url: '<%=basePath%>tool/VerifyImage.do',
+                url: '<%=basePath%>tool/VerifyImage.do'+'?d='+new Date().getTime(),
                 success:function(data){
                     $("#yzm").attr("src","<%=basePath%>tool/VerifyImage.do");
                 }
