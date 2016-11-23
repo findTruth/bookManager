@@ -23,3 +23,13 @@
 说明：打印书籍列表
 参数：无
 发送方式：get
+
+接口uri:/bookManager/user/AddUser.do
+说明：增加用户，跳转到用户注册界面
+参数：无
+发送方式：get
+
+接口uri:/bookManager/user/UserList.do
+说明：用户全表查询
+参数：无
+发送方式：get
