@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.JsonObject;
+
 import main.biz.impl.ManagerBizImpl;
 import main.tool.Tools;
 
@@ -20,7 +22,7 @@ import main.tool.Tools;
 @WebServlet("/manager/*")
 public class ManagerController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String path = Tools.cut(request.getRequestURI());
 		
@@ -53,6 +55,8 @@ public class ManagerController extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String path = Tools.cut(request.getRequestURI());
+		response.setCharacterEncoding("utf-8");
+		PrintWriter out = response.getWriter();
 		if ("/main".equals(path)) {
 //			request.setAttribute("page", "manager");
 			ManagerBizImpl mbi = new ManagerBizImpl();
@@ -64,6 +68,32 @@ public class ManagerController extends HttpServlet {
 			}
 //			response.sendRedirect("../jsp/manager/main.jsp");
 			request.getRequestDispatcher("../jsp/manager/main.jsp").forward(request, response);
+		}else if("/changeEmpQuan".equals(path)){
+			String euid = request.getParameter("EUID");
+			String quan = request.getParameter("QUAN");
+			JsonObject json = new JsonObject();
+			if (new ManagerBizImpl().changeEmpQuan(euid, Integer.valueOf(quan))) {
+				json.addProperty("result", "0");
+				json.addProperty("msg", "权限已经更改");
+			}else{
+				json.addProperty("result", "-1");
+				json.addProperty("msg", "权限更改失败");
+			}
+			out.println(json.toString());
+			out.close();
+		}else if("/changeEmpStatus".equals(path)){
+			String euid = request.getParameter("EUID");
+			String status = request.getParameter("STATUS");
+			JsonObject json = new JsonObject();
+			if (new ManagerBizImpl().changeEmpStatus(euid, Integer.valueOf(status))) {
+				json.addProperty("result", "0");
+				json.addProperty("msg", "状态已经更改");
+			}else{
+				json.addProperty("result", "-1");
+				json.addProperty("msg", "状态更改失败");
+			}
+			out.println(json.toString());
+			out.close();
 		}else {
 			request.getRequestDispatcher("../404.jsp").forward(request, response);
 		}

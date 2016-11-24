@@ -1,6 +1,7 @@
 package main.dao;
 
 import java.sql.Date;
+import java.sql.SQLException;
 import java.util.List;
 
 import main.entity.Emp;
@@ -18,7 +19,7 @@ public interface EmployeeDao {
 	public boolean updateEmpQQ(String id,String QQ);
 	public boolean updateEmpId(String id,String Id);
 	public boolean updateEmpAge(String id,String Age);
-	public boolean updateEmpLastLogin(String id,Date LastLogin);
+	public boolean updateEmpLastLogin(String id);
 	public boolean updateEmpQuan(String id,int Quan);
 	public boolean updateEmpStatus(String id,int Status);
 }
