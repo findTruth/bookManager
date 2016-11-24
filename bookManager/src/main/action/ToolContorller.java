@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
+
 import main.biz.impl.EmployeeBizImpl;
 import main.biz.impl.ManagerBizImpl;
 import main.entity.Emp;
@@ -82,8 +84,10 @@ public class ToolContorller extends HttpServlet {
 						out.print(json.getJSON());
 						out.close();
 					}else if(Tools.MD5(request.getParameter("Pwd")).equals(emp.getPASSWORD())){
-						System.out.println("eok");
-						out.append("eok");
+						JsonObject json = new JsonObject();
+						json.put("result", "2");
+						json.put("msg", "登陆成功");
+						out.print(json.getJSON());
 						out.close();
 					}else{
 						System.out.println("m!ok e!ok");
@@ -106,7 +110,10 @@ public class ToolContorller extends HttpServlet {
 					}
 				}else if (emp!=null) {
 					if(Tools.MD5(request.getParameter("Pwd")).equals(emp.getPASSWORD())){
-						out.append("2eok");
+						JsonObject json = new JsonObject();
+						json.put("result", "2");
+						json.put("msg", "登陆成功");
+						out.print(json.getJSON());
 						out.close();
 					}else{
 						JsonObject json = new JsonObject();
