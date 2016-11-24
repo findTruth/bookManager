@@ -18,8 +18,29 @@ public class UserDaoImpl implements UserDao{
 
 	@Override
 	public List<User> userList() {
-		// TODO Auto-generated method stub
-		return null;
+		List<User> list=new ArrayList<User>();
+		try {
+			Connection conn=DBhelper_mysql.getConnection();
+			String sql="select UUID,UPHONE,EMAIL,NICNAME,STATUS,ATION1,ATION2,ATION3 from TB_User";
+			PreparedStatement	ps=conn.prepareStatement(sql);
+			ResultSet	rs=ps.executeQuery();
+			while (rs.next()) {
+				User user=new User();
+				user.setUUID(rs.getString("UUID"));
+				user.setPHONE(rs.getString("UPHONE"));
+				user.setEMAIL(rs.getString("EMAIL"));
+				user.setNICNAME(rs.getString("NICNAME"));
+				user.setATION1(rs.getString("ATION1"));
+				user.setATION2(rs.getString("ATION2"));
+				user.setATION3(rs.getString("ATION3"));
+				user.setSTATUS(rs.getInt("STATUS"));
+				list.add(user);
+			}
+			DBhelper_mysql.closeConnection(rs, ps, conn);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
 	}
 
 	@Override
@@ -225,7 +246,7 @@ public class UserDaoImpl implements UserDao{
 		User users=new User();
 		try {
 			Connection conn=DBhelper_mysql.getConnection();
-			String sql="select NICNAME,SEX,ATION1,ATION2,ATION3 from TB_User where UUID=?";
+			String sql="select NICNAME,SEX,ATION1,ATION2,ATION3,PASSWORD from TB_User where UUID=?";
 			PreparedStatement ps=conn.prepareStatement(sql);
 			ps.setString(1, UUID);
 			ResultSet rs=ps.executeQuery();
@@ -234,6 +255,7 @@ public class UserDaoImpl implements UserDao{
 				users.setATION1(rs.getString("ATION1"));
 				users.setATION2(rs.getString("ATION2"));
 				users.setATION3(rs.getString("ATION3"));
+				users.setPASSWORD(rs.getString("PASSWORD"));
 				users.setSEX(rs.getInt("SEX"));
 			}		
 			DBhelper_mysql.closeConnection(rs, ps, conn);
@@ -244,14 +266,15 @@ public class UserDaoImpl implements UserDao{
 	}
 
 	@Override
-	public boolean findNcname(String Nicname) {
+	public boolean findNicname(String Nicname,String longUUID) {
 		boolean flag=true;
 		User users=new User();
 		try {
 			Connection conn=DBhelper_mysql.getConnection();
-			String sql="select UUID from TB_User where NICNAME=?";
+			String sql="select UUID from TB_User where NICNAME=? and UUID!=?";
 			PreparedStatement ps=conn.prepareStatement(sql);
 			ps.setString(1, Nicname);
+			ps.setString(2, longUUID);
 			ResultSet rs=ps.executeQuery();
 			while (rs.next()) {
 				users.setUUID(rs.getString("UUID"));
@@ -271,11 +294,18 @@ public class UserDaoImpl implements UserDao{
 		List<Bookrecord> list = new ArrayList<>();
 		try {
 			Connection conn = DBhelper_mysql.getConnection();
-			String sql = "select B.NAME as NAME,T.STARTTIME as STARTTIME,T.OVERTIME as OVERTIME,T.STATUS as STATUS from TB_BookRecord T,TB_Book B,TB_User U where (B.BUID=T.BUID AND T.UUID=U.UUID) ";
+			String sql = "select"
+					+ " B.NAME as NAME,"
+					+ "T.STARTTIME as STARTTIME,"
+					+ "T.OVERTIME as OVERTIME,"
+					+ "T.STATUS as STATUS "
+					+ "from TB_BookRecord T,TB_Book B "
+					+ "where B.BUID=T.BUID AND T.UUID=?";
 			PreparedStatement ps = conn.prepareStatement(sql);
-//			ps.setString(1, longUUID);
-			ResultSet rs = ps.executeQuery(sql);
+			ps.setString(1, longUUID);
+			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
+				System.out.println(rs.getString("NAME"));
 				Bookrecord bookrecord = new Bookrecord();
 				bookrecord.setBname(rs.getString("NAME"));	
 				bookrecord.setSTARTTIME(rs.getDate("STARTTIME"));
@@ -340,26 +370,5 @@ public class UserDaoImpl implements UserDao{
 		return flag;
 	}
 
-	@Override
-	public String findNc(String longUUID) {
-		String  nicname=null;
-		try {
-			Connection conn=DBhelper_mysql.getConnection();
-			String sql="select NICNAME from TB_User where UUID=?";
-			PreparedStatement ps=conn.prepareStatement(sql);
-			ps.setString(1, longUUID);
-			ResultSet rs=ps.executeQuery();
-			while (rs.next()) {
-				nicname=rs.getString("NICNAME");
-			}		
-			DBhelper_mysql.closeConnection(rs, ps, conn);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}	
-		return nicname;
-	}
-	public static void main(String[] args) {
-//		Userdaoimpl userdaoimpl=new 
-	}
 
 }

@@ -27,10 +27,10 @@ public interface UserDao {
 	public boolean update(String UUID,String pwd);//根据UUID，修改密码
 	//个人中心页面
 	public User find(String UUID);//根据UUID查找个人中心相关数据
-	public boolean findNcname(String Nicname);//查找昵称是否存在
-	public String findNc(String longUUID);//查找昵称
+	public boolean findNicname(String Nicname,String longUUID);//查找昵称是否存在
 	public boolean addndx(String longUUID,String  Nicname,String Action1,String Action2,String Action3,int Sex);
 	public boolean addndx(String longUUID,String  Nicname,String Action1,String Action2,String Action3,int Sex,String xinmima);
 	//用户借书记录
 	public List<Bookrecord> list(String longUUID);
+	
 }

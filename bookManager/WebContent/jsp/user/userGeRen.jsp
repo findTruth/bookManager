@@ -7,6 +7,8 @@
 	String Ation2=(String)request.getAttribute("Ation2");
 	String Ation3=(String)request.getAttribute("Ation3");
 	int Sex=(int)request.getAttribute("Sex");
+	String errormessage=(String)request.getAttribute("errmessage");
+	String errorPwd=(String)request.getAttribute("errorPwd");
 	String path = request.getContextPath();
 	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
@@ -16,7 +18,7 @@
 <title>个人中心</title>
 <link href="<%=basePath %>moban/css/style.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="<%=basePath %>moban/js/jquery.js"></script>
-
+<script language='javascript' src="<%=basePath %>js/userreg.js"></script>
 <script language="javascript">
 	$(function(){
     $('.neirong').css({'position':'absolute','left':($(window).width()-490)/2,'top':80});
@@ -40,6 +42,15 @@
 		if ($("#city").val()!="请选择省份") {
 			$("input[name='xian']").val($("#city").val());
 		}else {
+			 return false;
+		}
+		var pwd1=$("input[name='yuanmima']").val();
+		var pwd2=$("input[name='xinmima']").val();
+		if (pwd2==pwd1) {
+			
+		}else {
+			showTooltips('Pwdck',"两次密码输入不一样",2000);		
+			$("#Pwdck").css("color","red");
 			 return false;
 		}
 		$("#Form").submit();
@@ -242,7 +253,7 @@
 	}
 </script> 
 <style type="text/css">
-input[type="submit"]{background:url("../img/rs/buttom.png") no-repeat;font-size:15px;font-weight:600;color:#FFFFFF;border:0;font-family:"Microsoft YaHei","SimHei","SimSun";text-shadow:0 -1px 0 #535353;margin:5px 5px 0 0;padding:0 0 3px 0;display:block;width:106px;height:35px;text-align:center;font-weight:bold;line-height:33px;text-indent:20px;}
+input[type="button"]{background:url("../img/rs/buttom.png") no-repeat;font-size:15px;font-weight:600;color:#FFFFFF;border:0;font-family:"Microsoft YaHei","SimHei","SimSun";text-shadow:0 -1px 0 #535353;margin:5px 5px 0 0;padding:0 0 3px 0;display:block;width:106px;height:35px;text-align:center;font-weight:bold;line-height:33px;text-indent:20px;}
 	#da{
 		font-size: 20px;
 	}
@@ -279,7 +290,24 @@ input[type="submit"]{background:url("../img/rs/buttom.png") no-repeat;font-size:
 		}else if(sex==2){
 			$("input=[name='sex']").eq(1).attr("checked",true);
 		}
+		
 	});
+</script>
+<script type="text/javascript">
+function checkoldPwd() {
+	 $.ajax({
+         type:'POST',
+         dataType: 'json',
+         url:'<%=basePath%>user/PanduanGeRen.do?oldPwd='+$("input[name=yuanmima]").val(),
+         success:function(data,textStatus){
+             var objs = eval(data);
+             if (objs.Pwdmsg=='原密码错误') {
+             	showTooltips('Yuanmima',objs.Pwdmsg,4000);
+             	$("#Yuanmima").css("color","red");
+			}
+         }
+     });
+}
 </script>
 </head>
 
@@ -288,13 +316,13 @@ input[type="submit"]{background:url("../img/rs/buttom.png") no-repeat;font-size:
 <div class="place">
     <span>位置：</span>
     <ul class="placeul">
-    <li><a href="main.jsp">首页</a></li>
+    <li><a href="../user/index.do">首页</a></li>
     <li><a href="#">个人中心</a></li>
     </ul>
     </div></br>
   <form id="Form" action="<%=basePath %>/user/userGeRen2.do" method="post">
  <div class='neirong'>
- 	<div id='da'>昵    称：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="nicheng" class='text' value="<%=Nicname%>"></div></br>
+ 	<div id='da'><label id='da'>昵    称：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><input type="text" name="nicheng" class='text' value="<%=Nicname%>"><span id="Nicname"><%=errormessage==null?"":errormessage%></span></div></br>
  	<div id='da'>地  区：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <select  id="country" name="country" onchange="turn()" style='width:100px;height: 30px;'>
 <option value="请选择省份" selected="selected">请选择省份</option>
@@ -343,8 +371,8 @@ input[type="submit"]{background:url("../img/rs/buttom.png") no-repeat;font-size:
 			<input class="td choose" type="radio"  name="sex" value="0"  checked="checked">
 			<label class="td label"  id='da'>保密</label>
  	</div></br>
- 	<div id='da'>原始密码：&nbsp;<input type="password" name="yuanmima" class='text'></div></br>
- 	<div id='da'>新密码：&nbsp;&nbsp;&nbsp;&nbsp;<input type="password" name="xinmima" class='text'></div></br>
+ 	<div id='da'><label id='da'>原始密码：&nbsp;</label><input type="password" name="yuanmima" class='text' onblur="checkoldPwd()"><span id="Yuanmima" style="position:absolute; left: 450px;width:300px"></span></div></br>
+ 	<div id='da'><label id='da'>新密码：</label>&nbsp;&nbsp;&nbsp;&nbsp;<input type="password" name="xinmima" class='text' ></input><span id='Pwdck' style="position:absolute; left: 370px;width:500px"></span></div></br>
    	<div><center><input type="button" value="确认修改" onclick="sub()"></center></div>
  	</div>
    </form>

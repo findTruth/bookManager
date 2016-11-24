@@ -23,10 +23,11 @@ public interface UserBiz {
 	public boolean update(String UUID,String pwd);
 	//个人中心页面数据
 	public User find(String UUID);
-	public boolean findNicname(String Nicname);
-	public String findNc(String longUUID);//查找昵称
+	public boolean findNicname(String Nicname,String longUUID);
 	public boolean addndx(String longUUID,String  Nicname,String Action1,String Action2,String Action3,int Sex);
 	public boolean addndx(String longUUID,String  Nicname,String Action1,String Action2,String Action3,int Sex,String xinmima);
 	//借书记录
 	public List<Bookrecord> bookrecordList(String longUUID);
+	//全表查询
+	public List<User> userList();
 }
