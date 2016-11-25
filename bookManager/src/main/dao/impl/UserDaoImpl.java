@@ -73,8 +73,23 @@ public class UserDaoImpl implements UserDao{
 
 	@Override
 	public boolean del(User user) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean flag=false;
+		String UUID=user.getUUID();
+		try {
+			Connection conn=DBhelper_mysql.getConnection();
+			String sql="delete from TB_User where UUID=?";
+			PreparedStatement ps=conn.prepareStatement(sql);
+			ps.setString(1, UUID);
+			int n=ps.executeUpdate();
+			if (n==1) {
+				flag=true;
+			}
+			DBhelper_mysql.closeConnection(null, ps, conn);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return flag;
 	}
 
 	@Override
@@ -107,41 +122,29 @@ public class UserDaoImpl implements UserDao{
 		return flag;
 	}
 
-	@Override
-	public boolean updateUserNicname(String id, String Nicname) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	
 
 	@Override
-	public boolean updateUserPassword(String id, String Password) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean updateUserStatus(String UUID, int Status) {
+		boolean flag=false;
+		try {
+			Connection conn=DBhelper_mysql.getConnection();
+			String sql="update TB_User set STATUS=? where UUID=?";
+			PreparedStatement ps=conn.prepareStatement(sql);
+			ps.setInt(1, Status);
+			ps.setString(2, UUID);
+			int n=ps.executeUpdate();
+			 if (n==1) {
+				flag=true;
+			}
+			 DBhelper_mysql.closeConnection(null, ps, conn);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return flag;
 	}
 
-	@Override
-	public boolean updateUserPhone(String id, String Phone) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean updateUserQQ(String id, String QQ) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean updateUserStatus(String id, int Status) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public User findById(String UUID) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public String checkphone(String phone) {
@@ -394,6 +397,9 @@ public class UserDaoImpl implements UserDao{
 		}
 		return flag;
 	}
-
+//	public static void main(String[] args) {
+//		UserDaoImpl userdapimpl=new UserDaoImpl();
+//		System.out.println(userdapimpl.updateUserStatus("610a4b8997964d4084ef15157951f093", 0));
+//	}
 
 }
