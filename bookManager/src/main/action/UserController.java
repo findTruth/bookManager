@@ -122,7 +122,7 @@ public class UserController extends HttpServlet {
 			 String d=request.getParameter("D1");
 			 String phone =request.getParameter("phone");
 			 String email =request.getParameter("email");
-			 String niceng =request.getParameter("niceng");
+			 String niceng =request.getParameter("NICNAME");
 			 String question =request.getParameter("question1");
 			 String answer =request.getParameter("answer");
 			 String pwd=request.getParameter("password2");
