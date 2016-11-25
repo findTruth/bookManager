@@ -59,10 +59,12 @@
                 dataType: 'json',
                 url:'<%=basePath%>tool/adminLogin.do?Name='+$("input[name=Name]").val()+'&Pwd='+$("input[name=Pwd]").val()+'&Yzm='+$("input[name=Yzm]").val()+"&d="+new Date().getTime(),
                 success:function(data,textStatus){
-                    var objs = eval(data);
-                    $("#resultTop").html(objs.msg);
-                    if (objs.result==0) {
-                        window.location.href="<%=basePath%>manager/main.do"
+                    $("#resultTop").html(data.msg);
+                    if (data.result==0) {
+                        window.location.href="<%=basePath%>manager/main.do";
+                    }else if(data.result==2){
+                    	//员工跳转
+                    	window.location.href="<%=basePath%>manager/main.do";
                     }
                 }
             });

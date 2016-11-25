@@ -4,9 +4,13 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 import main.dao.EmployeeDao;
+import main.entity.Book;
 import main.entity.Emp;
 import main.entity.Manager;
 import main.util.DBhelper_mysql;
@@ -15,14 +19,45 @@ public class EmployeeDaoImpl implements EmployeeDao {
 
 	@Override
 	public List<Emp> listEmp() {
-		// TODO Auto-generated method stub
-		return null;
+		Connection conn = DBhelper_mysql.getConnection();
+		List<Emp> list = new ArrayList<>();
+		String sql = "select EUID,UNAME,NAME,PASSWORD,PHONE,QQ,ID,AGE,LASTLOGIN,QUAN,STATUS from TB_Emp";
+		try {
+			Statement ps = conn.createStatement();
+			ResultSet rs = ps.executeQuery(sql);
+			Emp emp = null;
+			while (rs.next()) {
+				emp = new Emp(rs.getString("EUID"), rs.getString("UNAME"), rs.getString("NAME"),
+						rs.getString("PASSWORD"), rs.getString("PHONE"), rs.getString("QQ"), rs.getString("ID"),
+						rs.getInt("AGE"), rs.getTimestamp("LASTLOGIN"), rs.getInt("QUAN"), rs.getInt("STATUS"));
+				list.add(emp);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
 	}
 
 	@Override
 	public Emp findById(String id) {
-		// TODO Auto-generated method stub
-		return null;
+		String sql = "select EUID,UNAME,NAME,PASSWORD,PHONE,QQ,ID,AGE,LASTLOGIN,QUAN,STATUS from tb_emp where EUID = ?";
+		Connection conn = DBhelper_mysql.getConnection();
+		Emp emp = null;
+		try {
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, id);
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				emp = new Emp(rs.getString("EUID"), rs.getString("UNAME"), rs.getString("NAME"),
+						rs.getString("PASSWORD"), rs.getString("PHONE"), rs.getString("QQ"),
+						rs.getString("ID"), rs.getInt("AGE"), rs.getDate("LASTLOGIN"), 
+						rs.getInt("QUAN"), rs.getInt("STATUS"));
+			}
+			DBhelper_mysql.closeConnection(rs, ps, conn);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return emp;
 	}
 
 	@Override
@@ -38,7 +73,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 				emp = new Emp(rs.getString("EUID"), rs.getString("UNAME"), rs.getString("NAME"),
 						rs.getString("PASSWORD"), rs.getString("PHONE"), rs.getString("QQ"),
 						rs.getString("ID"), rs.getInt("AGE"), rs.getDate("LASTLOGIN"), 
-						rs.getInt("AGE"), rs.getInt("AGE"));
+						rs.getInt("QUAN"), rs.getInt("STATUS"));
 			}
 			DBhelper_mysql.closeConnection(rs, ps, conn);
 		} catch (Exception e) {
@@ -90,20 +125,61 @@ public class EmployeeDaoImpl implements EmployeeDao {
 
 	@Override
 	public boolean updateEmpAge(String id, String Age) {
-		// TODO Auto-generated method stub
-		return false;
+		String sql = "update TB_Emp set AGE = ? where EUID=?";
+		try {
+			Connection conn = DBhelper_mysql.getConnection();
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, Age);
+			ps.setString(2, id);
+			int n = ps.executeUpdate();
+			DBhelper_mysql.closeConnection(null, ps, conn);
+			if (n==0) {
+				return false;
+			}else{
+				return true;
+			}
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 	@Override
-	public boolean updateEmpLastLogin(String id, Date LastLogin) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean updateEmpLastLogin(String id) {
+		String sql = "update TB_Emp set LASTLOGIN = now() where EUID=?";
+		try {
+			Connection conn = DBhelper_mysql.getConnection();
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, id);
+			int n = ps.executeUpdate();
+			DBhelper_mysql.closeConnection(null, ps, conn);
+			if (n==0) {
+				return false;
+			}else{
+				return true;
+			}
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 	@Override
 	public boolean updateEmpQuan(String id, int Quan) {
-		// TODO Auto-generated method stub
-		return false;
+		String sql = "update TB_Emp set QUAN = ? where EUID=?";
+		try {
+			Connection conn = DBhelper_mysql.getConnection();
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setInt(1, Quan);
+			ps.setString(2, id);
+			int n = ps.executeUpdate();
+			DBhelper_mysql.closeConnection(null, ps, conn);
+			if (n==0) {
+				return false;
+			}else{
+				return true;
+			}
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 	@Override
