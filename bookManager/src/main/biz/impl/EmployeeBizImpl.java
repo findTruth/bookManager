@@ -15,8 +15,7 @@ public class EmployeeBizImpl implements EmployeeBiz {
 
 	@Override
 	public Emp findById(String id) {
-		// TODO Auto-generated method stub
-		return null;
+		return edi.findById(id);
 	}
 
 	@Override

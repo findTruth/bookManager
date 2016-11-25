@@ -79,6 +79,7 @@ public class ManagerController extends HttpServlet {
 				json.addProperty("result", "-1");
 				json.addProperty("msg", "权限更改失败");
 			}
+			System.out.println(json.toString());
 			out.println(json.toString());
 			out.close();
 		}else if("/changeEmpStatus".equals(path)){
