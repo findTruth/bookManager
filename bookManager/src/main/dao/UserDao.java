@@ -3,7 +3,10 @@ package main.dao;
 import java.util.List;
 
 import main.entity.Book;
+import main.entity.BookKeep;
+import main.entity.BookRecord;
 import main.entity.User;
+import main.javaBean.Bookkeep;
 import main.javaBean.Bookrecord;
 
 public interface UserDao {
@@ -26,7 +29,13 @@ public interface UserDao {
 	public boolean addndx(String longUUID,String  Nicname,String Action1,String Action2,String Action3,int Sex);
 	public boolean addndx(String longUUID,String  Nicname,String Action1,String Action2,String Action3,int Sex,String xinmima);
 	//用户借书记录
-	public List<Bookrecord> list(String longUUID);
+	public List<Bookrecord> listbookrecord(String longUUID);//全表查询
+	public boolean addborrowbook(BookRecord bookrecord);//增加借书记录
+
+	//用户收藏记录
+	public List<Bookkeep> listbookkeep(String longUUID);//全表查询
+	public boolean addbookkeep(BookKeep bookkeep);//增加借书记录
+	public boolean deletebookkeep(String KUID,String longUUID);//删除收藏记录
 	//登入界面
 	public boolean FindUser(String user);
 	

@@ -79,7 +79,7 @@ public class UserBizImpl implements UserBiz{
 	@Override
 	public List<Bookrecord> bookrecordList(String longUUID) {
 		List<Bookrecord> list = new ArrayList<>();
-		list=userdaoimpl.list(longUUID);
+		list=userdaoimpl.listbookrecord(longUUID);
 		return list;
 	}
 

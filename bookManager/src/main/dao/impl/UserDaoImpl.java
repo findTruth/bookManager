@@ -1,15 +1,20 @@
 package main.dao.impl;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.tomcat.dbcp.pool2.BaseObject;
 
 import main.dao.UserDao;
+import main.entity.BookKeep;
+import main.entity.BookRecord;
 import main.entity.User;
+import main.javaBean.Bookkeep;
 import main.javaBean.Bookrecord;
 import main.tool.Tools;
 import main.util.DBhelper_mysql;
@@ -65,7 +70,6 @@ public class UserDaoImpl implements UserDao{
 			}		
 			DBhelper_mysql.closeConnection(rs, ps, conn);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return users;
@@ -86,7 +90,6 @@ public class UserDaoImpl implements UserDao{
 			}
 			DBhelper_mysql.closeConnection(null, ps, conn);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return flag;
@@ -116,7 +119,6 @@ public class UserDaoImpl implements UserDao{
 			}
 			DBhelper_mysql.closeConnection(null, ps, conn);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return flag;
@@ -139,7 +141,6 @@ public class UserDaoImpl implements UserDao{
 			}
 			 DBhelper_mysql.closeConnection(null, ps, conn);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return flag;
@@ -293,7 +294,7 @@ public class UserDaoImpl implements UserDao{
 	}
 
 	@Override
-	public List<Bookrecord> list(String longUUID) {
+	public List<Bookrecord> listbookrecord(String longUUID) {
 		List<Bookrecord> list = new ArrayList<>();
 		try {
 			Connection conn = DBhelper_mysql.getConnection();
@@ -308,7 +309,6 @@ public class UserDaoImpl implements UserDao{
 			ps.setString(1, longUUID);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				System.out.println(rs.getString("NAME"));
 				Bookrecord bookrecord = new Bookrecord();
 				bookrecord.setBname(rs.getString("NAME"));	
 				bookrecord.setSTARTTIME(rs.getDate("STARTTIME"));
@@ -392,7 +392,6 @@ public class UserDaoImpl implements UserDao{
 			}
 			DBhelper_mysql.closeConnection(rs, ps, conn);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return flag;
@@ -401,5 +400,103 @@ public class UserDaoImpl implements UserDao{
 //		UserDaoImpl userdapimpl=new UserDaoImpl();
 //		System.out.println(userdapimpl.updateUserStatus("610a4b8997964d4084ef15157951f093", 0));
 //	}
+
+	@Override
+	public boolean addborrowbook(BookRecord bookrecord) {
+		boolean flag=false;
+		try {
+			Connection conn=DBhelper_mysql.getConnection();
+			String sql="insert into TB_Bookrecord(RUUID,BUID,UUID,STARTTIME,OVERTIME,STATUS) values(?,?,?,?,?,?)";
+			PreparedStatement ps=conn.prepareStatement(sql);
+			ps.setString(1, bookrecord.getRUID());
+			ps.setString(2, bookrecord.getBUID());
+			ps.setString(3, bookrecord.getUUID());
+			ps.setDate(4, (Date) bookrecord.getSTARTTIME());
+			ps.setDate(5, (Date)bookrecord.getOVERTIME());
+			ps.setInt(6, bookrecord.getSTATUS());
+			int n=ps.executeUpdate();
+			if (n==1) {
+				flag=true;
+			}
+			DBhelper_mysql.closeConnection(null, ps, conn);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return flag;
+	}
+
+	@Override
+	public List<Bookkeep> listbookkeep(String longUUID) {
+		List<Bookkeep> list = new ArrayList<>();
+		try {
+			Connection conn = DBhelper_mysql.getConnection();
+			String sql = "select"
+					+ "B.NAME as NAME,"
+					+ "B.PRESS as PRESS,"
+					+ "B.AUTHOR as AUTHOR,"
+					+ "B.VALUE as VALUE,"
+					+ "T.TIME as TIME,"
+					+ "from TB_Bookeep T,TB_Book B"
+					+ "where B.BUID=T.BUID AND T.UUID=?";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, longUUID);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				Bookkeep bookkeep = new Bookkeep();
+				bookkeep.setNAME(rs.getString("NAME"));
+				bookkeep.setPRESS(rs.getString("PRESS"));
+				bookkeep.setAUTHOR(rs.getString("AUTHOR"));
+				bookkeep.setVALUE(rs.getString("VALUE"));
+				bookkeep.setTIME(rs.getDate("TIME"));
+				list.add(bookkeep);
+			}
+			DBhelper_mysql.closeConnection(rs, ps, conn);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@Override
+	public boolean addbookkeep(BookKeep bookkeep) {
+		Boolean flag=false;
+		try {
+			Connection conn=DBhelper_mysql.getConnection();
+			String sql="insert into TB_BookKeep values(?,?,?,?);";
+			PreparedStatement ps=conn.prepareStatement(sql);
+			ps.setString(1, bookkeep.getKUID());
+			ps.setString(2, bookkeep.getBUID());
+			ps.setString(3, bookkeep.getUUID());
+			ps.setDate(4, (Date)bookkeep.getTIME());
+			int n=ps.executeUpdate();
+			if (n==1) {
+				flag=true;
+			}
+			DBhelper_mysql.closeConnection(null, ps, conn);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return flag;
+	}
+
+	@Override
+	public boolean deletebookkeep(String KUID,String longUUID) {
+		boolean flag=false;
+		try {
+			Connection conn=DBhelper_mysql.getConnection();
+			String sql="delete from TB_BookKeep where KUID=? AND UUID=?";
+			PreparedStatement	ps=conn.prepareStatement(sql);
+			ps.setString(1, KUID);
+			ps.setString(2, longUUID);
+			int n=ps.executeUpdate();
+			if (n==1) {
+				flag=true;
+			}
+			DBhelper_mysql.closeConnection(null, ps, conn);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return flag;
+	}
 
 }
