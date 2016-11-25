@@ -30,4 +30,6 @@ public interface UserBiz {
 	public List<Bookrecord> bookrecordList(String longUUID);
 	//全表查询
 	public List<User> userList();
+	//登入界面
+	public boolean FindUser(String user);
 }

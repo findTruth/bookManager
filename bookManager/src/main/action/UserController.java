@@ -211,6 +211,12 @@ public class UserController extends HttpServlet {
 				out.println("{\"Pwdmsg\":\"原密码错误\"}");
 				out.close();
 			}
+		}else if ("/CheckUser".equals(path)) {
+			String user=request.getParameter("user");
+			if (!userbizimpl.FindUser(user)) {
+				out.println("{\"Usermsg\":\"没有该账户，请注册一个新用户\"}");
+				out.close();
+			}
 		}else if ("/userShouCang2".equals(path)) {
 			request.getRequestDispatcher("../user/userShouCang.do").forward(request, response);
 		}	

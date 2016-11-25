@@ -45,6 +45,20 @@
 	window.onload = function(){
 		$("#drTop").css("color","red");
 	}
+	function CheckUser() {
+		 $.ajax({
+             type:'POST',
+             dataType: 'json',
+             url:'<%=basePath%>user/CheckUser.do?user='+$("input[name=user]").val(),
+             success:function(data,textStatus){
+                 var objs = eval(data);
+                 if (objs.Usermsg='没有该账户，请注册一个新用户') {
+                 showTooltips('nameTop',objs.Usermsg,4000);
+                 $("#nameTop").css("color","red");
+				}
+             }
+         });
+	}
 </script>
 </head>
 
@@ -75,8 +89,8 @@
     
     <ul>
     <form method="post" action="<%=basePath %>user/login.do" id="Form">
-    <li><input name="user" type="text" class="loginuser" value="" onclick="JavaScript:this.value=''" placeholder="请输入手机号或者邮箱" /> <div style="position: absolute; left: 270px;"><label id="nameTop"></label></div></li>
-    <li><input name="pwd" type="password" class="loginpwd" value="" onclick="JavaScript:this.value=''" placeholder="请输入您的密码"/><div style="position: absolute; left: 270px;"><label id="pwdTop"></label></div></li>
+    <li><input name="user" type="text" class="loginuser" value=""  placeholder="请输入手机号或者邮箱" onblur="CheckUser()"/> <div style="position: absolute; left: 270px;"><label id="nameTop"></label></div></li>
+    <li><input name="pwd" type="password" class="loginpwd" value=""  placeholder="请输入您的密码"/><div style="position: absolute; left: 270px;"><label id="pwdTop"></label></div></li>
     <li id="yzm">验证码：<input type="text" name="yzm" class="LoginYzm"><img src="${pageContext.request.contextPath }/tool/VerifyImage.do" onclick="this.src='<%=basePath %>tool/VerifyImage.do?rand="+"<%=Math.random()  %>"/><label><a href="<%=basePath %>jsp/user/login.jsp" font-size="20">看不清？</a></label></li>
     <li id="yzm">&nbsp;&nbsp;<div style="position: absolute; left: 270px ;" class="Top"><label id="drTop" class="drtop">${loginmessage}</label></div><input name="" type="button" class="loginbtn" value="登录"  onclick="sub()"  />&nbsp;&nbsp;<input name="" type="button" class="loginbtn" value="注册"  onclick="location.href='<%=basePath %>jsp/user/Regist.jsp'" /><label><a href="<%=basePath %>jsp/user/find.jsp" id="mima">忘记密码？</a></label></li>
     </form>

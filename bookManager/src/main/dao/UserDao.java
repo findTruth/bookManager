@@ -32,5 +32,7 @@ public interface UserDao {
 	public boolean addndx(String longUUID,String  Nicname,String Action1,String Action2,String Action3,int Sex,String xinmima);
 	//用户借书记录
 	public List<Bookrecord> list(String longUUID);
+	//登入界面
+	public boolean FindUser(String user);
 	
 }

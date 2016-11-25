@@ -102,5 +102,11 @@ public class UserBizImpl implements UserBiz{
 		return list;
 	}
 
+	@Override
+	public boolean FindUser(String user) {
+		boolean flag=userdaoimpl.FindUser(user);
+		return flag;
+	}
+
 	
 }
