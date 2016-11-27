@@ -23,4 +23,9 @@ public class EmployeeBizImpl implements EmployeeBiz {
 		return new EmployeeDaoImpl().listEmp();
 	}
 
+	@Override
+	public boolean changeAll(Emp emp) {
+		return edi.changeAll(emp);
+	}
+
 }

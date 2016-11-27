@@ -13,7 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.JsonObject;
 
+import main.biz.impl.EmployeeBizImpl;
 import main.biz.impl.ManagerBizImpl;
+import main.entity.Emp;
 import main.tool.Tools;
 
 /**
@@ -56,6 +58,7 @@ public class ManagerController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String path = Tools.cut(request.getRequestURI());
 		response.setCharacterEncoding("utf-8");
+		request.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
 		if ("/main".equals(path)) {
 //			request.setAttribute("page", "manager");
@@ -94,6 +97,21 @@ public class ManagerController extends HttpServlet {
 				json.addProperty("msg", "状态更改失败");
 			}
 			out.println(json.toString());
+			out.close();
+		}else if("/changeEmp".equals(path)){
+			Emp emp = new Emp(request.getParameter("EUID"), null, request.getParameter("NAME"),
+					null, request.getParameter("PHONE"), request.getParameter("QQ"), request.getParameter("ID"), 
+					Integer.valueOf(request.getParameter("AGE")), null, Integer.valueOf(request.getParameter("QUAN")), 0);
+			boolean flag = new EmployeeBizImpl().changeAll(emp);
+			JsonObject json = new JsonObject();
+			if (flag) {
+				json.addProperty("result", "0");
+				json.addProperty("msg", "修改成功");
+			}else{
+				json.addProperty("result", "-1");
+				json.addProperty("msg", "修改失败");
+			}
+			out.print(json.toString());
 			out.close();
 		}else {
 			request.getRequestDispatcher("../404.jsp").forward(request, response);

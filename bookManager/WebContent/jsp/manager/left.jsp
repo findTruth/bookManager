@@ -36,7 +36,7 @@ $(function(){
 </head>
 
 <body style="background:#f0f9fd;">
-	<div class="lefttop"><span></span>通讯录</div>
+	<div class="lefttop"><span></span>功能菜单</div>
     
     <dl class="leftmenu">
     <!-- 菜单生成 -->

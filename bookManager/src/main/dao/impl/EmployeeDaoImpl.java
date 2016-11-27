@@ -93,11 +93,6 @@ public class EmployeeDaoImpl implements EmployeeDao {
 		return false;
 	}
 
-	@Override
-	public boolean updateEmpName(String id, String name) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
 	@Override
 	public boolean updateEmpPassword(String id, String Password) {
@@ -105,23 +100,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 		return false;
 	}
 
-	@Override
-	public boolean updateEmpPhone(String id, String Phone) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
-	@Override
-	public boolean updateEmpQQ(String id, String QQ) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean updateEmpId(String id, String Id) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
 	@Override
 	public boolean updateEmpAge(String id, String Age) {
@@ -190,6 +169,31 @@ public class EmployeeDaoImpl implements EmployeeDao {
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setInt(1, Status);
 			ps.setString(2, id);
+			int n = ps.executeUpdate();
+			DBhelper_mysql.closeConnection(null, ps, conn);
+			if (n==0) {
+				return false;
+			}else{
+				return true;
+			}
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean changeAll(Emp emp) {
+		String sql = "update TB_Emp set NAME=?,PHONE=?,QQ=?,ID=?,AGE=?,QUAN = ? where EUID=?";
+		try {
+			Connection conn = DBhelper_mysql.getConnection();
+			PreparedStatement ps = conn.prepareStatement(sql);
+		    ps.setString(1, emp.getNAME());
+		    ps.setString(2, emp.getPHONE());
+		    ps.setString(3, emp.getQQ());
+		    ps.setString(4, emp.getID());
+		    ps.setInt(5, emp.getAGE());
+		    ps.setInt(6, emp.getQUAN());
+		    ps.setString(7, emp.getEUID());
 			int n = ps.executeUpdate();
 			DBhelper_mysql.closeConnection(null, ps, conn);
 			if (n==0) {

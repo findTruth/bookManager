@@ -61,6 +61,7 @@
                 success:function(data,textStatus){
                     $("#resultTop").html(data.msg);
                     if (data.result==0) {
+                        alert("管理员"+data.name+"欢迎回来！！！");
                         window.location.href="<%=basePath%>manager/main.do";
                     }else if(data.result==2){
                     	//员工跳转
@@ -73,7 +74,7 @@
         $("#yzm").click(function(){
             $.ajax({
                 type:'GET',
-                url: '<%=basePath%>tool/VerifyImage.do'+'?d='+new Date().getTime(),
+                url: '<%=basePath%>tool/VerifyImage.do',
                 success:function(data){
                     $("#yzm").attr("src","<%=basePath%>tool/VerifyImage.do");
                 }

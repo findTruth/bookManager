@@ -260,7 +260,7 @@
 			</div>
 
 			<div class="tipbtn" style="margin-top: 200px;">
-				<input name="" type="button" class="sure" value="确定" />&nbsp;
+				<input name="" type="button" class="sure" onclick="changeFunction()" value="确定" />&nbsp;
 				<input name="" type="button" class="cancel" value="取消" />
 			</div>
 
@@ -322,9 +322,10 @@
 							"</td>").append("<td class='col7'>" + dataRoot[j].ID +
 							"</td>").append("<td class='col8'>" + dataRoot[j].AGE +
 							"</td>").append("<td class='col9'>" + dataRoot[j].LASTLOGIN +
-							"</td>").append("<td class='col10'>" + dataRoot[j].QUAN +
+							"</td>").append("<td class='col10'>" +
+							"<a class='changeEmpQuanButton' name=" + dataRoot[j].QUANNUM + " id=" + dataRoot[j].EUID + " style='cursor:pointer;'>" + dataRoot[j].QUAN + "</a>" +
 							"</td>").append("<td class='col11'>" + dataRoot[j].STATUS +
-							"</td>").append("<td class='col12'>" + "12312" +
+							"</td>").append("<td class='col12'>" + "<a class='changeButton' style='cursor:pointer'; name="+dataRoot[j].EUID+">修改</a>" +
 							"</td>");
 				}
 			}
@@ -496,10 +497,31 @@
 		$("#changeqq").val(data.QQ);
 		$("#changeid").val(data.ID);
 		$("#changeage").val(data.AGE);
-		alert(data.QUAN);
 		$("#changequan").val(data.QUAN);
 		$("#change").fadeIn(200);
 	}
 	//大量修改
+	function changeFunction(){
+		var EUID = $("#changeuid").val();
+		var NAME = $("#changename").val();
+		var PHONE = $("#changephone").val();
+		var QQ = $("#changeqq").val();
+		var ID = $("#changeid").val();
+		var AGE = $("#changeage").val();
+		var QUAN = $("#changequan").val();
+		var jsondata = {"EUID":EUID,"NAME":NAME,"PHONE":PHONE,"QQ":QQ,"ID":ID,"AGE":AGE,"QUAN":QUAN};
+		$.ajax({
+			type: "POST",
+			url: "<%=basePath%>manager/changeEmp.do",
+			async: true,
+			dataType: 'json',
+			data:jsondata,
+			success: function(data) {
+				alert(data.msg);
+				flushPage();
+			}
+		});
+	}
 	//批量删除
+	function delAll(){}
 </script>

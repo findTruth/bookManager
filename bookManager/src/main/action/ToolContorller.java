@@ -54,7 +54,6 @@ public class ToolContorller extends HttpServlet {
 		response.setDateHeader("Expires", 0);
 		if ("/adminLogin".equals(path)) {
 			PrintWriter out = response.getWriter();
-			System.out.println("user:"+request.getParameter("Name")+"  pwd:"+request.getParameter("Pwd")+"  yzm:"+request.getParameter("Yzm")+"  seyzm:"+request.getSession().getAttribute("codeValue"));
 			if (!request.getParameter("Yzm").equals(request.getSession().getAttribute("codeValue"))) {
 				JsonObject json = new JsonObject();
 				json.addProperty("result", "1");
@@ -81,6 +80,7 @@ public class ToolContorller extends HttpServlet {
 						JsonObject json = new JsonObject();
 						json.addProperty("result", "0");
 						json.addProperty("msg", "登陆成功");
+						json.addProperty("name", manager.getUNAME());
 						out.print(json.toString());
 						out.close();
 					}else if(Tools.MD5(request.getParameter("Pwd")).equals(emp.getPASSWORD())){
@@ -98,9 +98,14 @@ public class ToolContorller extends HttpServlet {
 						out.close();
 					}
 				}else if (manager!=null) {
-					System.out.println("req:"+Tools.MD5(request.getParameter("Pwd"))+"  sjk:"+manager.getPASSWORD());
 					if (Tools.MD5(request.getParameter("Pwd")).equals(manager.getPASSWORD())) {
-						request.getRequestDispatcher("../manager/main.do").forward(request, response);
+						request.getSession().setAttribute("manager", new main.javaBean.Manager(manager).getHashmap());
+						JsonObject json = new JsonObject();
+						json.addProperty("result", "0");
+						json.addProperty("msg", "登陆成功");
+						json.addProperty("name", manager.getUNAME());
+						out.print(json.toString());
+						out.close();
 					}else{
 						JsonObject json = new JsonObject();
 						json.addProperty("result", "1");
