@@ -37,7 +37,7 @@ public class ToolContorller extends HttpServlet {
 			response.setCharacterEncoding("utf-8");
 			PrintWriter out = response.getWriter();
 			out.println(Tools.cut(request.getRequestURI()));
-			out.println("PASSWORD is 2:"+Tools.MD5("2"));
+			out.println("PASSWORD is 2:"+Tools.MD5("张弘毅"));
 			out.println("UUID:"+Tools.UUID());
 			out.close();
 		}else {

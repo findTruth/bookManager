@@ -102,10 +102,9 @@ public class UserController extends HttpServlet {
 					User user1=userbizimpl.check(user, MD5pwd);
 					if (user1.getUUID()!=null) {
 						String longUUID2=user1.getUUID();
-						HttpSession UUIDsession=request.getSession();
-						UUIDsession.setAttribute("UUID", longUUID2);
-						longUUID=(String)UUIDsession.getAttribute("UUID");
 						HttpSession session=request.getSession();
+						session.setAttribute("UUID", longUUID2);
+						longUUID=(String)session.getAttribute("UUID");
 						session.setAttribute("User", user);
 						request.getRequestDispatcher("../jsp/user/main.jsp").forward(request, response);	
 					}else{

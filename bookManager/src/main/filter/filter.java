@@ -50,10 +50,10 @@ public class filter implements Filter {
 		HttpSession hs = req.getSession();
 		Object manager =  hs.getAttribute("manager");
 		Emp emp = (Emp) hs.getAttribute("emp");
-		User user = (User) hs.getAttribute("User");
+		String user = (String) hs.getAttribute("User");
 		String path = req.getContextPath();
 		String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-		if (url.equals(basePath)||url.endsWith("getUUID.do")||url.endsWith("404.jsp")||url.endsWith(".html")||url.endsWith("VerifyImage.do")||url.endsWith("index.jsp")||url.endsWith("login.jsp")||url.endsWith("adminLogin.do")||url.endsWith("login.do")||manager!=null||emp!=null||user!=null||url.endsWith(".css") || url.endsWith(".js")|| url.endsWith(".gif")|| url.endsWith(".png")|| url.endsWith(".jpg")) {
+		if (url.endsWith("find.jsp")||url.endsWith("readagree.jsp")||url.endsWith("Regist.jsp")||url.endsWith("Panduanregist.do")||url.endsWith("regist.do")||url.equals(basePath)||url.endsWith("getUUID.do")||url.endsWith("404.jsp")||url.endsWith(".html")||url.endsWith("VerifyImage.do")||url.endsWith("index.jsp")||url.endsWith("login.jsp")||url.endsWith("adminLogin.do")||url.endsWith("login.do")||manager!=null||emp!=null||user!=null||url.endsWith(".css") || url.endsWith(".js")|| url.endsWith(".gif")|| url.endsWith(".png")|| url.endsWith(".jpg")) {
 			chain.doFilter(request, response);
 		}else{
 			PrintWriter out=resp.getWriter();
