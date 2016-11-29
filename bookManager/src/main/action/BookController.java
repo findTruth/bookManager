@@ -48,7 +48,10 @@ public class BookController extends HttpServlet {
 			json.addProperty("totalCount", list.size());
 			json.add("jsonRoot", new Gson().toJsonTree(list));
 			response.getWriter().append(json.toString());
-		} else {
+		}else if ("/UserBook".equals(path)) {
+			request.getRequestDispatcher("../jsp/book/worker.jsp").forward(request, response);
+		}
+		else {
 			request.getRequestDispatcher("../404.jsp").forward(request, response);
 		}
 	}
