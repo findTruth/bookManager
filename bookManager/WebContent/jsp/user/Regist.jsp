@@ -221,7 +221,6 @@ function checkMobilePhone(telphone) {
 //密码强弱
 function checkPassword(){
     var pwd = $("#password1").val();
-    alert
     gPasswdStatus(pwd,'field-group');
     }
 function gPasswdStatus(value,id){

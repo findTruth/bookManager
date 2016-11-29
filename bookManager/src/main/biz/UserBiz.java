@@ -3,7 +3,10 @@ package main.biz;
 import java.util.List;
 
 import main.entity.Book;
+import main.entity.BookKeep;
+import main.entity.BookRecord;
 import main.entity.User;
+import main.javaBean.Bookkeep;
 import main.javaBean.Bookrecord;
 
 public interface UserBiz {
@@ -28,8 +31,17 @@ public interface UserBiz {
 	public boolean addndx(String longUUID,String  Nicname,String Action1,String Action2,String Action3,int Sex,String xinmima);
 	//借书记录
 	public List<Bookrecord> bookrecordList(String longUUID);
-	//全表查询
+	public boolean addborrowbook(BookRecord bookrecord);//增加借书记录
+	public List<Bookrecord> listbookrecord(String longUUID,String Content);//根据书名查找
+	//收藏记录
+	public List<Bookkeep> listbookkeep(String longUUID);//全表查询
+	public boolean addbookkeep(BookKeep bookkeep);//增加借书记录
+	public boolean deletebookkeep(String KUID,String longUUID);//删除收藏记录
+	public List<Bookkeep> listbookkeep(String longUUID,String Content);//根据作者或者书名查找
+	//用户全表查询
 	public List<User> userList();
 	//登入界面
 	public boolean FindUser(String user);
+	public boolean UpdateUserLoginTime(String date,String longUUID);//更新最新登入时间
+	public String FindUserLoginTime(String longUUID);//查找最新登入时间
 }

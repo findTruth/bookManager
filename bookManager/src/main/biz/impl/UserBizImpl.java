@@ -6,7 +6,10 @@ import java.util.List;
 import main.biz.UserBiz;
 import main.dao.impl.BookDaoImpl;
 import main.dao.impl.UserDaoImpl;
+import main.entity.BookKeep;
+import main.entity.BookRecord;
 import main.entity.User;
+import main.javaBean.Bookkeep;
 import main.javaBean.Bookrecord;
 
 public class UserBizImpl implements UserBiz{
@@ -106,6 +109,54 @@ public class UserBizImpl implements UserBiz{
 	public boolean FindUser(String user) {
 		boolean flag=userdaoimpl.FindUser(user);
 		return flag;
+	}
+
+	@Override
+	public boolean addborrowbook(BookRecord bookrecord) {
+		boolean flag=userdaoimpl.addborrowbook(bookrecord);
+		return flag;
+	}
+
+	@Override
+	public List<Bookkeep> listbookkeep(String longUUID) {
+		List<Bookkeep> list=userdaoimpl.listbookkeep(longUUID);
+		return list;
+	}
+
+	@Override
+	public boolean addbookkeep(BookKeep bookkeep) {
+		boolean flag=userdaoimpl.addbookkeep(bookkeep);
+		return flag;
+	}
+
+	@Override
+	public boolean deletebookkeep(String KUID, String longUUID) {
+		boolean flag=userdaoimpl.deletebookkeep(KUID, longUUID);
+		return flag;
+	}
+
+	@Override
+	public boolean UpdateUserLoginTime(String date, String longUUID) {
+		boolean flag=userdaoimpl.UpdateUserLoginTime(date, longUUID);
+		return flag;
+	}
+
+	@Override
+	public String FindUserLoginTime(String longUUID) {
+		String logintime=userdaoimpl.FindUserLoginTime(longUUID);
+		return logintime;
+	}
+
+	@Override
+	public List<Bookkeep> listbookkeep(String longUUID, String Content) {
+		List<Bookkeep> list=userdaoimpl.listbookkeep(longUUID,Content);
+		return list;
+	}
+
+	@Override
+	public List<Bookrecord> listbookrecord(String longUUID, String Content) {
+		List<Bookrecord> list=userdaoimpl.listbookrecord(longUUID, Content);
+		return list;
 	}
 
 	

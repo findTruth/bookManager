@@ -430,19 +430,13 @@ public class UserDaoImpl implements UserDao{
 		List<Bookkeep> list = new ArrayList<>();
 		try {
 			Connection conn = DBhelper_mysql.getConnection();
-			String sql = "select"
-					+ "B.NAME as NAME,"
-					+ "B.PRESS as PRESS,"
-					+ "B.AUTHOR as AUTHOR,"
-					+ "B.VALUE as VALUE,"
-					+ "T.TIME as TIME,"
-					+ "from TB_Bookeep T,TB_Book B"
-					+ "where B.BUID=T.BUID AND T.UUID=?";
+			String sql = "select T.KUID as KUID,B.NAME as NAME,B.PRESS as PRESS,B.AUTHOR as AUTHOR,B.VALUE as VALUE,T.TIME as TIME from TB_Bookkeep T,TB_Book B where B.BUID=T.BUID AND T.UUID=?";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, longUUID);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				Bookkeep bookkeep = new Bookkeep();
+				bookkeep.setKUID(rs.getString("KUID"));
 				bookkeep.setNAME(rs.getString("NAME"));
 				bookkeep.setPRESS(rs.getString("PRESS"));
 				bookkeep.setAUTHOR(rs.getString("AUTHOR"));
@@ -497,6 +491,101 @@ public class UserDaoImpl implements UserDao{
 			e.printStackTrace();
 		}
 		return flag;
+	}
+
+	@Override
+	public boolean UpdateUserLoginTime(String date,String longUUID) {
+		boolean flag=false;
+		try {
+			Connection conn=DBhelper_mysql.getConnection();
+			String sql="update TB_User set LOGINTIME=? where UUID=?";
+			PreparedStatement ps=conn.prepareStatement(sql);
+			ps.setString(1, date);
+			ps.setString(2, longUUID);
+			int n=ps.executeUpdate();
+			DBhelper_mysql.closeConnection(null, ps, conn);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return flag;
+	}
+
+	@Override
+	public String FindUserLoginTime(String longUUID) {
+		String logintime=null;
+		try {
+			Connection conn=DBhelper_mysql.getConnection();
+			String sql="select LOGINTIME from TB_User where UUID=?";
+			PreparedStatement ps=conn.prepareStatement(sql);
+			ps.setString(1, longUUID);
+			ResultSet rs=ps.executeQuery();
+			while (rs.next()) {
+				 logintime=rs.getString("LOGINTIME");
+			}
+			DBhelper_mysql.closeConnection(rs, ps, conn);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return logintime;
+	}
+
+	@Override
+	public List<Bookkeep> listbookkeep(String longUUID, String Content) {
+		List<Bookkeep> list = new ArrayList<>();
+		try {
+			Connection conn = DBhelper_mysql.getConnection();
+			String sql = "select T.KUID as KUID,B.NAME as NAME,B.PRESS as PRESS,B.AUTHOR as AUTHOR,B.VALUE as VALUE,T.TIME as TIME from TB_Bookkeep T,TB_Book B where B.BUID=T.BUID AND T.UUID=? AND T.BUID=(select BUID from TB_Book where NAME=? OR AUTHOR=?)";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, longUUID);
+			ps.setString(2, Content);
+			ps.setString(3, Content);
+			ResultSet rs = ps.executeQuery(); 	
+			while (rs.next()) {
+				Bookkeep bookkeep = new Bookkeep();
+				bookkeep.setKUID(rs.getString("KUID"));
+				bookkeep.setNAME(rs.getString("NAME"));
+				bookkeep.setPRESS(rs.getString("PRESS"));
+				bookkeep.setAUTHOR(rs.getString("AUTHOR"));
+				bookkeep.setVALUE(rs.getString("VALUE"));
+				bookkeep.setTIME(rs.getDate("TIME"));
+				list.add(bookkeep);
+			}
+			DBhelper_mysql.closeConnection(rs, ps, conn);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@Override
+	public List<Bookrecord> listbookrecord(String longUUID, String Content) {
+		List<Bookrecord> list = new ArrayList<>();
+		try {
+			Connection conn = DBhelper_mysql.getConnection();
+			String sql = "select"
+					+ " B.NAME as NAME,"
+					+ "T.STARTTIME as STARTTIME,"
+					+ "T.OVERTIME as OVERTIME,"
+					+ "T.STATUS as STATUS "
+					+ "from TB_BookRecord T,TB_Book B "
+					+ "where B.BUID=T.BUID AND T.UUID=? AND T.BUID=(select BUID from TB_Book where NAME=?)";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, longUUID);
+			ps.setString(2, Content);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				Bookrecord bookrecord = new Bookrecord();
+				bookrecord.setBname(rs.getString("NAME"));	
+				bookrecord.setSTARTTIME(rs.getDate("STARTTIME"));
+				bookrecord.setOVERTIME(rs.getDate("OVERTIME"));
+				bookrecord.setSTATUS(rs.getInt("STATUS"));
+				list.add(bookrecord);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
 	}
 
 }

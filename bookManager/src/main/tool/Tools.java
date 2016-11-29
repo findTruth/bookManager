@@ -45,5 +45,4 @@ public class Tools {
 			return "无数据";
 		}
 	}
-	
 }

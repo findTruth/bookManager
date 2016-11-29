@@ -204,7 +204,7 @@
 			<div class="tiptop"><span>员工信息修改</span>
 				<a></a>
 			</div>
-
+			
 			<div class="tipinfo">
 				<table>
 					<input type="hidden" name="changeuid" id="changeuid" />
