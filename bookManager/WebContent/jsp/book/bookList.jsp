@@ -14,9 +14,9 @@
 <link href="<%=basePath%>moban/css/style.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="<%=basePath%>moban/js/jquery.js"></script>
 <script type="text/javascript">
-    function getJSONData(pn) {  
+    function getJSONData(pn,url) {  
     // alert(pn);  
-    $.getJSON("<%=basePath%>book/list.do", function(data) {  
+    $.getJSON(url, function(data) {  
         var totalCount = data.totalCount; // 总记录数  
         var pageSize = 10; // 每页显示几条记录  
         var pageTotal = Math.ceil(totalCount / pageSize); // 总页数  
@@ -63,8 +63,8 @@
         $(".page-count").text(totalCount);  
     })  
 }  
-function getPage() {  
-    $.getJSON("<%=basePath%>book/list.do", function(data) {  
+function getPage(url) {  
+    $.getJSON(url, function(data) {  
 
                 pn = 1;  
                 var totalCount = data.totalCount; // 总记录数  
@@ -91,7 +91,7 @@ function getPage() {
                                 pn++;  
                                 $(".paginItem").attr("class","paginItem");
                                 $(".paginItem").eq(pn).addClass("current");
-                                gotoPage(pn);  
+                                gotoPage(pn,url);  
                             }  
                         });  
                 $("#prev").click(function() {  
@@ -102,23 +102,23 @@ function getPage() {
                                 pn--;  
                                 $(".paginItem").attr("class","paginItem");
                                 $(".paginItem").eq(pn).addClass("current");
-                                gotoPage(pn);  
+                                gotoPage(pn,url);  
                             }  
                         })  
                 $("#firstPage").click(function() {  
                             pn = 1;  
                             $(".paginItem").attr("class","paginItem");
                             $(".paginItem").eq(pn).addClass("current");
-                            gotoPage(pn);  
+                            gotoPage(pn,url);  
                         });  
                 $("#lastPage").click(function() {  
                             pn = pageTotal;  
-                            gotoPage(pn);  
+                            gotoPage(pn,url);  
                         });  
                 $("#page-jump").click(function(){  
                     if($(".page-num").val()  <= pageTotal && $(".page-num").val() != ''){  
                         pn = $(".page-num").val();  
-                        gotoPage(pn);  
+                        gotoPage(pn,url);  
                     }else{  
                         alert("您输入的页码有误！");  
                         $(".page-num").val('').focus();  
@@ -128,20 +128,21 @@ function getPage() {
                     var pn = $(this).attr('name');
                     $(".paginItem").attr("class","paginItem");
                     $(".paginItem").eq(pn).addClass("current");
-                    gotoPage(pn);  
+                    gotoPage(pn,url);  
                 });
                 $("#firstPage").trigger("click");  
                   
             })  
 }  
-function gotoPage(pn) {  
+function gotoPage(pn,url) {  
     //alert(pn);  
     $(".current-page").text(pn);  
-    getJSONData(pn)  
+    
+    getJSONData(pn,url);  
 }  
 
  $(function(){
-    getPage(); 
+    getPage("<%=basePath%>book/list.do"); 
  })
 </script>
 <script type="text/javascript">

@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
+
 import main.biz.impl.BookBizImpl;
 import main.biz.impl.ManagerBizImpl;
 import main.tool.Tools;
@@ -39,6 +41,8 @@ public class BookController extends HttpServlet {
 			BookBizImpl bbi = new BookBizImpl();
 			response.setCharacterEncoding("utf-8");
 			response.setContentType("text/plain"); 
+			Gson gson = new Gson();
+			
 			response.getWriter().append(BookJsonList.getBookPage(bbi.bookList()));
 		} else {
 			request.getRequestDispatcher("../404.jsp").forward(request, response);

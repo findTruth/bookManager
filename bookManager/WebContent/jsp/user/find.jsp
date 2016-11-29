@@ -86,6 +86,15 @@
                 </div>
                 </span>
             </div>
+            <div class="field-group" style="display:none" id="nicname">
+                <label class="required title"><s>*</s>用户昵称</label>
+                <span class="control-group" id="Nicname_input">
+                <div class="input_add_long_background">
+                  <input class="register_input" type="text" id="NICNAME" name="NICNAME" value="" onblur="checkNICNAME(this.value)">
+                </div>
+                </span>
+            </div>
+            
         <div class="field-group">
                 <label class="required title">新密码</label>
                 <span class="control-group" id="password1_input">
@@ -154,6 +163,14 @@ function checkAnswer(answer) {
 	}
 }	
 
+function checkNICNAME(Nicname) {
+	if (Nicname=='') {
+		showTooltips('Nicname_input','昵称不能为空',2000);
+	}else {
+		hideTooltips('Nicname_input');
+	}
+}	
+
 function check() {
 	hideAllTooltips();
 	var ckh_result = true;
@@ -213,8 +230,10 @@ function test(Names){
 			Nnews=document.getElementById(NewsHot)
 			Nnews.style.display='';
 			document.getElementById("mibao").style.display="none";
+			document.getElementById("nicname").style.display="none";
 			if (i==3) {
 				document.getElementById("mibao").style.display="";
+				document.getElementById("nicname").style.display="";
 			}
 		}else{
 			Nnews=document.getElementById(NewsHot)

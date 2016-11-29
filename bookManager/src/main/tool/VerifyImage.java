@@ -152,13 +152,13 @@ public static String getRandomChar() {
     String randChar = ""; 
 //    switch (index) { 
 //    case 0://大写字符 
-// randChar = String.valueOf((char)Math.round(Math.random() * 25 + 65)); 
+ randChar = String.valueOf((char)Math.round(Math.random() * 25 + 65)); 
 // break; 
 //    case 1://小写字符 
 // randChar = String.valueOf((char)Math.round(Math.random() * 25 + 97)); 
 // break; 
 //    default://数字 
- randChar = String.valueOf(Math.round(Math.random() * 9)); 
+// randChar = String.valueOf(Math.round(Math.random() * 9)); 
 // break; 
 //    } 
     return randChar; 

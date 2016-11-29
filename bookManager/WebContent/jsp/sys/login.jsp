@@ -59,10 +59,13 @@
                 dataType: 'json',
                 url:'<%=basePath%>tool/adminLogin.do?Name='+$("input[name=Name]").val()+'&Pwd='+$("input[name=Pwd]").val()+'&Yzm='+$("input[name=Yzm]").val()+"&d="+new Date().getTime(),
                 success:function(data,textStatus){
-                    var objs = eval(data);
-                    $("#resultTop").html(objs.msg);
-                    if (objs.result==0) {
-                        window.location.href="<%=basePath%>manager/main.do"
+                    $("#resultTop").html(data.msg);
+                    if (data.result==0) {
+                        alert("管理员"+data.name+"欢迎回来！！！");
+                        window.location.href="<%=basePath%>manager/main.do";
+                    }else if(data.result==2){
+                    	//员工跳转
+                    	window.location.href="<%=basePath%>manager/main.do";
                     }
                 }
             });
@@ -71,7 +74,7 @@
         $("#yzm").click(function(){
             $.ajax({
                 type:'GET',
-                url: '<%=basePath%>tool/VerifyImage.do'+'?d='+new Date().getTime(),
+                url: '<%=basePath%>tool/VerifyImage.do',
                 success:function(data){
                     $("#yzm").attr("src","<%=basePath%>tool/VerifyImage.do");
                 }

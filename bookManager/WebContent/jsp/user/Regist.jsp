@@ -52,21 +52,20 @@
                 <label class="required title">设置密码</label>
                 <span class="control-group" id="password1_input">
                 <div class="input_add_long_background">
-                  <input class="register_input" type="password" id="password1" name="password1" maxLength="20" value="" onblur="checkPwd1(this.value);" />
+                  <input class="register_input" type="password" id="password1" name="password1" maxLength="20" value="" onblur="checkPwd1(this.value);" onkeyup="checkPassword();"/>
                 </div>
                 </span>
                 <label class="tips">请使用6~20个英文字母（区分大小写）、符号或数字</label>
               </div>
         
-              
-        <div id="field-group" class="field-group"
+           <div id="field-group" class="field-group"
             style="display: none;">
             <span class="trigger">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;密码强度： </span>
             <span class="status-bar" style="text-indent: 0px;">
             <span style="line-height: 5px;">  </span> 
             </span>
             <span class="status-result"></span>
-        </div>      
+        </div>       
               <div class="field-group">
                 <label class="required title">确认密码</label>
                 <span class="control-group" id="password1_input2">
@@ -139,11 +138,8 @@ function __changeUserName(of){
              url:'<%=basePath%>user/Panduanregist.do?email='+$("input[name=email]").val()+'&mobile='+$("input[name=mobile]").val(),
              success:function(data,textStatus){
                  var objs = eval(data);
-                 if (objs.msg=='邮箱和手机号码可用') {
-                	 $('#email_input').css("color","green"); 
-                	 showTooltips('email_input',objs.msg,4000)
-				}else {					
-                 showTooltips('email_input',objs.msg,4000);         
+                 if (objs.msg=='邮箱或者手机号码已经存在') {
+                	 showTooltips('email_input',objs.msg,4000);  
 				}
              }
          });
@@ -225,6 +221,7 @@ function checkMobilePhone(telphone) {
 //密码强弱
 function checkPassword(){
     var pwd = $("#password1").val();
+    alert
     gPasswdStatus(pwd,'field-group');
     }
 function gPasswdStatus(value,id){

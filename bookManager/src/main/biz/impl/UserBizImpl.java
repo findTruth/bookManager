@@ -71,15 +71,15 @@ public class UserBizImpl implements UserBiz{
 	}
 
 	@Override
-	public boolean findNicname(String Nicname) {
-		boolean flag=userdaoimpl.findNcname(Nicname);
+	public boolean findNicname(String Nicname,String longUUID) {
+		boolean flag=userdaoimpl.findNicname(Nicname,longUUID);
 		return flag;
 	}
 
 	@Override
 	public List<Bookrecord> bookrecordList(String longUUID) {
 		List<Bookrecord> list = new ArrayList<>();
-		list=userdaoimpl.list(longUUID);
+		list=userdaoimpl.listbookrecord(longUUID);
 		return list;
 	}
 
@@ -97,11 +97,16 @@ public class UserBizImpl implements UserBiz{
 	}
 
 	@Override
-	public String findNc(String longUUID) {
-		String Nicname=userdaoimpl.findNc(longUUID);
-		return Nicname;
+	public List<User> userList() {
+		List<User> list=userdaoimpl.userList();
+		return list;
+	}
+
+	@Override
+	public boolean FindUser(String user) {
+		boolean flag=userdaoimpl.FindUser(user);
+		return flag;
 	}
 
 	
-
 }
