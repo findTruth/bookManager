@@ -43,7 +43,8 @@ $(function(){
     <dd><div class="title"><span><img src="" /></span>书籍借阅与归还
     </div>   
      <ul class="menuson">
-        <li><cite></cite><a href="http://localhost:8080/bookManager/jsp/emp/borrow.jsp">书籍借阅</a><i></i></li>
+        <li><cite></cite><a
+					href="http://localhost:8080/bookManager/jsp/emp/borrow.jsp">书籍借阅</a><i></i></li>
         <li><cite></cite><a href="http://localhost:8080/bookManager/jsp/emp/return.jsp">书籍归还</a><i></i></li>
         </ul>     
     </dd>  
@@ -54,8 +55,8 @@ $(function(){
    <a href="http://localhost:8080/bookManager/jsp/book/bookList.jsp">书籍管理 </a>
     </div>
     </dd>
-<dd>
 
+	<dd>
     <div class="title">
     <span><img src="" /></span>用户管理
     </div>
