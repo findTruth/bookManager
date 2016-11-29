@@ -12,7 +12,6 @@
 <title>图书管理</title>
 <link href="<%=basePath %>moban/css/style.css" rel="stylesheet" type="text/css" />
 <script language="JavaScript" src="<%=basePath %>moban/js/jquery.js"></script>
-<script src="<%=basePath %>moban/js/cloud.js" type="text/javascript"></script>
 <script type="text/javascript" src="<%=basePath %>js/jquery-3.1.0.min.js"></script>
 <script type="text/javascript" src="<%=basePath %>js/bootstrap.min.js"></script>
 <script language="javascript">
@@ -33,6 +32,7 @@ $(document).ready(function(){
 
   $(".cancel").click(function(){
   $(".tip").fadeOut(100);
+  });
 });
 </script>
 </head>
@@ -79,102 +79,14 @@ $(document).ready(function(){
          </div>
          </div>
     </ul>
-    <div>
-    <ul class="imglist">
-    <li class="selected">
-    <span><img src="<%=basePath %>res/book/三国演义.png" /></span>
-   &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-    <h2><a href="#">三国演义</a></h2>
-    <p><a href="#">编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#">删除</a></p>
-    </li>
-     <li>
-    <span><img src="<%=basePath %>res/book/红楼梦.png" /></span>
-    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-    <h2><a href="#">红楼梦</a></h2>
-    <p><a href="#">编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#">删除</a></p>
-    </li>
-     <li>
-    <span><img src="<%=basePath %>res/book/哲学的故事.png" /></span>
-    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-    <h2><a href="#">哲学的故事</a></h2>
-    <p><a href="#">编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#">删除</a></p>
-    </li>
-     <li>
-    <span><img src="<%=basePath %>res/book/论语.png" /></span>
-    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-    <h2><a href="#">论语</a></h2>
-    <p><a href="#">编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#">删除</a></p>
-    </li>
-     <li>
-    <span><img src="<%=basePath %>res/book/格律诗词.png" /></span>
-    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-    <h2><a href="#">格律诗词</a></h2>
-    <p><a href="#">编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#">删除</a></p>
-    </li>
-     <li>
-    <span><img src="<%=basePath %>res/book/计算机应用基础.png" /></span>
-    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-    <h2><a href="#">计算机应用基础</a></h2>
-    <p><a href="#">编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#">删除</a></p>
-    </li>
-     <li>
-    <span><img src="<%=basePath %>res/book/老人与海.png" /></span>
-    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-    <h2><a href="#">老人与海</a></h2>
-    <p><a href="#">编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#">删除</a></p>
-    </li>
-     <li>
-    <span><img src="<%=basePath %>res/book/毛泽东选集.png" /></span>
-    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-    <h2><a href="#">毛泽东选集</a></h2>
-    <p><a href="#">编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#">删除</a></p>
-    </li>
-     <li>
-    <span><img src="<%=basePath %>res/book/矛盾杂文集.png" /></span>
-    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-    <h2><a href="#">矛盾杂文集</a></h2>
-    <p><a href="#">编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#">删除</a></p>
-    </li>
-     <li>
-    <span><img src="<%=basePath %>res/book/你的孤独虽败犹荣.png" /></span>
-    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-    <h2><a href="#">你的孤独虽败犹荣</a></h2>
-    <p><a href="#">编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#">删除</a></p>
-    </li>
-     <li>
-    <span><img src="<%=basePath %>res/book/西游记.png" /></span>
-    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-    <h2><a href="#">西游记</a></h2>
-    <p><a href="#">编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#">删除</a></p>
-    </li>
-     <li>
-    <span><img src="<%=basePath %>res/book/新视野大学英语.png" /></span>
-    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-    <h2><a href="#">新视野英语</a></h2>
-    <p><a href="#">编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#">删除</a></p>
-    </li>
-     <li>
-    <span><img src="<%=basePath %>res/book/运筹学.png" /></span>
-    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-    <h2><a href="#">运筹学</a></h2>
-    <p><a href="#">编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#">删除</a></p>
-    </li>
-    </ul>
-    </div>
-        <div class="pagin">
-    	<div class="message">共<i class="blue">1256</i>条记录，当前显示第&nbsp;<i class="blue">2&nbsp;</i>页</div>
-        <ul class="paginList">
-        <li class="paginItem"><a href="javascript:;"><span class="pagepre"></span></a></li>
-        <li class="paginItem"><a href="javascript:;">1</a></li>
-        <li class="paginItem current"><a href="javascript:;">2</a></li>
-        <li class="paginItem"><a href="javascript:;">3</a></li>
-        <li class="paginItem"><a href="javascript:;">4</a></li>
-        <li class="paginItem"><a href="javascript:;">5</a></li>
-        <li class="paginItem more"><a href="javascript:;">...</a></li>
-        <li class="paginItem"><a href="javascript:;">10</a></li>
-        <li class="paginItem"><a href="javascript:;"><span class="pagenxt"></span></a></li>
-        </ul>
-    </div>
+     <ul class="imglist" id="list">
+     </ul>
+    <div class="pagin">
+	<div class="message">共<i class="blue page-count"></i>条纪录，当前显示第&nbsp;<i class="blue current-page"></i>&nbsp;页</div>
+	<ul class="paginList">
+		
+	</ul>
+</div>
     <div class="tip">
     	<div class="tiptop"><span>提示信息</span><a></a></div>
         
@@ -192,9 +104,127 @@ $(document).ready(function(){
         </div>
     
     </div>
-    
-    
-    
-   
+       
 </body>
 </html>
+<script>
+function getJSONData(pn, url) {
+		// alert(pn);  
+		$.getJSON(url, function(data) {
+			var totalCount = data.totalCount; // 总记录数  
+			var pageSize = 10; // 每页显示几条记录  
+			var pageTotal = Math.ceil(totalCount / pageSize); // 总页数  
+			var startPage = pageSize * (pn - 1);
+			var endPage = startPage + pageSize - 1;
+			var $ul = $("#list");
+			$ul.empty();
+			for(var i = 0; i < pageSize; i++) {
+				$ul.append('<li class="li-tag"></li>');
+				
+			}
+			var dataRoot = data.jsonRoot;
+			if(pageTotal == 1) { // 当只有一页时  
+				for(var j = 0; j < totalCount; j++) {
+					$(".li-tag").eq(j).append("<span><img src='<%=basePath %>"+dataRoot[j].ADDRESS+"' /></span><h2><a href='#'>"+dataRoot[j].NAME+"</a></h2><p><a href='#'>编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href='#'>删除</a></p>");
+				}
+			} else {
+
+				for(var j = startPage, k = 0; j < endPage, k < pageSize; j++, k++) {
+					if(j == totalCount) {
+						break; // 当遍历到最后一条记录时，跳出循环  
+					}
+					$(".li-tag").eq(k).append("<span><img src='<%=basePath %>"+dataRoot[j].ADDRESS+"' /></span><h2><a href='#'>"+dataRoot[j].NAME+"</a></h2><p><a href='#'>编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href='#'>删除</a></p>");
+				}
+			}
+			$(".page-count").text(totalCount);
+		})
+	}
+
+	function getPage(url) {
+		$.getJSON(url, function(data) {
+
+			pn = 1;
+			var totalCount = data.totalCount; // 总记录数  
+			var pageSize = 10; // 每页显示几条记录  
+			var pageTotal = Math.ceil(totalCount / pageSize); // 总页数  
+			$(".paginList").empty();
+			$(".paginList").append("<li class='paginItem'><a id='prev'><span class='pagepre'></span></a></li>");
+			for(var i = 1; i <= pageTotal; i++) {
+				if(i == 1) {
+					$(".paginList").append("<li class='paginItem'><a id='firstPage' name='" + i + "' class='paginItemb'>" + i + "</a></li>");
+				} else if(i == pageTotal) {
+					$(".paginList").append("<li class='paginItem'><a id='lastPage' name='" + i + "' class='paginItema'>" + i + "</a></li>");
+				} else {
+					$(".paginList").append("<li class='paginItem'><a name='" + i + "' class='paginItema'>" + i + "</a></li>");
+				}
+
+			}
+			$(".paginList").append("<li class='paginItem'><a id='next'><span class='pagenxt'></span></a></li>");
+			$("#next").click(function() {
+				if(pn == pageTotal) {
+					alert("后面没有了");
+					pn = pageTotal;
+				} else {
+					pn++;
+					$(".paginItem").attr("class", "paginItem");
+					$(".paginItem").eq(pn).addClass("current");
+					gotoPage(pn, url);
+				}
+			});
+			$("#prev").click(function() {
+				if(pn == 1) {
+					alert("前面没有了");
+					pn = 1;
+				} else {
+					pn--;
+					$(".paginItem").attr("class", "paginItem");
+					$(".paginItem").eq(pn).addClass("current");
+					gotoPage(pn, url);
+				}
+			})
+			$("#firstPage").click(function() {
+				pn = 1;
+				$(".paginItem").attr("class", "paginItem");
+				$(".paginItem").eq(pn).addClass("current");
+				gotoPage(pn, url);
+			});
+			$("#lastPage").click(function() {
+				pn = pageTotal;
+				gotoPage(pn, url);
+			});
+			$("#page-jump").click(function() {
+				if($(".page-num").val() <= pageTotal && $(".page-num").val() != '') {
+					pn = $(".page-num").val();
+					gotoPage(pn, url);
+				} else {
+					alert("您输入的页码有误！");
+					$(".page-num").val('').focus();
+				}
+			});
+			$(".paginItema").click(function() {
+				var pn = $(this).attr('name');
+				$(".paginItem").attr("class", "paginItem");
+				$(".paginItem").eq(pn).addClass("current");
+				gotoPage(pn, url);
+			});
+			$("#firstPage").trigger("click");
+
+		})
+	}
+
+	function gotoPage(pn, url) {
+		//alert(pn);  
+		$(".current-page").text(pn);
+		getJSONData(pn, url)
+	}
+
+	$(function() {
+	getPage("<%=basePath%>book/list.do");
+
+	});
+
+	function flushPage() {
+		getPage("<%=basePath%>book/list.do");
+	}
+
+</script>

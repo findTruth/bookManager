@@ -33,6 +33,7 @@ $(document).ready(function(){
 
   $(".cancel").click(function(){
   $(".tip").fadeOut(100);
+  });
 });
 </script>
 </head>

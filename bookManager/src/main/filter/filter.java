@@ -21,7 +21,6 @@ import main.entity.User;
 /**
  * Servlet Filter implementation class filter
  */
-
 public class filter implements Filter {
 
     /**

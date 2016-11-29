@@ -424,7 +424,7 @@
 	}
 
 	$(function() {
-		getPage("<%=basePath%>employee/list.do");
+	getPage("<%=basePath%>employee/list.do");
 
 	});
 
