@@ -31,17 +31,6 @@ public class Book {
 		STATUS = sTATUS;
 	}
 
-
-	public String getADDRESS() {
-		return ADDRESS;
-	}
-
-
-	public void setADDRESS(String aDDRESS) {
-		ADDRESS = aDDRESS;
-	}
-
-
 	public String getBUID() {
 		return BUID;
 	}
@@ -83,6 +72,13 @@ public class Book {
 	}
 	public void setKINDNO(String kINDNO) {
 		KINDNO = kINDNO;
+	}
+
+	public String getADDRESS() {
+		return ADDRESS;
+	}
+	public void setADDRESS(String aDDRESS) {
+		ADDRESS = aDDRESS;
 	}
 	public int getSTATUS() {
 		return STATUS;

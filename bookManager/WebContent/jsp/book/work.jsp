@@ -54,7 +54,7 @@ $(document).ready(function(){
         <li class="click"><span><img src="<%=basePath %>moban/images/t02.png" onclick="location.href='<%=basePath %>jsp/book/add.jsp'"/></span>修改</li>
         <li class="click"><span><img src="<%=basePath %>moban/images/t03.png" onclick="location.href='<%=basePath %>jsp/book/add.jsp'"/></span>删除</li>    
         <li>
-        <div class="vocation">
+        
         <div class="uew-select">
 	        <select class="select3" style="width:110px;height:30px;">
 	        <option>请选择图书类别</option>
@@ -69,16 +69,16 @@ $(document).ready(function(){
 	        <option>政治类</option>
 	        <option>其他</option>	        
 	        </select>
-        </div>
-        </div>
        </li>
        <li class="click"><span><img src="<%=basePath %>moban/images/确定按钮1.png"></span>确定</li>
-        <ul class="seachfrom">
+       
         <li><input name="" type="text" class="scinput" value="按照图书编号或书名查询"/></li>
         <li class="click"><span><img src="<%=basePath %>moban/images/ico06.png"></span>查询</li>          
          </div>
          </div>
-    </ul>
+          </div>
+        </div>
+     
      <ul class="imglist" id="list">
      </ul>
     <div class="pagin">
@@ -125,7 +125,7 @@ function getJSONData(pn, url) {
 			var dataRoot = data.jsonRoot;
 			if(pageTotal == 1) { // 当只有一页时  
 				for(var j = 0; j < totalCount; j++) {
-					$(".li-tag").eq(j).append("<span><img src='<%=basePath %>"+dataRoot[j].ADDRESS+"' /></span><h2><a href='#'>"+dataRoot[j].NAME+"</a></h2><p><a href='#'>编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href='#'>删除</a></p>");
+					$(".li-tag").eq(j).append("<span><img src='<%=basePath %>"+dataRoot[j].ADDRESS+"' /></span>&nbsp;&nbsp;&nbsp;&nbsp;<h2><a href='#'>"+dataRoot[j].NAME+"</a></h2><p><a href='#'>编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href='#'>删除</a></p>");
 				}
 			} else {
 
@@ -133,7 +133,7 @@ function getJSONData(pn, url) {
 					if(j == totalCount) {
 						break; // 当遍历到最后一条记录时，跳出循环  
 					}
-					$(".li-tag").eq(k).append("<span><img src='<%=basePath %>"+dataRoot[j].ADDRESS+"' /></span><h2><a href='#'>"+dataRoot[j].NAME+"</a></h2><p><a href='#'>编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href='#'>删除</a></p>");
+					$(".li-tag").eq(k).append("<span><img src='<%=basePath %>"+dataRoot[j].ADDRESS+"' /></span>&nbsp;&nbsp;&nbsp;&nbsp;<h2><a href='#'>"+dataRoot[j].NAME+"</a></h2><p><a href='#'>编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href='#'>删除</a></p>");
 				}
 			}
 			$(".page-count").text(totalCount);
