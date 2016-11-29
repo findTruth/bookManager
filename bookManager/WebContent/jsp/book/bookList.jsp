@@ -10,7 +10,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>无标题文档</title>
+<title>图书列表</title>
 <link href="<%=basePath%>moban/css/style.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="<%=basePath%>moban/js/jquery.js"></script>
 <script type="text/javascript">
@@ -39,7 +39,7 @@
                         + "</td>").append("<td class='col6'>" + dataRoot[j].AUTHOR  
                         + "</td>").append("<td class='col7'>" + dataRoot[j].VALUE  
                         + "</td>").append("<td class='col8'>" + dataRoot[j].KINDNO  
-                        + "</td>").append("<td class='col9'>" + "123123"  
+                        + "</td>").append("<td class='col9'>" + "修改"  
                         + "</td>");
             }  
         } else {  
@@ -56,7 +56,7 @@
                         + "</td>").append("<td class='col6'>" + dataRoot[j].AUTHOR  
                         + "</td>").append("<td class='col7'>" + dataRoot[j].VALUE  
                         + "</td>").append("<td class='col8'>" + dataRoot[j].KINDNO  
-                        + "</td>").append("<td class='col9'>" + "123123"  
+                        + "</td>").append("<td class='col9'>" + "修改"  
                         + "</td>");
             }  
         }  
