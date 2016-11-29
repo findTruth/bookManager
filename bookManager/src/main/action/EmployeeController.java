@@ -2,6 +2,8 @@ package main.action;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,11 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.gson.Gson;
-
-import main.biz.impl.EmployeeBizImpl;
+import main.biz.impl.ManagerBizImpl;
 import main.tool.Tools;
-import main.tool.json.EmpJsonList;
 
 /**
  * Servlet implementation class EmployeeController
@@ -24,13 +23,8 @@ public class EmployeeController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String path = Tools.cut(request.getRequestURI());
-		response.setCharacterEncoding("utf-8");
-		PrintWriter out = response.getWriter();
-		if ("/list".equals(path)) {
-			out.println(EmpJsonList.getEmpPage(new EmployeeBizImpl().empList()));
-			out.close();
-		}else if("/employeemanager".equals(path)){
-			request.getRequestDispatcher("../jsp/emp/emp_list.jsp").forward(request, response);
+		if ("/empwork".equals(path)) {
+			request.getRequestDispatcher("../jsp/emp/empwork.jsp");
 		} else {
 			request.getRequestDispatcher("../404.jsp").forward(request, response);
 		}
@@ -38,13 +32,17 @@ public class EmployeeController extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String path = Tools.cut(request.getRequestURI());
-		response.setCharacterEncoding("utf-8");
-		request.setCharacterEncoding("utf-8");
-		PrintWriter out = response.getWriter();
-		if ("/findById".equals(path)) {
-			String EUID = request.getParameter("EUID");
-			out.println(new Gson().toJson(new EmployeeBizImpl().findById(EUID)));
-			out.close();
+		if ("/empwork".equals(path)) {
+//			request.setAttribute("page", "manager");
+			ManagerBizImpl mbi = new ManagerBizImpl();
+			try {
+				mbi.LastLoginTime(((HashMap<String, String>)request.getSession().getAttribute("emp")).get("MUID"));
+			} catch (SQLException e) {
+				response.getWriter().append("网络连接异常");
+				response.getWriter().close();
+			}
+//			response.sendRedirect("../jsp/manager/main.jsp");
+			request.getRequestDispatcher("../jsp/emp/empwork.jsp").forward(request, response);
 		}else {
 			request.getRequestDispatcher("../404.jsp").forward(request, response);
 		}

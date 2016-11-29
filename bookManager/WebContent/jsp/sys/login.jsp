@@ -111,12 +111,11 @@
     
     <ul>
     <form method="post"  id="Form" action="<%=basePath%>tool/adminLogin.do">
-    <li><input name="Name" type="text" class="loginuser" value="" onclick="JavaScript:this.value=''" placeholder="请输入手机号或者邮箱"/><div style="position: absolute; left: 270px;"><label id="nameTop"></label></div></li>
+    <li><input name="Name" type="text" class="loginuser" value="" onclick="JavaScript:this.value=''" placeholder="请输入您的账号"/><div style="position: absolute; left: 270px;"><label id="nameTop"></label></div></li>
     <li><input name="Pwd" type="text" class="loginpwd" value="" onclick="JavaScript:this.value=''" placeholder="请输入您的密码"/><div style="position: absolute; left: 270px;"><label id="pwdTop"></label></div></li>
-    <li>验证码：<input type="text" name="Yzm" class="LoginYzm">
+    <li>验证码：<input type="text" name="Yzm" class="LoginYzm" onkeyup="this.value=this.value.toUpperCase()">
 	    <img src="${pageContext.request.contextPath }/tool/VerifyImage.do" id="yzm" title="看不清，点击刷新"/>
 	    &nbsp;&nbsp;<input name="" id="sub" type="button" class="loginbtn" value="登录"   />
-	    <label><a href="#">忘记密码？</a></label>
 	    <div style="position: absolute; left: 270px;"><label id="yzmTop"></label></div>
 	    <div style="position: absolute; left: 270px;"><label id="resultTop"></label></div></li>
     </form>

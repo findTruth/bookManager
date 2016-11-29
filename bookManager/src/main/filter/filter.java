@@ -21,8 +21,12 @@ import main.entity.User;
 /**
  * Servlet Filter implementation class filter
  */
+<<<<<<< HEAD
 @WebFilter("/*")
 /**public class filter implements Filter {
+=======
+public class filter implements Filter {
+>>>>>>> branch 'master' of https://github.com/findTruth/bookManager.git
 
     /**
      * Default constructor. 
