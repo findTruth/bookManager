@@ -18,7 +18,6 @@ import main.biz.impl.UserBizImpl;
 import main.entity.User;
 import main.javaBean.Bookrecord;
 import main.tool.Tools;
-import main.tool.json.BookJsonList;
 import main.tool.json.userJieShu;
 
 /**
@@ -92,7 +91,7 @@ public class UserController extends HttpServlet {
 				out.println("{\"msg\":\"邮箱或者手机号码已经存在\"}");
 				out.close();
 			}
-		}else if ("/login".equals(path)) {
+		}else if ("/login".equals(path)) { 
 				String user=request.getParameter("user");
 				String pwd=request.getParameter("pwd");
 				String MD5pwd=Tools.MD5(pwd);
