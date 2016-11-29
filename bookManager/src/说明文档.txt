@@ -34,4 +34,7 @@
 参数：无
 发送方式：get
 
-接口
+接口uri:/bookManager/user/BookCentre.do
+说明：连接图书的全表查询页面(界面要有借阅和收藏两个按钮，并提供图书BUID)
+参数：无
+发送方式：get
