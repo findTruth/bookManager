@@ -125,7 +125,7 @@ function getJSONData(pn, url) {
 			var dataRoot = data.jsonRoot;
 			if(pageTotal == 1) { // 当只有一页时  
 				for(var j = 0; j < totalCount; j++) {
-					$(".li-tag").eq(j).append("<span><img src='<%=basePath %>"+dataRoot[j].ADRESS+"' /></span><h2><a href='#'>"+dataRoot[j].NAME+"</a></h2><p><a href='#'>编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href='#'>删除</a></p>");
+					$(".li-tag").eq(j).append("<span><img src='<%=basePath %>"+dataRoot[j].ADDRESS+"' /></span><h2><a href='#'>"+dataRoot[j].NAME+"</a></h2><p><a href='#'>编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href='#'>删除</a></p>");
 				}
 			} else {
 
@@ -133,7 +133,7 @@ function getJSONData(pn, url) {
 					if(j == totalCount) {
 						break; // 当遍历到最后一条记录时，跳出循环  
 					}
-					$(".li-tag").eq(k).append("<span><img src='<%=basePath %>"+dataRoot[j].ADRESS+"' /></span><h2><a href='#'>"+dataRoot[j].NAME+"</a></h2><p><a href='#'>编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href='#'>删除</a></p>");
+					$(".li-tag").eq(k).append("<span><img src='<%=basePath %>"+dataRoot[j].ADDRESS+"' /></span><h2><a href='#'>"+dataRoot[j].NAME+"</a></h2><p><a href='#'>编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href='#'>删除</a></p>");
 				}
 			}
 			$(".page-count").text(totalCount);

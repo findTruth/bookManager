@@ -10,13 +10,16 @@ public class Book {
 	private String AUTHOR;
 	private String VALUE;
 	private String KINDNO;
+	private String ADDRESS;
 	private int STATUS;
 	
 	public Book() {
 	}
 	
+	
 	public Book(String bUID, String nAME, Date dATE, String pRESS, String aUTHOR, String vALUE, String kINDNO,
-			int sTATUS) {
+			String aDDRESS, int sTATUS) {
+		super();
 		BUID = bUID;
 		NAME = nAME;
 		DATE = dATE;
@@ -24,8 +27,21 @@ public class Book {
 		AUTHOR = aUTHOR;
 		VALUE = vALUE;
 		KINDNO = kINDNO;
+		ADDRESS = aDDRESS;
 		STATUS = sTATUS;
 	}
+
+
+	public String getADDRESS() {
+		return ADDRESS;
+	}
+
+
+	public void setADDRESS(String aDDRESS) {
+		ADDRESS = aDDRESS;
+	}
+
+
 	public String getBUID() {
 		return BUID;
 	}
