@@ -221,7 +221,7 @@ h2{font-weight:normal;}
 .toollist li a:hover{background:#eef4f7;border-right:solid 1px #d0d5d7;border-bottom:solid 1px #d0d5d7;}
 .toollist li h2{line-height:35px;}
 .tooladd{margin-top:25px; width:20px; height:20px; float:left; display:block;}
-
+.tools .Search{width:96px; height:35px; line-height:35px; color:#fff; background:url(../images/btnbg1.png) repeat-x; font-size:14px; font-weight:bold;border-radius: 3px; cursor:pointer;}
 /*error 404*/
 .error{background:url(../images/404.png) no-repeat; width:490px; margin-top:75px;padding-top:65px;}
 .error h2{font-size:22px; padding-left:154px;}

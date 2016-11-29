@@ -36,7 +36,7 @@
     
     <div class="welinfo">
     <span><img src="<%=basePath %>moban/images/time.png" alt="时间" /></span>
-    <i>您上次登录的时间：</i>（不是您登录的？<a href="#">请点这里</a>）
+    <i>您上次登录的时间：<%= request.getAttribute("LoginTime")%></i>（不是您登录的？<a href="#">请点这里</a>）
     </div>
     
     <div class="xline"></div>

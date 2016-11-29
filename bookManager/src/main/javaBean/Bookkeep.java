@@ -3,6 +3,7 @@ package main.javaBean;
 import java.util.Date;
 
 public class Bookkeep {
+	private String KUID;
 	private String NAME;
 	private String PRESS;
 	private String AUTHOR;
@@ -11,14 +12,31 @@ public class Bookkeep {
 	public Bookkeep() {	
 	}
 	
-	public Bookkeep(String nAME, String pRESS, String aUTHOR, String vALUE, Date tIME) {
+	
+
+	public Bookkeep(String kUID, String nAME, String pRESS, String aUTHOR, String vALUE, Date tIME) {
 		super();
+		KUID = kUID;
 		NAME = nAME;
 		PRESS = pRESS;
 		AUTHOR = aUTHOR;
 		VALUE = vALUE;
 		TIME = tIME;
 	}
+
+
+
+	public String getKUID() {
+		return KUID;
+	}
+
+
+
+	public void setKUID(String tUID) {
+		KUID = tUID;
+	}
+
+
 
 	public String getNAME() {
 		return NAME;

@@ -21,31 +21,26 @@ import main.entity.User;
 /**
  * Servlet Filter implementation class filter
  */
-<<<<<<< HEAD
-@WebFilter("/*")
-/**public class filter implements Filter {
-=======
 public class filter implements Filter {
->>>>>>> branch 'master' of https://github.com/findTruth/bookManager.git
 
     /**
      * Default constructor. 
      */
- /**第一处   public filter() {
+    public filter() {
         // TODO Auto-generated constructor stub
     }
 
 	/**
 	 * @see Filter#destroy()
 	 */
-/**第二处	public void destroy() {
+	public void destroy() {
 		// TODO Auto-generated method stub
 	}
 
 	/**
 	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
 	 */
-/**第三处	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest req = (HttpServletRequest)request;
 		response.setCharacterEncoding("utf-8");
 		HttpServletResponse resp = (HttpServletResponse)response;
@@ -71,9 +66,8 @@ public class filter implements Filter {
 	/**
 	 * @see Filter#init(FilterConfig)
 	 */
-	/**第四处 public void init(FilterConfig fConfig) throws ServletException {
+	public void init(FilterConfig fConfig) throws ServletException {
 		// TODO Auto-generated method stub
-	*/
 	}
 
-
+}
