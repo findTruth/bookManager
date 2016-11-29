@@ -22,26 +22,26 @@ import main.entity.User;
  * Servlet Filter implementation class filter
  */
 @WebFilter("/*")
-public class filter implements Filter {
+/**public class filter implements Filter {
 
     /**
      * Default constructor. 
      */
-    public filter() {
+ /**第一处   public filter() {
         // TODO Auto-generated constructor stub
     }
 
 	/**
 	 * @see Filter#destroy()
 	 */
-	public void destroy() {
+/**第二处	public void destroy() {
 		// TODO Auto-generated method stub
 	}
 
 	/**
 	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
 	 */
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+/**第三处	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest req = (HttpServletRequest)request;
 		response.setCharacterEncoding("utf-8");
 		HttpServletResponse resp = (HttpServletResponse)response;
@@ -67,8 +67,9 @@ public class filter implements Filter {
 	/**
 	 * @see Filter#init(FilterConfig)
 	 */
-	public void init(FilterConfig fConfig) throws ServletException {
+	/**第四处 public void init(FilterConfig fConfig) throws ServletException {
 		// TODO Auto-generated method stub
+	*/
 	}
 
-}
+
