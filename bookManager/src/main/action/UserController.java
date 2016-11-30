@@ -2,9 +2,6 @@ package main.action;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -15,13 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import main.biz.impl.BookBizImpl;
-import main.biz.impl.ManagerBizImpl;
 import main.biz.impl.UserBizImpl;
-import main.dao.impl.UserDaoImpl;
 import main.entity.BookKeep;
 import main.entity.BookRecord;
 import main.entity.User;
@@ -48,7 +41,7 @@ public class UserController extends HttpServlet {
 		}else if ("/index".equals(path)) {
 			String logintime=userbizimpl.FindUserLoginTime(longUUID);
 			request.setAttribute("LoginTime", logintime);
-			userbizimpl.UpdateUserLoginTime(Tools.getDate(), longUUID);
+			userbizimpl.UpdateUserLoginTime(longUUID);
 			request.getRequestDispatcher("../jsp/user/home.jsp").forward(request, response);
 		}else if ("/BookCentre".equals(path)) {
 			request.getRequestDispatcher("../book/UserBook.do").forward(request, response);
@@ -138,31 +131,34 @@ public class UserController extends HttpServlet {
 			out.append(json.toString());
 			out.close();	
 		}else if ("/Addborrow".equals(path)) {
-			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			JsonObject json = new JsonObject();
-			String BUID=request.getParameter("BUID");
-			try {
-				BookRecord bookrecord=new BookRecord(Tools.UUID(), BUID, longUUID, format.parse(Tools.getDate()), null, 1);
-				boolean flag1=userbizimpl.FindBookrecord(BUID);
-				if (!flag1) {
-					boolean flag=userbizimpl.addborrowbook(bookrecord);
-					if (flag) {
-						json.addProperty("msg", "借阅成功");
-					}					
+			String uuid="610a4b8997964d4084ef15157951f093";
+//			String BUID=request.getParameter("BUID");
+			String BUID="af9e7629cf834dc083ce894391effa98";
+				BookRecord bookrecord=new BookRecord(Tools.UUID(), BUID, uuid, null, null, 0);
+				if (userbizimpl.BookrecordCount(longUUID)) {
+					boolean flag1=userbizimpl.FindBookrecord(BUID);
+					if (!flag1) {					
+						boolean flag=userbizimpl.addborrowbook(bookrecord);
+						if (flag) {
+							json.addProperty("msg", "借阅成功");
+						}					
+					}else {
+						json.addProperty("msg", "借阅失败,你已经借阅该书籍");
+					}
 				}else {
-					json.addProperty("msg", "借阅失败,你已经借阅该书籍");
+					json.addProperty("msg", "借阅失败,超出借书上限");
 				}
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
+			out.append(json.toString());
+			out.close();	
 		}else if ("/Addbookkeep".equals(path)) {
-			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			JsonObject json = new JsonObject();
-			String BUID=request.getParameter("BUID");
-			try {
-				BookKeep bookkeep=new BookKeep(Tools.UUID(), longUUID, BUID, format.parse(Tools.getDate()));
+//			String BUID=request.getParameter("BUID");
+//			String uuid="610a4b8997964d4084ef15157951f093";
+			String BUID="c4db15e0b31c494699cf992201333d0f";
 				boolean flag=userbizimpl.FindBookkeep(BUID);
 				if (!flag) {
+					BookKeep bookkeep=new BookKeep(Tools.UUID(), longUUID, BUID,null);
 					boolean flag1=userbizimpl.addbookkeep(bookkeep);
 					if (flag1) {
 						json.addProperty("msg", "收藏成功");
@@ -170,10 +166,9 @@ public class UserController extends HttpServlet {
 				}else {
 					json.addProperty("msg", "收藏失败,你已经收藏该书籍");
 				}
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-		}	else{
+			out.append(json.toString());
+			out.close();	
+		}else{
 			request.getRequestDispatcher("../404.jsp").forward(request, response);
 		}
 	}
@@ -191,7 +186,7 @@ public class UserController extends HttpServlet {
 			String MD5password=Tools.MD5(PASSWORD);
 			String QUESTION=request.getParameter("question1");
 			String ANSWER=request.getParameter("answer"); 
-			User user=new User(PHONE, EMAIL, MD5password, Tools.MD5(ANSWER), QUESTION);
+			User user=new User(null, PHONE, EMAIL, MD5password, Tools.MD5(ANSWER), QUESTION, null, null, 0, 0, null, null, null, null);
 				if (userbizimpl.add(user)) {			
 					response.setHeader("refresh","1;url=http://localhost:8080/bookManager/jsp/user/login.jsp");
 				}else {
@@ -338,6 +333,35 @@ public class UserController extends HttpServlet {
 				json.addProperty("msg", "删除成功");
 			}else{
 				json.addProperty("msg", "删除失败");
+			}
+			out.print(json.toString());
+			out.close();
+		}else if ("/borrowbookkeep".equals(path)) {
+			JsonObject json = new JsonObject();
+			String KUID=request.getParameter("KUID");
+			String BUID=userbizimpl.findbyKUID(KUID);
+			BookRecord bookrecord=new BookRecord(Tools.UUID(), BUID, longUUID, null, null, 0);
+			if (userbizimpl.BookrecordCount(longUUID)) {
+				boolean flag1=userbizimpl.FindBookrecord(BUID);
+				if (!flag1) {
+					boolean flag=userbizimpl.addborrowbook(bookrecord);
+					boolean flag2=userbizimpl.deletebookkeep(KUID, longUUID);
+					if (flag&&flag2) {
+						json.addProperty("msg", "借阅成功");
+					}										
+				}else {
+					json.addProperty("msg", "借阅失败,你已经借阅该书籍");
+				}
+			}else {
+				json.addProperty("msg", "借阅失败,超出借书上限");
+			}
+			out.print(json.toString());
+			out.close();
+		}else if ("/returnbookrecord".equals(path)) {
+			JsonObject json = new JsonObject();
+			String RUID=request.getParameter("RUID");
+			if (userbizimpl.returnbookrecord(longUUID, RUID)) {
+				json.addProperty("msg", "还书成功");
 			}
 			out.print(json.toString());
 			out.close();

@@ -24,7 +24,7 @@
       </div>
     </div>
     <div class='box_main'>
-    <div class="line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="<%=basePath %>img/rs/注册1.jpg"   width="50" height="50"/></div>
+    <div class="line">&nbsp;<img src="<%=basePath %>img/rs/注册1.jpg"   width="50" height="50"/></div>
     <div class="line" id='line1'>欢迎注册</div>
       <div id="register" class="register">
         <form id="form" action="<%=basePath %>user/regist.do" method="post" onSubmit="return check();">

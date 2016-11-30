@@ -1,5 +1,6 @@
 package main.biz.impl;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -136,8 +137,8 @@ public class UserBizImpl implements UserBiz{
 	}
 
 	@Override
-	public boolean UpdateUserLoginTime(String date, String longUUID) {
-		boolean flag=userdaoimpl.UpdateUserLoginTime(date, longUUID);
+	public boolean UpdateUserLoginTime(String longUUID) {
+		boolean flag=userdaoimpl.UpdateUserLoginTime(longUUID);
 		return flag;
 	}
 
@@ -168,6 +169,24 @@ public class UserBizImpl implements UserBiz{
 	@Override
 	public boolean FindBookkeep(String BUID) {
 		boolean flag=userdaoimpl.FindBookkeep(BUID);
+		return flag;
+	}
+
+	@Override
+	public String findbyKUID(String KUID) {
+		String BUID=userdaoimpl.findbyKUID(KUID);
+		return BUID;
+	}
+
+	@Override
+	public boolean BookrecordCount(String longUUID) {
+		boolean flag=userdaoimpl.BookrecordCount(longUUID);
+		return flag;
+	}
+
+	@Override
+	public boolean returnbookrecord(String longUUID, String RUID) {
+		boolean flag=userdaoimpl.returnbookrecord(longUUID, RUID);
 		return flag;
 	}
 
