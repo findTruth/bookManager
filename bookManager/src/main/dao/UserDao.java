@@ -32,12 +32,15 @@ public interface UserDao {
 	public List<Bookrecord> listbookrecord(String longUUID);//全表查询
 	public boolean addborrowbook(BookRecord bookrecord);//增加借书记录
 	public List<Bookrecord> listbookrecord(String longUUID,String Content);//根据书名查找
+	public boolean FindBookrecord(String BUID);//判断是否收藏的书籍是否存在
 	
 	//用户收藏记录
 	public List<Bookkeep> listbookkeep(String longUUID);//全表查询
 	public boolean addbookkeep(BookKeep bookkeep);//增加借书记录
 	public boolean deletebookkeep(String KUID,String longUUID);//删除收藏记录
 	public List<Bookkeep> listbookkeep(String longUUID,String Content);//根据作者或者书名查找
+	public boolean FindBookkeep(String BUID);//判断是否收藏的书籍是否存在
+	
 	//登入界面
 	public boolean FindUser(String user);//判断用户是否存在
 	public boolean UpdateUserLoginTime(String date,String longUUID);//更新最新登入时间

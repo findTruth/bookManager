@@ -33,11 +33,13 @@ public interface UserBiz {
 	public List<Bookrecord> bookrecordList(String longUUID);
 	public boolean addborrowbook(BookRecord bookrecord);//增加借书记录
 	public List<Bookrecord> listbookrecord(String longUUID,String Content);//根据书名查找
+	public boolean FindBookrecord(String BUID);//判断是否收藏的书籍是否存在
 	//收藏记录
 	public List<Bookkeep> listbookkeep(String longUUID);//全表查询
 	public boolean addbookkeep(BookKeep bookkeep);//增加借书记录
 	public boolean deletebookkeep(String KUID,String longUUID);//删除收藏记录
 	public List<Bookkeep> listbookkeep(String longUUID,String Content);//根据作者或者书名查找
+	public boolean FindBookkeep(String BUID);//判断是否收藏的书籍是否存在
 	//用户全表查询
 	public List<User> userList();
 	//登入界面

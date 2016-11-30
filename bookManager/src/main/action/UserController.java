@@ -2,6 +2,8 @@ package main.action;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 
@@ -20,6 +22,8 @@ import main.biz.impl.BookBizImpl;
 import main.biz.impl.ManagerBizImpl;
 import main.biz.impl.UserBizImpl;
 import main.dao.impl.UserDaoImpl;
+import main.entity.BookKeep;
+import main.entity.BookRecord;
 import main.entity.User;
 import main.javaBean.Bookkeep;
 import main.javaBean.Bookrecord;
@@ -47,7 +51,7 @@ public class UserController extends HttpServlet {
 			userbizimpl.UpdateUserLoginTime(Tools.getDate(), longUUID);
 			request.getRequestDispatcher("../jsp/user/home.jsp").forward(request, response);
 		}else if ("/BookCentre".equals(path)) {
-			request.getRequestDispatcher("../book/bookmanager.do").forward(request, response);
+			request.getRequestDispatcher("../book/UserBook.do").forward(request, response);
 		}else if ("/userGeRen".equals(path)) {
 			User user=userbizimpl.find(longUUID);
 			request.setAttribute("Nicname", user.getNICNAME());
@@ -132,9 +136,44 @@ public class UserController extends HttpServlet {
 				json.add("jsonRoot",new Gson().toJsonTree(list));						
 			}
 			out.append(json.toString());
-			out.close();
-			
-		}else{
+			out.close();	
+		}else if ("/Addborrow".equals(path)) {
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			JsonObject json = new JsonObject();
+			String BUID=request.getParameter("BUID");
+			try {
+				BookRecord bookrecord=new BookRecord(Tools.UUID(), BUID, longUUID, format.parse(Tools.getDate()), null, 1);
+				boolean flag1=userbizimpl.FindBookrecord(BUID);
+				if (!flag1) {
+					boolean flag=userbizimpl.addborrowbook(bookrecord);
+					if (flag) {
+						json.addProperty("msg", "借阅成功");
+					}					
+				}else {
+					json.addProperty("msg", "借阅失败,你已经借阅该书籍");
+				}
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		}else if ("/Addbookkeep".equals(path)) {
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			JsonObject json = new JsonObject();
+			String BUID=request.getParameter("BUID");
+			try {
+				BookKeep bookkeep=new BookKeep(Tools.UUID(), longUUID, BUID, format.parse(Tools.getDate()));
+				boolean flag=userbizimpl.FindBookkeep(BUID);
+				if (!flag) {
+					boolean flag1=userbizimpl.addbookkeep(bookkeep);
+					if (flag1) {
+						json.addProperty("msg", "收藏成功");
+					}
+				}else {
+					json.addProperty("msg", "收藏失败,你已经收藏该书籍");
+				}
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		}	else{
 			request.getRequestDispatcher("../404.jsp").forward(request, response);
 		}
 	}

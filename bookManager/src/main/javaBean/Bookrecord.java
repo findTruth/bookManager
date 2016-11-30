@@ -10,7 +10,6 @@ public class Bookrecord {
 	public Bookrecord(){}
 	
 	public Bookrecord(String bname, Date sTARTTIME, Date oVERTIME, int sTATUS) {
-		super();
 		Bname = bname;
 		STARTTIME = sTARTTIME;
 		OVERTIME = oVERTIME;

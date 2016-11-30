@@ -159,5 +159,17 @@ public class UserBizImpl implements UserBiz{
 		return list;
 	}
 
+	@Override
+	public boolean FindBookrecord(String BUID) {
+		boolean flag=userdaoimpl.FindBookrecord(BUID);
+		return flag;
+	}
+
+	@Override
+	public boolean FindBookkeep(String BUID) {
+		boolean flag=userdaoimpl.FindBookkeep(BUID);
+		return flag;
+	}
+
 	
 }

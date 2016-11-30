@@ -38,3 +38,13 @@
 说明：连接图书的全表查询页面(界面要有借阅和收藏两个按钮，并提供图书BUID)
 参数：无
 发送方式：get
+
+接口uri:/bookManager/user/Addborrow.do
+说明：点击借阅按钮，修改数据库，并返回提示信息
+参数：图书BUID
+发送方式：get
+
+接口uri:/bookManager/user/Addbookkeep.do
+说明：点击收藏按钮，修改数据库,并返回提示信息
+参数：图书BUID
+发送方式：get

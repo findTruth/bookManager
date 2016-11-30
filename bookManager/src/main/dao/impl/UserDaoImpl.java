@@ -582,10 +582,59 @@ public class UserDaoImpl implements UserDao{
 				bookrecord.setSTATUS(rs.getInt("STATUS"));
 				list.add(bookrecord);
 			}
+			DBhelper_mysql.closeConnection(rs, ps, conn);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return list;
+	}
+
+	@Override
+	public boolean FindBookrecord(String BUID) {
+		boolean flag=false;
+		String buid=null;
+		Date overtime=null;
+		try {
+			Connection conn=DBhelper_mysql.getConnection();
+			String sql="select BUID, OVERTIME from TB_BookRecord where BUID=?";
+			PreparedStatement ps=conn.prepareStatement(sql);
+			ps.setString(1, BUID);
+			ResultSet rs=ps.executeQuery();
+			while (rs.next()) {
+				buid=rs.getString("BUID");	
+				overtime=rs.getDate("OVERTIME");
+			}
+			if (buid!=null&&overtime==null) {
+				flag=true;
+			}
+			DBhelper_mysql.closeConnection(rs, ps, conn);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return flag;
+	}
+
+	@Override
+	public boolean FindBookkeep(String BUID) {
+		boolean flag=false;
+		String buid=null;
+		try {
+			Connection conn=DBhelper_mysql.getConnection();
+			String sql="select BUID from TB_BookKeep where BUID=?";
+			PreparedStatement ps=conn.prepareStatement(sql);
+			ps.setString(1, BUID);
+			ResultSet rs=ps.executeQuery();
+			while (rs.next()) {
+				buid=rs.getString("BUID");	
+			}
+			if (buid!=null) {
+				flag=true;
+			}
+			DBhelper_mysql.closeConnection(rs, ps, conn);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return flag;
 	}
 
 }
