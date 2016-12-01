@@ -41,7 +41,7 @@
                         + "</td>").append("<td class='col6'>" + dataRoot[j].AUTHOR  
                         + "</td>").append("<td class='col7'>" + dataRoot[j].VALUE  
                         + "</td>").append("<td class='col8'>" + dataRoot[j].KINDNO  
-                        + "</td>").append("<td class='col9'>" + "修改"  
+                        + "</td>").append("<td class='col9'>" + "<a class='updateButton' style='cursor:pointer'; name="+dataRoot[j].BUID+">修改</a>"
                         + "</td>");
             }  
         } else {  
@@ -63,6 +63,10 @@
             }  
         }  
         $(".page-count").text(totalCount);  
+         $(".updateButton").click(function(){
+			var id = $(this).attr("name");
+			openUpdate(id);
+		});
     },"json")  
 }  
 function getPage(url) {  
@@ -146,7 +150,41 @@ function gotoPage(pn,url) {
 
  $(function(){
     getPage("<%=basePath%>book/list.do"); 
- })
+ 
+ });
+ 
+ function flushPage() {
+		getPage("<%=basePath%>book/list.do");
+	}
+//通过id查找员工信息
+	function findById(id) {
+		var data1 = "";
+		$.ajax({
+			type: "POST",
+			url: "<%=basePath%>employee/findById.do?EUID=" + id,
+			async: false,
+			dataType: 'json',
+			success: function(data) {
+				 data1 = data;
+			}
+		});
+		return data1;
+	}
+//跳转修改界面
+	function openUpdate(id) {
+//		var id = $(this).attr("name");
+		var data = findById(id);
+		//alert();
+		$("#changeuid").val(data.EUID);
+		$("#changeuname").val(data.UNAME);
+		$("#changename").val(data.NAME);
+		$("#changephone").val(data.PHONE);
+		$("#changeqq").val(data.QQ);
+		$("#changeid").val(data.ID);
+		$("#changeage").val(data.AGE);
+		$("#changequan").val(data.QUAN);
+		$("#change").fadeIn(200);
+	}
 </script>
 <script type="text/javascript">
     // $(document).ready(function () { $("#loadgif").hide();});
