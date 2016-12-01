@@ -16,7 +16,9 @@
 <script type="text/javascript">
     function getJSONData(pn,url) {  
     // alert(pn);  
-    $.getJSON(url, function(data) {  
+   
+    $.post(url, function(data) {  
+    	
         var totalCount = data.totalCount; // 总记录数  
         var pageSize = 10; // 每页显示几条记录  
         var pageTotal = Math.ceil(totalCount / pageSize); // 总页数  
@@ -61,11 +63,11 @@
             }  
         }  
         $(".page-count").text(totalCount);  
-    })  
+    },"json")  
 }  
 function getPage(url) {  
-    $.getJSON(url, function(data) {  
-
+    $.post(url, function(data) {  
+    	
                 pn = 1;  
                 var totalCount = data.totalCount; // 总记录数  
                 var pageSize = 10; // 每页显示几条记录  
@@ -124,6 +126,7 @@ function getPage(url) {
                         $(".page-num").val('').focus();  
                     }  
                 });
+               
                 $(".paginItema").click(function(){
                     var pn = $(this).attr('name');
                     $(".paginItem").attr("class","paginItem");
@@ -132,7 +135,7 @@ function getPage(url) {
                 });
                 $("#firstPage").trigger("click");  
                   
-            })  
+            },"json")  
 }  
 function gotoPage(pn,url) {  
     //alert(pn);  

@@ -33,11 +33,8 @@ public class EmployeeController extends HttpServlet {
 		if ("/empwork".equals(path)) {
 			request.getRequestDispatcher("../jsp/emp/empwork.jsp");
 		}else if("/list".equals(path)){
-			JsonObject json = new JsonObject();
 			List<Emp> list = new EmployeeBizImpl().empList();
-			json.addProperty("totalCount", list.size());
-			json.add("jsonRoot", new Gson().toJsonTree(list));
-			response.getWriter().append(json.toString());
+			response.getWriter().append(Tools.json(list));
 			response.getWriter().close();
 		} else {
 			request.getRequestDispatcher("../404.jsp").forward(request, response);

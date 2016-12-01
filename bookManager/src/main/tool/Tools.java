@@ -19,12 +19,18 @@ public class Tools {
 	public final static String cut(String uri){
 		return uri.substring(uri.lastIndexOf("/"),uri.lastIndexOf("."));
 	}
+	
+	//MD5加密
 	public final static String MD5(String pwd){
 		return MD5Tools.MD5("bookManager@jerry"+pwd);
 	}
+	
+	//生成UUID
 	public final static String UUID(){
 		return UUIDUtils.createUUID();
 	}
+	
+	//获得验证码
 	public final static boolean getVerifyImage(HttpServletRequest request,HttpServletResponse response){
 		try {
 			VerifyImage.getImage(request, response);
@@ -36,7 +42,7 @@ public class Tools {
 	}
 	
 	
-	
+	//时间格式化
 	public final static String formatDate(Date date){
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		if (date!=null) {
@@ -46,7 +52,8 @@ public class Tools {
 		}
 	}
 	
-	public final static String json(List<Object> list){
+	//分页打表
+	public final static <T> String json(List<T> list){
 		JsonObject json = new JsonObject();
 		json.addProperty("totalCount", list.size());
 		json.add("jsonRoot", new Gson().toJsonTree(list));
