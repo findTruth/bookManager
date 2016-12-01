@@ -145,17 +145,14 @@ function getJSONData(pn, url) {
 			}
 			$(".page-count").text(totalCount);
 			$(".Addbookkeep").click(function(){
-				alert("111");
 				var id = $(this).attr("name");
 				Addbookkeep(id);
 			});
 			$(".Addbookrecord").click(function(){
-				alert("111");
 				var id = $(this).attr("name");
 				Addbookrecord(id);
 			});
-		});
-		
+		});	
 	}
 
 	function getPage(url) {
@@ -251,7 +248,6 @@ function getJSONData(pn, url) {
 			url: "<%=basePath%>user/#.do?BUID=" + id,
 			async: false,
 			dataType: 'json',
-			data:jsondata,
 			success: function(data) {
 				alert(data.msg);
 			}
@@ -264,7 +260,6 @@ function getJSONData(pn, url) {
 			url: "<%=basePath%>user/#.do?BUID=" + id,
 			async: false,
 			dataType: 'json',
-			data:jsondata,
 			success: function(data) {
 				alert(data.msg);
 			}
