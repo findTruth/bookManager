@@ -39,7 +39,7 @@
                         + "</td>").append("<td class='col6'>" + dataRoot[j].AUTHOR  
                         + "</td>").append("<td class='col7'>" + dataRoot[j].VALUE  
                         + "</td>").append("<td class='col8'>" + dataRoot[j].KINDNO  
-                        + "</td>").append("<td class='col9'>" + "修改"  
+                        + "</td>").append("<td class='col9'>" + "<a class='updateButton' style='cursor:pointer'; name="+dataRoot[j].BUID+">修改</a>"  
                         + "</td>");
             }  
         } else {  
@@ -56,11 +56,15 @@
                         + "</td>").append("<td class='col6'>" + dataRoot[j].AUTHOR  
                         + "</td>").append("<td class='col7'>" + dataRoot[j].VALUE  
                         + "</td>").append("<td class='col8'>" + dataRoot[j].KINDNO  
-                        + "</td>").append("<td class='col9'>" + "修改"  
+                        + "</td>").append("<td class='col9'>" + "<a class='updateButton' style='cursor:pointer'; name="+dataRoot[j].BUID+">修改</a>"  
                         + "</td>");
             }  
         }  
-        $(".page-count").text(totalCount);  
+        $(".page-count").text(totalCount); 
+        $(".updateButton").click(function(){
+			var id = $(this).attr("name");
+			openUpdate(id);
+		});
     })  
 }  
 function getPage(url) {  

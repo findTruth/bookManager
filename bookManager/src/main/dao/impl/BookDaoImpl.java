@@ -48,7 +48,7 @@ public class BookDaoImpl implements BookDao {
 	@Override
 	public Book findByName(String NAME) {
 		Book book = null;
-		String sql = "select BUID,NAME,DATE,PRESS,AUTHOR,VALUE,KINDNO,STATUS,ADDRESS from TB_Book where NAME=?";
+		String sql = "select BUID,NAME,DATE,PRESS,AUTHOR,VALUE,KINDNO,STATUS,ADDRESS,PICTURE from TB_Book where NAME=?";
 		try {
 			Connection conn = DBhelper_mysql.getConnection();
 			PreparedStatement ps = conn.prepareStatement(sql);
@@ -77,10 +77,12 @@ public class BookDaoImpl implements BookDao {
 		String AUTHOR=book.getAUTHOR();
 		String VALUE=book.getVALUE(); 
 		String KINDNO=book.getKINDNO();
+		String ADDRESS=book.getADDRESS();
 		int STATUS=book.getSTATUS(); 
+		String PICTURE=book.getPICTURE();
 		try {
 			Connection conn=DBhelper_mysql.getConnection();
-			String sql="insert into TB_Book(BUID,NAME,DATE,PRESS,AUTHOR,VALUE,KINDNO,STATUS) values(?,?,?,?,?,?,?,?)";
+			String sql="insert into TB_Book(BUID,NAME,DATE,PRESS,AUTHOR,VALUE,KINDNO,ADDRESS,STATUS,PICTURE) values(?,?,?,?,?,?,?,?,?,?)";
 			PreparedStatement ps=conn.prepareStatement(sql);
 			ps.setString(1, BUID);
 			ps.setString(2, NAME);
@@ -89,7 +91,9 @@ public class BookDaoImpl implements BookDao {
 			ps.setString(5, AUTHOR);
 			ps.setString(6, VALUE);
 			ps.setString(7, KINDNO);
-			ps.setInt(8, STATUS);
+			ps.setString(8, ADDRESS);
+			ps.setInt(9, STATUS);
+			ps.setString(10, PICTURE);
 			int n=ps.executeUpdate();
 			if (n==1) {
 				flag=true;
