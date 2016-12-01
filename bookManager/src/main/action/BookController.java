@@ -58,6 +58,9 @@ public class BookController extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String path = Tools.cut(request.getRequestURI());
+		response.setCharacterEncoding("utf-8");
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("text/plain"); 
 		if ("/borrow".equals(path)) {
 			ManagerBizImpl mbi = new ManagerBizImpl();
 			try {
@@ -67,6 +70,15 @@ public class BookController extends HttpServlet {
 				response.getWriter().close();
 			}
 			request.getRequestDispatcher("../jsp/emp/borrow.jsp").forward(request, response);
+		}else if("/list".equals(path)){
+			BookBizImpl bbi = new BookBizImpl();
+			int type = Integer.valueOf(request.getParameter("type"));
+			String keyword = request.getParameter("keyword");
+			List<Book> list = bbi.bookList();
+			JsonObject json = new JsonObject();
+			json.addProperty("totalCount", list.size());
+			json.add("jsonRoot", new Gson().toJsonTree(list));
+			response.getWriter().append(json.toString());
 		}else {
 			request.getRequestDispatcher("../404.jsp").forward(request, response);
 		}
