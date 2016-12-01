@@ -341,7 +341,7 @@
 //				alert($(this).attr("name"));
 				var id = $(this).attr("name");
 				openChange(id);
-			});
+			});	
 		})
 	}
 

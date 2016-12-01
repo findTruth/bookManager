@@ -34,7 +34,7 @@
                 $(".tr-tag").eq(j).append("<td class='col1'><input type='checkbox' value='"+parseInt(j + 1)+"'/></td>")  
                 .append("<td class='col2'>" + parseInt(j + 1)  
                         + "</td>").append("<td class='col3'>" + dataRoot[j].NAME + "<p>" + dataRoot[j].DATE + "</p>"
-                        + "</td>").append("<td class='col4'>" + "图片"  
+                        + "</td>").append("<td class='col4'>" + "<img src='<%=basePath %>"+dataRoot[j].ADDRESS+"'>" 
                         + "</td>").append("<td class='col5'>" + dataRoot[j].PRESS  
                         + "</td>").append("<td class='col6'>" + dataRoot[j].AUTHOR  
                         + "</td>").append("<td class='col7'>" + dataRoot[j].VALUE  
@@ -51,7 +51,7 @@
                  $(".tr-tag").eq(k).append("<td class='col1'><input type='checkbox' value='"+parseInt(j + 1)+"'/></td>")  
                 .append("<td class='col2'>" + parseInt(j + 1)  
                         + "</td>").append("<td class='col3'>" + dataRoot[j].NAME + "<p>" + dataRoot[j].DATE + "</p>"
-                        + "</td>").append("<td class='col4'>" + "图片"  
+                        + "</td>").append("<td class='col4'>" + "<img src='<%=basePath %>"+dataRoot[j].ADDRESS+"'>"
                         + "</td>").append("<td class='col5'>" + dataRoot[j].PRESS  
                         + "</td>").append("<td class='col6'>" + dataRoot[j].AUTHOR  
                         + "</td>").append("<td class='col7'>" + dataRoot[j].VALUE  
@@ -197,7 +197,7 @@ $(document).ready(function(){
     <div class="tools">
     
     	<ul class="toolbar">
-        <li class="click"><span><img src="<%=basePath%>moban/images/t01.png" /></span>添加</li>
+        <li class="click"><span><img src="<%=basePath%>moban/images/t01.png" onclick="location.href='<%=basePath %>jsp/book/add.jsp'"/></span>添加</li>
         <li class="click"><span><img src="<%=basePath%>moban/images/t02.png" /></span>修改</li>
         <li><span><img src="<%=basePath%>moban/images/t03.png" /></span>删除</li>
         <li><span><img src="<%=basePath%>moban/images/t04.png" /></span>统计</li>

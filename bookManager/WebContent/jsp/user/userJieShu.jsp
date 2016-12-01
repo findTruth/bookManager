@@ -246,7 +246,7 @@ $(document).ready(function(){
      <div class="tools">
     	<center style="font-size: 15px;">搜索:&nbsp;&nbsp;<input type="text" value="" name="Search" placeholder="请输入书名" style="width: 200px;height: 40px"/>&nbsp;&nbsp;<input type="button" value="确定" class="Search" style="background:url(../moban/images/buttonbg.png) repeat-x;width:96px; height:35px;" onclick="Findbookrecord()"/>&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value="取消" style="background:url(../moban/images/buttonbg.png) repeat-x;width:96px; height:35px;" onclick="returnbookrecord()"/></center>
     </div></br>   
-    <table class="imgtable">
+    <table class="imgtable">‘
     
     <thead>
     <tr>

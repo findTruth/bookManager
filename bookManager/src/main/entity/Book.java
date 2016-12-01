@@ -28,7 +28,7 @@ public class Book {
 		VALUE = vALUE;
 		KINDNO = kINDNO;
 		ADDRESS = aDDRESS;
-		STATUS = sTATUS;
+		STATUS = sTATUS;		
 	}
 
 	public String getBUID() {
@@ -86,5 +86,6 @@ public class Book {
 	public void setSTATUS(int sTATUS) {
 		STATUS = sTATUS;
 	}
+	
 	
 }

@@ -53,7 +53,13 @@ $(document).ready(function(){
                 <br><div class="add-lx">
                 	图书类型:
                   <select name="add1" id="add1" disable=true>
-					<option selected="selected" value="0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;请选择图书类型</option></br>
+					<option selected="selected" value="0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<div class="imglist" id="list" style="height:500px;width:1000px;margin-left:35px;">
+     
+     </div><div class="imglist" id="list" style="height:500px;width:1000px;margin-left:35px;">
+     
+     </div><div class="imglist" id="list" style="height:500px;width:1000px;margin-left:35px;">
+     
+     </div>请选择图书类型</option></br>
 					<option value="文学类">文学类</option>
 					<option value="法律类">法律类</option>
 					<option value="历史类">历史类</option>
