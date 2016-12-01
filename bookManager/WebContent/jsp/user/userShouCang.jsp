@@ -298,48 +298,12 @@ $(document).ready(function(){
     </tbody>
     
     </table>
-    
-    
-    
-    
-   
-    <!-- <div id="loadgif" style="width:66px;height:66px;position:absolute;top:50%;left:50%;">
-　　  <img  alt="加载中..." src="<%=basePath%>res/sys/wait.gif"/>
-    </div> -->
-
-			<div class="pagin">
+ 
+<div class="pagin">
 				<div class="message" style="font-size: 15px">共&nbsp;&nbsp;<i class="blue page-count" style="font-size: 15px"></i>&nbsp;&nbsp;条纪录，当前显示第&nbsp;&nbsp;<i class="blue current-page" style="font-size: 15px"></i>&nbsp;&nbsp;页</div>
 				<ul class="paginList">
-					<!-- <li class="paginItem"><a id="prev"><span class="pagepre"></span></a></li>
-        
-        <li class="paginItem"><a id="firstPage">1</a></li>
-        
-        <li class="paginItem current"><a href="javascript:;">2</a></li>
-        <li class="paginItem"><a href="javascript:;">3</a></li>
-        <li class="paginItem"><a href="javascript:;">4</a></li>
-        <li class="paginItem"><a href="javascript:;">5</a></li>
-        <li class="paginItem more"><a href="javascript:;">...</a></li>
-        <li class="paginItem"><a href="javascript:;">10</a></li> 
-        <li class="paginItem"><a id="next"><span class="pagenxt"></span></a></li> -->
-    
-    <div class="tip">
-    	<div class="tiptop"><span>提示信息</span><a></a></div>
-        
-      <div class="tipinfo">
-        <span><img src="<%=basePath%>moban/images/ticon.png" /></span>
-        <div class="tipright">
-        <p>是否确认对信息的修改 ？</p>
-        <cite>如果是请点击确定按钮 ，否则请点取消。</cite>
-        </div>
-        </div>
-        
-        <div class="tipbtn">
-        <input name="" type="button"  class="sure" value="确定" />&nbsp;
-        <input name="" type="button"  class="cancel" value="取消" />
-        </div>
-    
-    </div>
-  </div>   
+ 
+ </div>   
     
 <div class="tip" id="delete">
 	

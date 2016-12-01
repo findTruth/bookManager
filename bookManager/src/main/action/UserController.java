@@ -2,6 +2,7 @@ package main.action;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -20,6 +21,7 @@ import main.entity.BookRecord;
 import main.entity.User;
 import main.javaBean.Bookkeep;
 import main.javaBean.Bookrecord;
+import main.javaBean.UserBen;
 import main.tool.Tools;
 
 /**
@@ -119,22 +121,9 @@ public class UserController extends HttpServlet {
 				out.append(json.toString());
 				out.close();						
 			}			
-		}else if ("/AddUser".equals(path)) {
-			
-		}else if ("/UserList".equals(path)) {
-			List<User> list=userbizimpl.userList(); 
-			JsonObject json = new JsonObject();
-			if (list!=null) {
-				json.addProperty("totalCount",list.size());
-				json.add("jsonRoot",new Gson().toJsonTree(list));						
-			}
-			out.append(json.toString());
-			out.close();	
 		}else if ("/Addborrow".equals(path)) {
 			JsonObject json = new JsonObject();
-//			String uuid="610a4b8997964d4084ef15157951f093";
 			String BUID=request.getParameter("BUID");
-//			String BUID="af9e7629cf834dc083ce894391effa98";
 				BookRecord bookrecord=new BookRecord(Tools.UUID(), BUID, longUUID, null, null, 0);
 				if (userbizimpl.BookrecordCount(longUUID)) {
 					boolean flag1=userbizimpl.FindBookrecord(BUID);
@@ -154,8 +143,6 @@ public class UserController extends HttpServlet {
 		}else if ("/Addbookkeep".equals(path)) {
 			JsonObject json = new JsonObject();
 			String BUID=request.getParameter("BUID");
-//			String uuid="610a4b8997964d4084ef15157951f093";
-//			String BUID="c4db15e0b31c494699cf992201333d0f";
 				boolean flag=userbizimpl.FindBookkeep(BUID);
 				if (!flag) {
 					BookKeep bookkeep=new BookKeep(Tools.UUID(), longUUID, BUID,null);
@@ -168,7 +155,28 @@ public class UserController extends HttpServlet {
 				}
 			out.append(json.toString());
 			out.close();	
-		}else{
+		}else if ("/UserList".equals(path)) {
+			int type=Integer.parseInt(request.getParameter("#"));
+			String content=request.getParameter("#");
+//			int type=3;
+//			String content="武";
+			JsonObject json = new JsonObject();
+			List<UserBen> list=new ArrayList<UserBen>();
+			if (type==3) {				
+				list=userbizimpl.userList(type, "%".concat(content).concat("%"));
+			}else {
+				list=userbizimpl.userList(type, content);
+			}
+			if (list!=null) {
+				json.addProperty("totalCount",list.size());
+				json.add("jsonRoot",new Gson().toJsonTree(list));						
+			}else {
+				json.addProperty("msg", "你需要查找的用户不存在,请重新输入");
+			}
+			out.append(json.toString());
+			out.close();	
+		}	
+		else{
 			request.getRequestDispatcher("../404.jsp").forward(request, response);
 		}
 	}
@@ -365,7 +373,7 @@ public class UserController extends HttpServlet {
 			}
 			out.print(json.toString());
 			out.close();
-		}	
+		}
 		else {
 			request.getRequestDispatcher("../404.jsp").forward(request, response);
 		}

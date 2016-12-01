@@ -57,7 +57,6 @@ function getJSONData(pn, url) {
 						"</td>");
 			}
 		} else {
-
 			for(var j = startPage, k = 0; j < endPage, k < pageSize; j++, k++) {
 				if(j == totalCount) {
 					break; // 当遍历到最后一条记录时，跳出循环  
@@ -81,12 +80,12 @@ function getJSONData(pn, url) {
 				
 				$(".tr-tag").eq(j).append("<td class='col1'><input type='checkbox' value='" + parseInt(j + 1) + "'/></td>")
 					.append("<td class='col2'>" + parseInt(j + 1) +
-						"</td>").append("<td class='col3'>" + dataRoot[j].Bname +
-						"</td>").append("<td class='col4'>" + dataRoot[j].STARTTIME +
-						"</td>").append("<td class='col5'>" + overtime +
-						"</td>").append("<td class='col6'>" + status +
-						"</td>").append("<td class='col7'>" + "<a class='returnButton' style='cursor:pointer'; name="+dataRoot[j].RUID+">"+handle+"</a>" +
-						"</td>");
+					"</td>").append("<td class='col3'>" + dataRoot[j].Bname +
+					"</td>").append("<td class='col4'>" + dataRoot[j].STARTTIME +
+					"</td>").append("<td class='col5'>" + overtime +
+					"</td>").append("<td class='col6'>" + status +
+					"</td>").append("<td class='col7'>" + "<a class='returnButton' style='cursor:pointer'; name="+dataRoot[j].RUID+">"+handle+"</a>" +
+					"</td>");
 			}
 		}
 		$(".page-count").text(totalCount);
@@ -281,7 +280,7 @@ $(document).ready(function(){
      <div class="tools">
     	<center style="font-size: 15px;">搜索:&nbsp;&nbsp;<input type="text" value="" name="Search" placeholder="请输入书名" style="width: 200px;height: 40px"/>&nbsp;&nbsp;<input type="button" value="确定" class="Search" style="background:url(../moban/images/buttonbg.png) repeat-x;width:96px; height:35px;" onclick="Findbookrecord()"/>&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value="取消" style="background:url(../moban/images/buttonbg.png) repeat-x;width:96px; height:35px;" onclick="returnbookrecord()"/></center>
     </div></br>   
-    <table class="imgtable">‘
+    <table class="imgtable">
     
     <thead>
     <tr>
@@ -302,59 +301,11 @@ $(document).ready(function(){
     </table>
     
     
-    
-    
-   
-    <!-- <div id="loadgif" style="width:66px;height:66px;position:absolute;top:50%;left:50%;">
-　　  <img  alt="加载中..." src="<%=basePath%>res/sys/wait.gif"/>
-    </div> -->
 
 <div class="pagin">
 				<div class="message" style="font-size: 15px">共&nbsp;&nbsp;<i class="blue page-count" style="font-size: 15px"></i>&nbsp;&nbsp;条纪录，当前显示第&nbsp;&nbsp;<i class="blue current-page" style="font-size: 15px"></i>&nbsp;&nbsp;页</div>
-				<ul class="paginList">
-					<!-- <li class="paginItem"><a id="prev"><span class="pagepre"></span></a></li>
-        
-        <li class="paginItem"><a id="firstPage">1</a></li>
-        
-        <li class="paginItem current"><a href="javascript:;">2</a></li>
-        <li class="paginItem"><a href="javascript:;">3</a></li>
-        <li class="paginItem"><a href="javascript:;">4</a></li>
-        <li class="paginItem"><a href="javascript:;">5</a></li>
-        <li class="paginItem more"><a href="javascript:;">...</a></li>
-        <li class="paginItem"><a href="javascript:;">10</a></li> 
-        <li class="paginItem"><a id="next"><span class="pagenxt"></span></a></li> -->
-    
-    <div class="tip">
-    	<div class="tiptop"><span>提示信息</span><a></a></div>       
-      <div class="tipinfo">
-        <span><img src="<%=basePath%>moban/images/ticon.png" /></span>
-        <div class="tipright">
-        <p>是否确认对信息的修改 ？</p>
-        <cite>如果是请点击确定按钮 ，否则请点取消。</cite>
-        </div>
-        </div>       
-        <div class="tipbtn">
-        <input name="" type="button"  class="sure" value="确定" />&nbsp;
-        <input name="" type="button"  class="cancel" value="取消" />
-        </div>   
-    </div>
+				<ul class="paginList"></ul>
 </div>
- <div class="tip">
-			<div class="tiptop"><span>提示信息</span>
-				<a></a>
-			</div>
-			<div class="tipinfo">
-				<span><img src="<%=basePath%>moban/images/ticon.png" /></span>
-				<div class="tipright">
-					<p>是否确认对信息的修改 ？</p>
-					<cite>如果是请点击确定按钮 ，否则请点取消。</cite>
-				</div>
-			</div>
-			<div class="tipbtn">
-				<input name="" type="button" class="sure" value="确定" />&nbsp;
-				<input name="" type="button" class="cancel" value="取消" />
-			</div>
-</div>	  
  
  <div class="tip" id="return">
 	

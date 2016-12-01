@@ -1,17 +1,16 @@
 package main.dao;
 
-import java.sql.Date;
 import java.util.List;
 
-import main.entity.Book;
 import main.entity.BookKeep;
 import main.entity.BookRecord;
 import main.entity.User;
 import main.javaBean.Bookkeep;
 import main.javaBean.Bookrecord;
+import main.javaBean.UserBen;
+
 
 public interface UserDao {
-	public List<User> userList();//用户列表
 	public User findByName(String user,String pwd);//通过账号user查找用户信息
 	public boolean del(User user);//删除用户
 	public boolean add(User user);//新增用户
@@ -48,4 +47,9 @@ public interface UserDao {
 	public boolean FindUser(String user);//判断用户是否存在
 	public boolean UpdateUserLoginTime(String longUUID);//更新最新登入时间
 	public String FindUserLoginTime(String longUUID);//查找最新登入时间
+	//用户查找
+	public List<UserBen> userList();//用户列表
+	public List<UserBen> FindUserbyPhone(String Phone);//根据用户手机号码查询
+	public List<UserBen> FindUserbyEMAIL(String Email);//根据用户邮箱查询
+	public List<UserBen> FindUserbyNicname(String Nicname);//根据用户昵称查询
 }
