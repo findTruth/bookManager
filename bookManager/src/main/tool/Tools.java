@@ -4,9 +4,13 @@ package main.tool;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import sun.util.resources.CalendarData;
 
@@ -31,11 +35,7 @@ public class Tools {
 		
 	}
 	
-	public final static String getDate(){
-		Calendar c1 = Calendar.getInstance();
-        c1.setTime(new Date());
-		return c1.getTime().toString();
-	}
+	
 	
 	public final static String formatDate(Date date){
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -44,5 +44,12 @@ public class Tools {
 		} else {
 			return "无数据";
 		}
+	}
+	
+	public final static String json(List<Object> list){
+		JsonObject json = new JsonObject();
+		json.addProperty("totalCount", list.size());
+		json.add("jsonRoot", new Gson().toJsonTree(list));
+		return json.toString();
 	}
 }
