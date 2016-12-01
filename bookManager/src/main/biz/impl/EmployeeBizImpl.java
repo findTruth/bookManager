@@ -5,6 +5,7 @@ import java.util.List;
 import main.biz.EmployeeBiz;
 import main.dao.impl.EmployeeDaoImpl;
 import main.entity.Emp;
+import main.javaBean.EmpWorkItem;
 
 public class EmployeeBizImpl implements EmployeeBiz {
 	EmployeeDaoImpl edi = new EmployeeDaoImpl();
@@ -26,6 +27,18 @@ public class EmployeeBizImpl implements EmployeeBiz {
 	@Override
 	public boolean changeAll(Emp emp) {
 		return edi.changeAll(emp);
+	}
+
+	@Override
+	public List<EmpWorkItem> listEmpWork() {
+		return edi.listEmpWork();
+	}
+
+	@Override
+	public boolean addEmpWork(String EUID) {
+		Emp emp = new Emp();
+		emp.setEUID(EUID);
+		return edi.addEmpWork(emp);
 	}
 
 }

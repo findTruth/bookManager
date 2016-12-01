@@ -25,7 +25,6 @@ public class User {
 	public User(String uUID, String pHONE, String eMAIL, String pASSWORD, String aNSWER, String qUESTION,
 			String nICNAME, String uNAME, int sTATUS, int sEX, String aTION1, String aTION2, String aTION3,
 			String lOGINTIME) {
-		super();
 		UUID = uUID;
 		PHONE = pHONE;
 		EMAIL = eMAIL;

@@ -12,6 +12,7 @@ import main.entity.BookRecord;
 import main.entity.User;
 import main.javaBean.Bookkeep;
 import main.javaBean.Bookrecord;
+import main.javaBean.UserBen;
 
 public class UserBizImpl implements UserBiz{
 	UserDaoImpl userdaoimpl=new UserDaoImpl();
@@ -101,8 +102,21 @@ public class UserBizImpl implements UserBiz{
 	}
 
 	@Override
-	public List<User> userList() {
-		List<User> list=userdaoimpl.userList();
+	public List<UserBen> userList(int type,String content) {
+		List<UserBen> list=new ArrayList<UserBen>();
+		if (type==0) {	
+			System.out.println("全表");
+			list=userdaoimpl.userList();
+		}else if(type==1){
+			System.out.println("手机");
+			list=userdaoimpl.FindUserbyPhone(content);
+		}else if(type==2){
+			System.out.println("邮箱");
+			list=userdaoimpl.FindUserbyEMAIL(content);
+		}else{
+			System.out.println("昵称");
+			list=userdaoimpl.FindUserbyNicname(content);
+		}
 		return list;
 	}
 
@@ -190,5 +204,4 @@ public class UserBizImpl implements UserBiz{
 		return flag;
 	}
 
-	
 }

@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,30 +16,31 @@ import main.entity.BookRecord;
 import main.entity.User;
 import main.javaBean.Bookkeep;
 import main.javaBean.Bookrecord;
+import main.javaBean.UserBen;
 import main.tool.Tools;
 import main.util.DBhelper_mysql;
 
 public class UserDaoImpl implements UserDao{
 
 	@Override
-	public List<User> userList() {
-		List<User> list=new ArrayList<User>();
+	public List<UserBen> userList() {
+		List<UserBen> list=new ArrayList<UserBen>();
 		try {
 			Connection conn=DBhelper_mysql.getConnection();
-			String sql="select UUID,UPHONE,EMAIL,NICNAME,STATUS,ATION1,ATION2,ATION3 from TB_User";
+			String sql="select UUID,UPHONE,EMAIL,NICNAME,STATUS,LOGINTIME,SEX,ATION1+ATION2+ATION3 as ACTION from TB_User";
 			PreparedStatement	ps=conn.prepareStatement(sql);
 			ResultSet	rs=ps.executeQuery();
 			while (rs.next()) {
-				User user=new User();
-				user.setUUID(rs.getString("UUID"));
-				user.setPHONE(rs.getString("UPHONE"));
-				user.setEMAIL(rs.getString("EMAIL"));
-				user.setNICNAME(rs.getString("NICNAME"));
-				user.setATION1(rs.getString("ATION1"));
-				user.setATION2(rs.getString("ATION2"));
-				user.setATION3(rs.getString("ATION3"));
-				user.setSTATUS(rs.getInt("STATUS"));
-				list.add(user);
+				UserBen user1=new UserBen();
+				user1.setUUID(rs.getString("UUID"));
+				user1.setPHONE(rs.getString("UPHONE"));
+				user1.setEMAIL(rs.getString("EMAIL"));
+				user1.setNICNAME(rs.getString("NICNAME"));
+				user1.setAction(rs.getString("ACTION"));
+				user1.setSTATUS(rs.getInt("STATUS"));
+				user1.setSEX(rs.getInt("SEX"));
+				user1.setLOGINTIME(rs.getString("LOGINTIME"));
+				list.add(user1);
 			}
 			DBhelper_mysql.closeConnection(rs, ps, conn);
 		} catch (SQLException e) {
@@ -312,8 +314,8 @@ public class UserDaoImpl implements UserDao{
 				Bookrecord bookrecord = new Bookrecord();
 				bookrecord.setRUID(rs.getString("RUID"));
 				bookrecord.setBname(rs.getString("NAME"));	
-				bookrecord.setSTARTTIME(Tools.formatDate(rs.getDate("STARTTIME")));
-				bookrecord.setOVERTIME(Tools.formatDate(rs.getDate("OVERTIME")));
+				bookrecord.setSTARTTIME(Tools.formatDate(rs.getTimestamp("STARTTIME")));
+				bookrecord.setOVERTIME(Tools.formatDate(rs.getTimestamp("OVERTIME")));
 				bookrecord.setSTATUS(rs.getInt("STATUS"));
 				list.add(bookrecord);
 			}
@@ -441,7 +443,7 @@ public class UserDaoImpl implements UserDao{
 				bookkeep.setPRESS(rs.getString("PRESS"));
 				bookkeep.setAUTHOR(rs.getString("AUTHOR"));
 				bookkeep.setVALUE(rs.getString("VALUE"));
-				bookkeep.setTIME(Tools.formatDate(rs.getDate("TIME")));
+				bookkeep.setTIME(Tools.formatDate(rs.getTimestamp("TIME")));
 				list.add(bookkeep);
 			}
 			DBhelper_mysql.closeConnection(rs, ps, conn);
@@ -546,7 +548,7 @@ public class UserDaoImpl implements UserDao{
 				bookkeep.setPRESS(rs.getString("PRESS"));
 				bookkeep.setAUTHOR(rs.getString("AUTHOR"));
 				bookkeep.setVALUE(rs.getString("VALUE"));
-				bookkeep.setTIME(Tools.formatDate(rs.getDate("TIME")));
+				bookkeep.setTIME(Tools.formatDate(rs.getTimestamp("TIME")));
 				list.add(bookkeep);
 			}
 			DBhelper_mysql.closeConnection(rs, ps, conn);
@@ -577,8 +579,8 @@ public class UserDaoImpl implements UserDao{
 				Bookrecord bookrecord = new Bookrecord();
 				bookrecord.setRUID(rs.getString("RUID"));
 				bookrecord.setBname(rs.getString("NAME"));	
-				bookrecord.setSTARTTIME(Tools.formatDate(rs.getDate("STARTTIME")));
-				bookrecord.setOVERTIME(Tools.formatDate(rs.getDate("OVERTIME")));
+				bookrecord.setSTARTTIME(Tools.formatDate(rs.getTimestamp("STARTTIME")));
+				bookrecord.setOVERTIME(Tools.formatDate(rs.getTimestamp("OVERTIME")));
 				bookrecord.setSTATUS(rs.getInt("STATUS"));
 				list.add(bookrecord);
 			}
@@ -593,7 +595,7 @@ public class UserDaoImpl implements UserDao{
 	public boolean FindBookrecord(String BUID) {
 		boolean flag=false;
 		String buid=null;
-		Date overtime=null;
+		Timestamp overtime=null;
 		try {
 			Connection conn=DBhelper_mysql.getConnection();
 			String sql="select BUID, OVERTIME from TB_BookRecord where BUID=?";
@@ -602,7 +604,7 @@ public class UserDaoImpl implements UserDao{
 			ResultSet rs=ps.executeQuery();
 			while (rs.next()) {
 				buid=rs.getString("BUID");	
-				overtime=rs.getDate("OVERTIME");
+				overtime=rs.getTimestamp("OVERTIME");
 			}
 			if (buid!=null&&overtime==null) {
 				flag=true;
@@ -696,6 +698,90 @@ public class UserDaoImpl implements UserDao{
 			e.printStackTrace();
 		}
 		return flag;
+	}
+
+	@Override
+	public List<UserBen> FindUserbyPhone(String Phone) {
+		List<UserBen> list=new ArrayList<UserBen>();
+		try {
+			Connection conn=DBhelper_mysql.getConnection();
+			String sql="select UUID,UPHONE,EMAIL,NICNAME,STATUS,LOGINTIME,SEX,ATION1+ATION2+ATION3 as ACTION from TB_User where UPHONE=?";
+			PreparedStatement	ps=conn.prepareStatement(sql);
+			ps.setString(1, Phone);
+			ResultSet	rs=ps.executeQuery();
+			while (rs.next()) {
+				UserBen user1=new UserBen();
+				user1.setUUID(rs.getString("UUID"));
+				user1.setPHONE(rs.getString("UPHONE"));
+				user1.setEMAIL(rs.getString("EMAIL"));
+				user1.setNICNAME(rs.getString("NICNAME"));
+				user1.setAction(rs.getString("ACTION"));
+				user1.setSTATUS(rs.getInt("STATUS"));
+				user1.setSEX(rs.getInt("SEX"));
+				user1.setLOGINTIME(rs.getString("LOGINTIME"));
+				list.add(user1);
+			}
+			DBhelper_mysql.closeConnection(rs, ps, conn);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@Override
+	public List<UserBen> FindUserbyEMAIL(String Email) {
+		List<UserBen> list=new ArrayList<UserBen>();
+		try {
+			Connection conn=DBhelper_mysql.getConnection();
+			String sql="select UUID,UPHONE,EMAIL,NICNAME,STATUS,LOGINTIME,SEX,ATION1+ATION2+ATION3 as ACTION from TB_User where EMAIL=?";
+			PreparedStatement	ps=conn.prepareStatement(sql);
+			ps.setString(1, Email);
+			ResultSet	rs=ps.executeQuery();
+			while (rs.next()) {
+				UserBen user1=new UserBen();
+				user1.setUUID(rs.getString("UUID"));
+				user1.setPHONE(rs.getString("UPHONE"));
+				user1.setEMAIL(rs.getString("EMAIL"));
+				user1.setNICNAME(rs.getString("NICNAME"));
+				user1.setAction(rs.getString("ACTION"));
+				user1.setSTATUS(rs.getInt("STATUS"));
+				user1.setSEX(rs.getInt("SEX"));
+				user1.setLOGINTIME(rs.getString("LOGINTIME"));
+				list.add(user1);
+			}
+			DBhelper_mysql.closeConnection(rs, ps, conn);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@Override
+	public List<UserBen> FindUserbyNicname(String Nicname) {
+		List<UserBen> list=new ArrayList<UserBen>();
+		try {
+			Connection conn=DBhelper_mysql.getConnection();
+			String sql="select UUID,UPHONE,EMAIL,NICNAME,STATUS,LOGINTIME,SEX,ATION1+ATION2+ATION3 as ACTION from TB_User where NICNAME LIKE ?";
+			PreparedStatement	ps=conn.prepareStatement(sql);
+			ps.setString(1, Nicname);
+			ResultSet	rs=ps.executeQuery();
+			while (rs.next()) {
+				UserBen user1=new UserBen();
+				user1.setUUID(rs.getString("UUID"));
+				user1.setPHONE(rs.getString("UPHONE"));
+				user1.setEMAIL(rs.getString("EMAIL"));
+				user1.setNICNAME(rs.getString("NICNAME"));
+				user1.setAction(rs.getString("ACTION"));
+				user1.setSTATUS(rs.getInt("STATUS"));
+				user1.setSEX(rs.getInt("SEX"));
+				user1.setLOGINTIME(rs.getString("LOGINTIME"));
+				list.add(user1);
+			}
+			DBhelper_mysql.closeConnection(rs, ps, conn);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
 	}
 
 }

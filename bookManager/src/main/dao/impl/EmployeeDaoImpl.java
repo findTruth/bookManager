@@ -13,6 +13,8 @@ import main.dao.EmployeeDao;
 import main.entity.Book;
 import main.entity.Emp;
 import main.entity.Manager;
+import main.javaBean.EmpWorkItem;
+import main.tool.Tools;
 import main.util.DBhelper_mysql;
 
 public class EmployeeDaoImpl implements EmployeeDao {
@@ -204,6 +206,46 @@ public class EmployeeDaoImpl implements EmployeeDao {
 		} catch (Exception e) {
 			return false;
 		}
+	}
+
+	@Override
+	public List<EmpWorkItem> listEmpWork() {
+		Connection conn = DBhelper_mysql.getConnection();
+		List<EmpWorkItem> list = new ArrayList<>();
+		String sql = "select w.WEUID,w.EUID,w.TIME,(select e.NAME from tb_emp e where e.EUID=w.EUID) as ENAME from tb_empwork w Order By w.TIME Desc";
+		try {
+			Statement ps = conn.createStatement();
+			ResultSet rs = ps.executeQuery(sql);
+			EmpWorkItem EmpWorkItem = null;
+			while (rs.next()) {
+				EmpWorkItem = new EmpWorkItem(rs.getString("WEUID"), rs.getString("EUID"), rs.getTimestamp("TIME"), rs.getString("ENAME"));
+				list.add(EmpWorkItem);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@Override
+	public boolean addEmpWork(Emp emp) {
+		boolean flag = false;
+		Connection conn = DBhelper_mysql.getConnection();
+		String sql = "insert into tb_empwork(WEUID,EUID,TIME) values(?,?,now())";
+		try {
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, Tools.UUID());
+			ps.setString(2, emp.getEUID());
+			int n = ps.executeUpdate();
+			if(n>0){
+				flag = true;
+			}else{}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return flag;
 	}
 
 }
