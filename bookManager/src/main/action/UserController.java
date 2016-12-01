@@ -132,10 +132,10 @@ public class UserController extends HttpServlet {
 			out.close();	
 		}else if ("/Addborrow".equals(path)) {
 			JsonObject json = new JsonObject();
-			String uuid="610a4b8997964d4084ef15157951f093";
-//			String BUID=request.getParameter("BUID");
-			String BUID="af9e7629cf834dc083ce894391effa98";
-				BookRecord bookrecord=new BookRecord(Tools.UUID(), BUID, uuid, null, null, 0);
+//			String uuid="610a4b8997964d4084ef15157951f093";
+			String BUID=request.getParameter("BUID");
+//			String BUID="af9e7629cf834dc083ce894391effa98";
+				BookRecord bookrecord=new BookRecord(Tools.UUID(), BUID, longUUID, null, null, 0);
 				if (userbizimpl.BookrecordCount(longUUID)) {
 					boolean flag1=userbizimpl.FindBookrecord(BUID);
 					if (!flag1) {					
@@ -153,9 +153,9 @@ public class UserController extends HttpServlet {
 			out.close();	
 		}else if ("/Addbookkeep".equals(path)) {
 			JsonObject json = new JsonObject();
-//			String BUID=request.getParameter("BUID");
+			String BUID=request.getParameter("BUID");
 //			String uuid="610a4b8997964d4084ef15157951f093";
-			String BUID="c4db15e0b31c494699cf992201333d0f";
+//			String BUID="c4db15e0b31c494699cf992201333d0f";
 				boolean flag=userbizimpl.FindBookkeep(BUID);
 				if (!flag) {
 					BookKeep bookkeep=new BookKeep(Tools.UUID(), longUUID, BUID,null);

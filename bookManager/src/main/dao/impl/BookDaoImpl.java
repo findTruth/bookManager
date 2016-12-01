@@ -24,13 +24,13 @@ public class BookDaoImpl implements BookDao {
 	public List<Book> list() {
 		Connection conn = DBhelper_mysql.getConnection();
 		List<Book> list = new ArrayList<>();
-		String sql = "select b.BUID,b.NAME,b.DATE,b.PRESS,b.AUTHOR,b.VALUE,(select c.KINDNAME from TB_BookKinds c where b.KINDNO=c.KINDNO) AS KIND,b.STATUS,b.ADDRESS from TB_Book b";
+		String sql = "select b.BUID,b.NAME,b.DATE,b.PRESS,b.AUTHOR,b.VALUE,(select c.KINDNAME from TB_BookKinds c where b.KINDNO=c.KINDNO) AS KIND,b.STATUS,b.ADDRESS,b.PICTURE from TB_Book b";
 		try {
 			Statement ps = conn.createStatement();
 			ResultSet rs = ps.executeQuery(sql);
 			Book book = null;
 			while (rs.next()) {
-				book = new Book(rs.getString("BUID"), rs.getString("NAME"), rs.getTimestamp("DATE"), rs.getString("PRESS"), rs.getString("AUTHOR"), rs.getString("VALUE"), rs.getString("KIND"),rs.getString("ADDRESS"), rs.getInt("STATUS"));
+				book = new Book(rs.getString("BUID"), rs.getString("NAME"), rs.getTimestamp("DATE"), rs.getString("PRESS"), rs.getString("AUTHOR"), rs.getString("VALUE"), rs.getString("KIND"),rs.getString("ADDRESS"), rs.getInt("STATUS"),rs.getString("PICTURE"));
 				list.add(book);
 			}
 		} catch (Exception e) {
@@ -55,7 +55,7 @@ public class BookDaoImpl implements BookDao {
 			ps.setString(1, NAME);
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
-				book = book = new Book(rs.getString("BUID"), rs.getString("NAME"), rs.getTimestamp("DATE"), rs.getString("PRESS"), rs.getString("AUTHOR"), rs.getString("VALUE"), rs.getString("KIND"),rs.getString("ADDRESS"), rs.getInt("STATUS"));;
+				book = book = new Book(rs.getString("BUID"), rs.getString("NAME"), rs.getTimestamp("DATE"), rs.getString("PRESS"), rs.getString("AUTHOR"), rs.getString("VALUE"), rs.getString("KIND"),rs.getString("ADDRESS"), rs.getInt("STATUS"),rs.getString("PICTURE"));;
 			}
 			DBhelper_mysql.closeConnection(rs, ps, conn);
 		} catch (Exception e) {

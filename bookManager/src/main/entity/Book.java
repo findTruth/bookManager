@@ -12,13 +12,14 @@ public class Book {
 	private String KINDNO;
 	private String ADDRESS;
 	private int STATUS;
+	private String PICTURE;
 	
 	public Book() {
 	}
 	
 	
 	public Book(String bUID, String nAME, Date dATE, String pRESS, String aUTHOR, String vALUE, String kINDNO,
-			String aDDRESS, int sTATUS) {
+			String aDDRESS, int sTATUS,String pICTURE) {
 		super();
 		BUID = bUID;
 		NAME = nAME;
@@ -29,6 +30,7 @@ public class Book {
 		KINDNO = kINDNO;
 		ADDRESS = aDDRESS;
 		STATUS = sTATUS;
+		PICTURE =pICTURE;
 	}
 
 	public String getBUID() {
@@ -85,6 +87,12 @@ public class Book {
 	}
 	public void setSTATUS(int sTATUS) {
 		STATUS = sTATUS;
+	}
+	public String getPICTURE() {
+		return PICTURE;
+	}
+	public void setPICTURE(String pICTURE) {
+		PICTURE = pICTURE;
 	}
 	
 }

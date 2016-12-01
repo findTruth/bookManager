@@ -47,7 +47,7 @@ $(document).ready(function(){
     </div>
     <div class="rightinfo">
    
-    <div class="tools">
+    <div class="tools" style="margin-left:25px;">
     
     	<ul class="toolbar">
         <li class="click"><span><img src="<%=basePath %>moban/images/t01.png" onclick="location.href='<%=basePath %>jsp/book/add.jsp'"/></span>添加</li>
@@ -72,15 +72,16 @@ $(document).ready(function(){
        </li>
        <li class="click"><span><img src="<%=basePath %>moban/images/确定按钮1.png"></span>确定</li>
        
-        <li><input name="" type="text" class="scinput" value="按照图书编号或书名查询"/></li>
-        <li class="click"><span><img src="<%=basePath %>moban/images/ico06.png"></span>查询</li>          
+        <li><input name="" type="text" class="scinput" placeholder="请输入图书名称"/></li>
+        <li class="click"><span><img src="<%=basePath %>moban/images/ico06.png" onclick=""></span>查询</li>          
          </div>
          </div>
           </div>
         </div>
      
-     <ul class="imglist" id="list">
-     </ul>
+     <div class="imglist" id="list" style="height:500px;width:1000px;margin-left:35px;">
+     
+     </div>
     <div class="pagin">
 	<div class="message">共<i class="blue page-count"></i>条纪录，当前显示第&nbsp;<i class="blue current-page"></i>&nbsp;页</div>
 	<ul class="paginList">
@@ -125,7 +126,7 @@ function getJSONData(pn, url) {
 			var dataRoot = data.jsonRoot;
 			if(pageTotal == 1) { // 当只有一页时  
 				for(var j = 0; j < totalCount; j++) {
-					$(".li-tag").eq(j).append("<span><img src='<%=basePath %>"+dataRoot[j].ADDRESS+"' /></span>&nbsp;&nbsp;&nbsp;&nbsp;<h2><a href='#'>"+dataRoot[j].NAME+"</a></h2><p><a href='#'>编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href='#'>删除</a></p>");
+					$(".li-tag").eq(j).append("<span><img src='<%=basePath %>"+dataRoot[j].ADDRESS+"'/></span>&nbsp;&nbsp;&nbsp;&nbsp;<h2><a href='#'>"+dataRoot[j].NAME+"</a></h2><p><a href='#'>编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href='#'>删除</a></p>");
 				}
 			} else {
 
@@ -133,7 +134,7 @@ function getJSONData(pn, url) {
 					if(j == totalCount) {
 						break; // 当遍历到最后一条记录时，跳出循环  
 					}
-					$(".li-tag").eq(k).append("<span><img src='<%=basePath %>"+dataRoot[j].ADDRESS+"' /></span>&nbsp;&nbsp;&nbsp;&nbsp;<h2><a href='#'>"+dataRoot[j].NAME+"</a></h2><p><a href='#'>编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href='#'>删除</a></p>");
+					$(".li-tag").eq(k).append("<span><img src='<%=basePath %>"+dataRoot[j].ADDRESS+"'/></span>&nbsp;&nbsp;&nbsp;&nbsp;<h2><a href='#'>"+dataRoot[j].NAME+"</a></h2><p><a href='#'>编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href='#'>删除</a></p>");
 				}
 			}
 			$(".page-count").text(totalCount);
