@@ -32,8 +32,10 @@ function getJSONData(pn, url) {
 		if(pageTotal == 1) { // 当只有一页时  
 			for(var j = 0; j < totalCount; j++) {
 				var status = "";
+				var handle="";
 				if (dataRoot[j].STATUS==0) {
 					status="未归还";
+					handle="还书";
 				}else if (dataRoot[j].STATUS==1) {
 					status="归还";
 				}else {
@@ -41,7 +43,7 @@ function getJSONData(pn, url) {
 				}
 				var overtime="";
 				if (dataRoot[j].OVERTIME==null) {
-					overtime="无";
+					overtime="无数据";
 				}else {
 					overtime=dataRoot[j].OVERTIME;
 				}	
@@ -51,6 +53,7 @@ function getJSONData(pn, url) {
 						"</td>").append("<td class='col4'>" + dataRoot[j].STARTTIME +
 						"</td>").append("<td class='col5'>" + overtime +
 						"</td>").append("<td class='col6'>" + status +
+						"</td>").append("<td class='col7'>" + "<a class='returnButton' style='cursor:pointer'; name="+dataRoot[j].RUID+">"+handle+"</a>" +
 						"</td>");
 			}
 		} else {
@@ -60,8 +63,10 @@ function getJSONData(pn, url) {
 					break; // 当遍历到最后一条记录时，跳出循环  
 				}
 				var status = "";
+				var handle="";
 				if (dataRoot[j].STATUS==0) {
 					status="未归还";
+					handle="还书";
 				}else if (dataRoot[j].STATUS==1) {
 					status="归还";
 				}else {
@@ -69,21 +74,26 @@ function getJSONData(pn, url) {
 				}
 				var overtime="";
 				if (dataRoot[j].OVERTIME==null) {
-					overtime="无";
+					overtime="无数据";
 				}else {
 					overtime=dataRoot[j].OVERTIME;
-				}	
+				}
+				
 				$(".tr-tag").eq(j).append("<td class='col1'><input type='checkbox' value='" + parseInt(j + 1) + "'/></td>")
 					.append("<td class='col2'>" + parseInt(j + 1) +
 						"</td>").append("<td class='col3'>" + dataRoot[j].Bname +
 						"</td>").append("<td class='col4'>" + dataRoot[j].STARTTIME +
 						"</td>").append("<td class='col5'>" + overtime +
 						"</td>").append("<td class='col6'>" + status +
+						"</td>").append("<td class='col7'>" + "<a class='returnButton' style='cursor:pointer'; name="+dataRoot[j].RUID+">"+handle+"</a>" +
 						"</td>");
 			}
 		}
 		$(".page-count").text(totalCount);
-		
+		$(".returnButton").click(function(){			
+			var id = $(this).attr("name");
+			openReturn(id);
+		});
 	})
 }
 
@@ -173,6 +183,11 @@ function flushPage() {
 	getPage("<%=basePath%>user/userJieShu2.do");
 }
 
+function openReturn(id) {
+	$("#RUID").val(id);
+	$("#return").fadeIn(200);
+}
+
 function findflushPage() {
 	var content = $("input[name='Search']").val();
 	getPage("<%=basePath%>user/userJieShu2.do?Content=" + content +"&NUMBER=" + 0);
@@ -197,6 +212,26 @@ function Findbookrecord(){
 function returnbookrecord(){
 	$("input[name='Search']").attr("value","");
 	flushPage();
+}
+function cancle(){	
+	$("#return").fadeOut(200);
+}
+function ensure(){
+	var RUID = $("input[name='RUID']").val();
+	$.ajax({
+		type: "POST",
+		url: "<%=basePath%>user/returnbookrecord.do?RUID=" + RUID,
+		async: true,
+		dataType: 'json',
+		success: function(data) {
+			alert(data.msg);
+			returnbookrecord();
+			$("#return").fadeOut(200);
+		},
+		error: function() {
+			alert("网络连接异常，请检查网络设置");
+		}
+	});
 }
 </script>
 <script language="javascript">
@@ -256,6 +291,7 @@ $(document).ready(function(){
     <th>借书开始时间</th>
     <th>借书归还时间</th>
     <th>书籍状态</th>
+    <th style="width:200px">操作</th>
     </tr>
     </thead>
     
@@ -319,7 +355,23 @@ $(document).ready(function(){
 				<input name="" type="button" class="cancel" value="取消" />
 			</div>
 </div>	  
-    
+ 
+ <div class="tip" id="return">
+	
+    	<div class="tiptop"><span>还书提示信息</span><a></a></div>        
+      <div class="tipinfo">
+        <span><img src="<%=basePath%>moban/images/ticon.png" /></span>
+        <div class="tipright">
+        <p>是否还书？</p>
+        <input type="hidden" name="RUID" id="RUID"/>
+        <cite>如果是请点击确定按钮 ，否则请点取消。</cite>
+        </div>
+        </div>      
+        <div class="tipbtn">
+        <input name="" type="button"  class="sure" value="确定" onclick="ensure()"/>&nbsp;
+        <input name="" type="button"   class="cancel" value="取消" onclick="cancle()"/>
+        </div>   
+</div>     
 <script type="text/javascript">
 	$('.imgtable tbody tr:odd').addClass('odd');
 	</script>

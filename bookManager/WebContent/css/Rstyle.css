@@ -60,7 +60,7 @@ legend{margin:0 0;padding:2px;font-size:10px;border:0px ;text-transform:capitali
 
 /*欢迎*/
 .line{width:50%; float:left; display:inline;}
-#line1{font-family:"Microsoft YaHei","SimHei","SimSun";position:absolute;left:550px;top:125px;font-size: 20px}
+#line1{font-family:"Microsoft YaHei","SimHei","SimSun";position:absolute;left:600px;top:125px;font-size: 20px}
 .div_submit_button{width:33%; float:left; display:inline;}
 
 /*按钮排序*/

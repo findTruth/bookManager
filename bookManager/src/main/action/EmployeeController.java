@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,7 +12,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
+import main.biz.impl.EmployeeBizImpl;
 import main.biz.impl.ManagerBizImpl;
+import main.entity.Emp;
 import main.tool.Tools;
 
 /**
@@ -23,8 +29,16 @@ public class EmployeeController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String path = Tools.cut(request.getRequestURI());
+		response.setCharacterEncoding("utf-8");
 		if ("/empwork".equals(path)) {
 			request.getRequestDispatcher("../jsp/emp/empwork.jsp");
+		}else if("/list".equals(path)){
+			JsonObject json = new JsonObject();
+			List<Emp> list = new EmployeeBizImpl().empList();
+			json.addProperty("totalCount", list.size());
+			json.add("jsonRoot", new Gson().toJsonTree(list));
+			response.getWriter().append(json.toString());
+			response.getWriter().close();
 		} else {
 			request.getRequestDispatcher("../404.jsp").forward(request, response);
 		}
@@ -32,6 +46,7 @@ public class EmployeeController extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String path = Tools.cut(request.getRequestURI());
+		response.setCharacterEncoding("utf-8");
 		if ("/empwork".equals(path)) {
 //			request.setAttribute("page", "manager");
 			ManagerBizImpl mbi = new ManagerBizImpl();
@@ -43,6 +58,11 @@ public class EmployeeController extends HttpServlet {
 			}
 //			response.sendRedirect("../jsp/manager/main.jsp");
 			request.getRequestDispatcher("../jsp/emp/empwork.jsp").forward(request, response);
+		}else if("/findById".equals(path)){
+			String EUID = request.getParameter("EUID");
+			Emp emp = new EmployeeBizImpl().findById(EUID);
+			response.getWriter().append(new Gson().toJson(emp));
+			response.getWriter().close();
 		}else {
 			request.getRequestDispatcher("../404.jsp").forward(request, response);
 		}

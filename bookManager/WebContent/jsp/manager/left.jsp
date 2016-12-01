@@ -65,7 +65,7 @@ $(function(){
     
     <dd><div class="title"><span><img src="<%=basePath %>moban/images/leftico03.png" /></span>员工管理</div>
     <ul class="menuson">
-        <li><cite></cite><a href="<%=basePath %>employee/employeemanager.do" target="rightFrame">员工信息管理</a><i></i></li>
+        <li><cite></cite><a href="<%=basePath %>manager/empList.do" target="rightFrame">员工信息管理</a><i></i></li>
         <li><cite></cite><a href="<%=basePath %>employee/employeeworklist.do" target="rightFrame">员工上班纪录</a><i></i></li>
         <li><cite></cite><a href="<%=basePath %>employee/employeeworktime.do" target="rightFrame">实时员工工作情况</a><i></i></li>
         <li><cite></cite><a href="<%=basePath %>employee/employeeworktongji.do" target="rightFrame">员工工作统计</a><i></i></li>

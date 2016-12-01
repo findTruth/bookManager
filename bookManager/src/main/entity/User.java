@@ -1,5 +1,7 @@
 package main.entity;
 
+import java.sql.Date;
+
 public class User {
 	private String UUID;
 	private String PHONE;
@@ -14,7 +16,41 @@ public class User {
 	private String ATION1;
 	private String ATION2;
 	private String ATION3;
+	private String LOGINTIME;
 	
+	public User() {
+		
+	}
+
+	public User(String uUID, String pHONE, String eMAIL, String pASSWORD, String aNSWER, String qUESTION,
+			String nICNAME, String uNAME, int sTATUS, int sEX, String aTION1, String aTION2, String aTION3,
+			String lOGINTIME) {
+		super();
+		UUID = uUID;
+		PHONE = pHONE;
+		EMAIL = eMAIL;
+		PASSWORD = pASSWORD;
+		ANSWER = aNSWER;
+		QUESTION = qUESTION;
+		NICNAME = nICNAME;
+		UNAME = uNAME;
+		STATUS = sTATUS;
+		SEX = sEX;
+		ATION1 = aTION1;
+		ATION2 = aTION2;
+		ATION3 = aTION3;
+		LOGINTIME = lOGINTIME;
+	}
+
+	public String getLOGINTIME() {
+		return LOGINTIME;
+	}
+
+	public void setLOGINTIME(String lOGINTIME) {
+		LOGINTIME = lOGINTIME;
+	}
+
+
 	public int getSEX() {
 		return SEX;
 	}
@@ -22,8 +58,6 @@ public class User {
 	public void setSEX(int sEX) {
 		SEX = sEX;
 	}
-
-	
 
 	public String getATION1() {
 		return ATION1;
@@ -47,19 +81,6 @@ public class User {
 
 	public void setATION3(String aTION3) {
 		ATION3 = aTION3;
-	}
-
-	public User() {
-		
-	}
-	
-	public User(String pHONE, String eMAIL, String pASSWORD, String aNSWER, String qUESTION) {
-		super();
-		PHONE = pHONE;
-		EMAIL = eMAIL;
-		PASSWORD = pASSWORD;
-		ANSWER = aNSWER;
-		QUESTION = qUESTION;
 	}
 
 	public String getUUID() {

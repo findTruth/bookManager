@@ -38,7 +38,7 @@
               </div></br>
      <!-------------------------------选择密保手机-------------------------------------->
 	<div class="field-group" id="x1">
-		<label class="required title">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<s>*</s>密保手机：</label>
+		<label class="required title"><s>*</s>密保手机：</label>
 		<span class="control-group" id="mobile_input">
 		<div class="input_add_long_background">
 		<input class="register_input" type="text" value="" id="phone" name="phone" placeholder="请输入密保手机">	

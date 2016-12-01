@@ -38,7 +38,7 @@ function getJSONData(pn, url) {
 						"</td>").append("<td class='col4'>" + dataRoot[j].PRESS +
 						"</td>").append("<td class='col5'>" + dataRoot[j].AUTHOR +
 						"</td>").append("<td class='col6'>" + dataRoot[j].TIME +
-						"</td>").append("<td class='col7'>" + "<a class='deleteButton' style='cursor:pointer'; name="+dataRoot[j].KUID+">删除</a>" +
+						"</td>").append("<td class='col7'>" + "<a class='deleteButton' style='cursor:pointer'; name="+dataRoot[j].KUID+">删除</a>&nbsp;&nbsp;<a class='addButton' style='cursor:pointer'; name="+dataRoot[j].KUID+">借阅</a>" +
 						"</td>");
 			}
 		} else {
@@ -53,7 +53,7 @@ function getJSONData(pn, url) {
 					"</td>").append("<td class='col4'>" + dataRoot[j].PRESS +
 					"</td>").append("<td class='col5'>" + dataRoot[j].AUTHOR +
 					"</td>").append("<td class='col6'>" + dataRoot[j].TIME +
-					"</td>").append("<td class='col7'>" + "<a class='deleteButton' style='cursor:pointer'; name="+dataRoot[j].KUID+">删除</a>" +
+					"</td>").append("<td class='col7'>" + "<a class='deleteButton' style='cursor:pointer'; name="+dataRoot[j].KUID+">删除</a>&nbsp;&nbsp;<a class='addButton' style='cursor:pointer'; name="+dataRoot[j].KUID+">借阅</a>" +
 					"</td>");
 			}
 		}
@@ -61,6 +61,10 @@ function getJSONData(pn, url) {
 		$(".deleteButton").click(function(){
 			var id = $(this).attr("name");
 			openDelete(id);
+		});
+		$(".addButton").click(function(){
+			var id = $(this).attr("name");
+			openAdd(id);
 		});
 	})
 }
@@ -157,7 +161,11 @@ function openDelete(id) {
 	$("#KUID").val(id);
 	$("#delete").fadeIn(200);
 }
-function ensure(){
+function openAdd(id) {
+	$("#KUID").val(id);
+	$("#add").fadeIn(200);
+}
+function deleteensure(){
 	var KUID = $("input[name='KUID']").val();
 	$.ajax({
 		type: "POST",
@@ -175,10 +183,31 @@ function ensure(){
 	});
 }
 
-function cancle(){	
+function deletecancle(){	
 	$("#delete").fadeOut(200);
 }
 
+function addensure(){
+	var KUID = $("input[name='KUID']").val();
+	$.ajax({
+		type: "POST",
+		url: "<%=basePath%>user/borrowbookkeep.do?KUID=" + KUID,
+		async: true,
+		dataType: 'json',
+		success: function(data) {
+			alert(data.msg);
+			flushPage();
+			$("#add").fadeOut(200);
+		},
+		error: function() {
+			alert("网络连接异常，请检查网络设置");
+		}
+	});
+}
+
+function addcancle(){	
+	$("#add").fadeOut(200);
+}
 function Findbookkeep(){
 	var content = $("input[name='Search']").val();
 	$.ajax({
@@ -324,11 +353,27 @@ $(document).ready(function(){
         </div>
         </div>      
         <div class="tipbtn">
-        <input name="" type="button"  class="sure" value="确定" onclick="ensure()"/>&nbsp;
-        <input name="" type="button"   class="cancel" value="取消" onclick="cancle()"/>
+        <input name="" type="button"  class="sure" value="确定" onclick="deleteensure()"/>&nbsp;
+        <input name="" type="button"   class="cancel" value="取消" onclick="deletecancle()"/>
         </div>   
 </div>    
-    
+  
+  <div class="tip" id="add">
+	
+    	<div class="tiptop"><span>借阅提示信息</span><a></a></div>        
+      <div class="tipinfo">
+        <span><img src="<%=basePath%>moban/images/ticon.png" /></span>
+        <div class="tipright">
+        <p>是否借阅该图书？</p>
+        <input type="hidden" name="KUID" id="KUID"/>
+        <cite>如果是请点击确定按钮 ，否则请点取消。</cite>
+        </div>
+        </div>      
+        <div class="tipbtn">
+        <input name="" type="button"  class="sure" value="确定" onclick="addensure()"/>&nbsp;
+        <input name="" type="button"   class="cancel" value="取消" onclick="daddcancle()"/>
+        </div>   
+</div>   
 <script type="text/javascript">
 	$('.imgtable tbody tr:odd').addClass('odd');
 	</script>

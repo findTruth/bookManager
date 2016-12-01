@@ -290,8 +290,28 @@
 			}
 			var dataRoot = data.jsonRoot;
 			if(pageTotal == 1) { // 当只有一页时  
-
+				
 				for(var j = 0; j < totalCount; j++) {
+					var quan = "";
+					switch (dataRoot[j].QUAN){
+						case 0:
+							quan = '普通权限';
+							break;
+						case 1:
+							quan = '图书录入和图书修改权限';
+							break;
+						case 2:
+							quan = '图书管理权限';
+							break;
+						case 3:
+							quan = '用户修改权限';
+							break;
+						case 4:
+							quan = '用户管理权限';
+							break;
+						default:
+							break;
+					}
 					$(".tr-tag").eq(j).append("<td class='col1'><input type='checkbox' value='" + parseInt(j + 1) + "'/></td>")
 						.append("<td class='col2'>" + parseInt(j + 1) +
 							"</td>").append("<td class='col3'>" + dataRoot[j].UNAME +
@@ -302,7 +322,7 @@
 							"</td>").append("<td class='col8'>" + dataRoot[j].AGE +
 							"</td>").append("<td class='col9'>" + dataRoot[j].LASTLOGIN +
 							"</td>").append("<td class='col10'>" +
-							"<a class='changeEmpQuanButton' name=" + dataRoot[j].QUANNUM + " id=" + dataRoot[j].EUID + " style='cursor:pointer;'>" + dataRoot[j].QUAN + "</a>" +
+							"<a class='changeEmpQuanButton' name=" + dataRoot[j].QUAN + " id=" + dataRoot[j].EUID + " style='cursor:pointer;'>" + quan + "</a>" +
 							"</td>").append("<td class='col11'>" + dataRoot[j].STATUS +
 							"</td>").append("<td class='col12'>" + "<a class='changeButton' style='cursor:pointer'; name="+dataRoot[j].EUID+">修改</a>" +
 							"</td>");
@@ -323,7 +343,7 @@
 							"</td>").append("<td class='col8'>" + dataRoot[j].AGE +
 							"</td>").append("<td class='col9'>" + dataRoot[j].LASTLOGIN +
 							"</td>").append("<td class='col10'>" +
-							"<a class='changeEmpQuanButton' name=" + dataRoot[j].QUANNUM + " id=" + dataRoot[j].EUID + " style='cursor:pointer;'>" + dataRoot[j].QUAN + "</a>" +
+							"<a class='changeEmpQuanButton' name=" + dataRoot[j].QUAN + " id=" + dataRoot[j].EUID + " style='cursor:pointer;'>" + quan + "</a>" +
 							"</td>").append("<td class='col11'>" + dataRoot[j].STATUS +
 							"</td>").append("<td class='col12'>" + "<a class='changeButton' style='cursor:pointer'; name="+dataRoot[j].EUID+">修改</a>" +
 							"</td>");
@@ -347,7 +367,7 @@
 
 	function getPage(url) {
 		$.getJSON(url, function(data) {
-
+			
 			pn = 1;
 			var totalCount = data.totalCount; // 总记录数  
 			var pageSize = 10; // 每页显示几条记录  
