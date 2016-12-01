@@ -52,7 +52,7 @@ $(document).ready(function(){
 
 		<div class="tools">
 
-			<ul class="toolbar">
+			<ul class="toolbar" style="margin-left:25px;">
 				<li>
 
 					<div class="stylesheet">
@@ -70,20 +70,20 @@ $(document).ready(function(){
 							<option>其他</option>
 						</select>
 				</li>
-				<li class="click"><span><img
-						src="<%=basePath %>moban/images/确定按钮1.png"></span>确定</li>
+				<li class="click"><span>
+				<img src="<%=basePath %>moban/images/确定按钮1.png"></span>确定</li>
 
 				<li><input name="" type="text" class="scinput"
 					placeholder="请输入书籍名称" /></li>
 				<li class="click"><span><img
 						src="<%=basePath %>moban/images/ico06.png" onclick="#"></span>查询</li>
+						
 		</div>
 	</div>
 	</div>
-	</div>
 
-	<div class="imglist" id="list"
-		style="height: 500px; width: 1000px; margin-left: 35px;"></div>
+
+	<div class="imglist" id="list"style="height: 500px; width: 1000px; margin-left: 35px;"></div>
 	<div class="pagin">
 		<div class="message">
 			共<i class="blue page-count"></i>条纪录，当前显示第&nbsp;<i
@@ -133,14 +133,14 @@ function getJSONData(pn, url) {
 			var dataRoot = data.jsonRoot;
 			if(pageTotal == 1) { // 当只有一页时  
 				for(var j = 0; j < totalCount; j++) {
-					$(".li-tag").eq(j).append("<span><img src='<%=basePath %>"+dataRoot[j].ADDRESS+"' /></span>&nbsp;&nbsp;&nbsp;&nbsp;<h2><a href='#'>"+dataRoot[j].NAME+"</a></h2><p><a class='Addbookkeep' style='cursor:pointer' name="+dataRoot[j].BUID+">收藏</a>&nbsp;&nbsp;&nbsp;&nbsp;<a class='Addbookrecord' style='cursor:pointer'; name="+dataRoot[j].BUID+">订阅</a></p>");
+					$(".li-tag").eq(j).append("<span><img src='<%=basePath %>"+dataRoot[j].ADDRESS+"' /></span>&nbsp;&nbsp;&nbsp;&nbsp;<h2><a href='#'>"+dataRoot[j].NAME+"</a></h2><p><a class='Addbookkeep' style='cursor:pointer' name="+dataRoot[j].BUID+">收藏</a>&nbsp;&nbsp;&nbsp;&nbsp;<a class='Addbookrecord' style='cursor:pointer'; name="+dataRoot[j].BUID+">借阅</a></p>");
 				}
 			} else {
 				for(var j = startPage, k = 0; j < endPage, k < pageSize; j++, k++) {
 					if(j == totalCount) {
 						break; // 当遍历到最后一条记录时，跳出循环  
 					}
-					$(".li-tag").eq(k).append("<span><img src='<%=basePath %>"+dataRoot[j].ADDRESS+"' /></span>&nbsp;&nbsp;&nbsp;&nbsp;<h2><a href='#'>"+dataRoot[j].NAME+"</a></h2><p><a  class='Addbookkeep' style='cursor:pointer' name="+dataRoot[j].BUID+">收藏</a>&nbsp;&nbsp;&nbsp;&nbsp;<a class='Addbookrecord' style='cursor:pointer'; name="+dataRoot[j].BUID+">订阅</a></p>");
+					$(".li-tag").eq(k).append("<span><img src='<%=basePath %>"+dataRoot[j].ADDRESS+"' /></span>&nbsp;&nbsp;&nbsp;&nbsp;<h2><a href='#'>"+dataRoot[j].NAME+"</a></h2><p><a  class='Addbookkeep' style='cursor:pointer' name="+dataRoot[j].BUID+">收藏</a>&nbsp;&nbsp;&nbsp;&nbsp;<a class='Addbookrecord' style='cursor:pointer'; name="+dataRoot[j].BUID+">借阅</a></p>");
 				}
 			}
 			$(".page-count").text(totalCount);
@@ -245,7 +245,7 @@ function getJSONData(pn, url) {
 	function Addbookkeep(id) {
 		$.ajax({
 			type: "GET",
-			url: "<%=basePath%>user/#.do?BUID=" + id,
+			url: "<%=basePath%>user/Addbookkeep.do?BUID=" + id,
 			async: false,
 			dataType: 'json',
 			success: function(data) {
@@ -257,7 +257,7 @@ function getJSONData(pn, url) {
 	function Addbookrecord(id) {
 		$.ajax({
 			type: "GET",
-			url: "<%=basePath%>user/#.do?BUID=" + id,
+			url: "<%=basePath%>user/Addborrow.do?BUID=" + id,
 			async: false,
 			dataType: 'json',
 			success: function(data) {

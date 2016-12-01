@@ -34,7 +34,7 @@
                 $(".tr-tag").eq(j).append("<td class='col1'><input type='checkbox' value='"+parseInt(j + 1)+"'/></td>")  
                 .append("<td class='col2'>" + parseInt(j + 1)  
                         + "</td>").append("<td class='col3'>" + dataRoot[j].NAME + "<p>" + dataRoot[j].DATE + "</p>"
-                        + "</td>").append("<td class='col4'>" + "<img src='<%=basePath%>"+dataRoot[j].ADDRESS+"'>" 
+                        + "</td>").append("<td class='col4'>" + "<img src='<%=basePath %>"+dataRoot[j].PICTURE+"'>" 
                         + "</td>").append("<td class='col5'>" + dataRoot[j].PRESS  
                         + "</td>").append("<td class='col6'>" + dataRoot[j].AUTHOR  
                         + "</td>").append("<td class='col7'>" + dataRoot[j].VALUE  
@@ -51,7 +51,7 @@
                  $(".tr-tag").eq(k).append("<td class='col1'><input type='checkbox' value='"+parseInt(j + 1)+"'/></td>")  
                 .append("<td class='col2'>" + parseInt(j + 1)  
                         + "</td>").append("<td class='col3'>" + dataRoot[j].NAME + "<p>" + dataRoot[j].DATE + "</p>"
-                        + "</td>").append("<td class='col4'>" + "<img src='<%=basePath %>"+dataRoot[j].ADDRESS+"'>"
+                        + "</td>").append("<td class='col4'>" + "<img src='<%=basePath %>"+dataRoot[j].PICTURE+"'>"
                         + "</td>").append("<td class='col5'>" + dataRoot[j].PRESS  
                         + "</td>").append("<td class='col6'>" + dataRoot[j].AUTHOR  
                         + "</td>").append("<td class='col7'>" + dataRoot[j].VALUE  
@@ -221,7 +221,7 @@ $(document).ready(function(){
     <th width="100px;">缩略图</th>
     <th style="width:50px">出版社</th>
     <th style="width:60px">作者</th>
-    <th style="width:60px">价格</th>
+    <th style="width:60px">价格(元)</th>
     <th style="width:60px">类型</th>
     <th style="width:60px">操作</th>
     </tr>

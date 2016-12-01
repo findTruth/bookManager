@@ -47,7 +47,7 @@ $(document).ready(function(){
     </div>
     <div class="rightinfo">
    
-    <div class="tools">
+    <div class="tools" style="margin-left:25px;">
     
     	<ul class="toolbar">
         <li class="click"><span><img src="<%=basePath %>moban/images/t01.png" onclick="location.href='<%=basePath %>jsp/book/add.jsp'"/></span>添加</li>
