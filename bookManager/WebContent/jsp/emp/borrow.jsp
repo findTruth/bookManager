@@ -17,13 +17,14 @@
     <span>位置：</span>
     <ul class="placeul">
     <li><a href="#">首页</a></li>
-    <li><a href="#">员工管理</a></li>
-    <li><a href="#">书籍借阅</a></li>
+    <li><a href="http://localhost:8080/bookManager/jsp/emp/empwork.jsp">员工管理</a></li>
+    <li><a href="http://localhost:8080/bookManager/jsp/emp/borrow.jsp">书籍借阅</a></li>
     </ul>
 </div>
 <div>
 	<input type="text" class="search dfinput">
 	<input type="button" class="btn" value="搜索">
+	
 </div>
 
 	

@@ -21,6 +21,10 @@
     <li><a href="#">书籍归还</a></li>
     </ul>
     </div>
-
+	<div>
+	<input type="text" class="search dfinput">
+	<input type="button" class="btn" value="搜索">
+</div>
+	
 </body>
 </html>
