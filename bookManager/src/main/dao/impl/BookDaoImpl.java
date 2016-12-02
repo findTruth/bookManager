@@ -24,13 +24,13 @@ public class BookDaoImpl implements BookDao {
 	public List<Book> list() {
 		Connection conn = DBhelper_mysql.getConnection();
 		List<Book> list = new ArrayList<>();
-		String sql = "select b.BUID,b.NAME,b.DATE,b.PRESS,b.AUTHOR,b.VALUE,(select c.KINDNAME from TB_BookKinds c where b.KINDNO=c.KINDNO) AS KIND,b.STATUS from TB_Book b";
+		String sql = "select b.BUID,b.NAME,b.DATE,b.PRESS,b.AUTHOR,b.VALUE,(select c.KINDNAME from TB_BookKinds c where b.KINDNO=c.KINDNO) AS KIND,b.STATUS,b.ADDRESS,b.PICTURE from TB_Book b";
 		try {
 			Statement ps = conn.createStatement();
 			ResultSet rs = ps.executeQuery(sql);
 			Book book = null;
 			while (rs.next()) {
-				book = new Book(rs.getString("BUID"), rs.getString("NAME"), rs.getTimestamp("DATE"), rs.getString("PRESS"), rs.getString("AUTHOR"), rs.getString("VALUE"), rs.getString("KIND"), rs.getInt("STATUS"));
+				book = new Book(rs.getString("BUID"), rs.getString("NAME"), rs.getTimestamp("DATE"), rs.getString("PRESS"), rs.getString("AUTHOR"), rs.getString("VALUE"), rs.getString("KIND"),rs.getString("ADDRESS"), rs.getInt("STATUS"),rs.getString("PICTURE"));
 				list.add(book);
 			}
 		} catch (Exception e) {
@@ -48,14 +48,14 @@ public class BookDaoImpl implements BookDao {
 	@Override
 	public Book findByName(String NAME) {
 		Book book = null;
-		String sql = "select BUID,NAME,DATE,PRESS,AUTHOR,VALUE,KINDNO,STATUS from TB_Book where NAME=?";
+		String sql = "select BUID,NAME,DATE,PRESS,AUTHOR,VALUE,KINDNO,STATUS,ADDRESS,PICTURE from TB_Book where NAME=?";
 		try {
 			Connection conn = DBhelper_mysql.getConnection();
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, NAME);
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
-				book = new Book(rs.getString("BUID"), rs.getString("NAME"), rs.getTimestamp("DATE"), rs.getString("PRESS"), rs.getString("AUTHOR"), rs.getString("VALUE"), rs.getString("KINDNO"), rs.getInt("STATUS"));
+				book = book = new Book(rs.getString("BUID"), rs.getString("NAME"), rs.getTimestamp("DATE"), rs.getString("PRESS"), rs.getString("AUTHOR"), rs.getString("VALUE"), rs.getString("KIND"),rs.getString("ADDRESS"), rs.getInt("STATUS"),rs.getString("PICTURE"));;
 			}
 			DBhelper_mysql.closeConnection(rs, ps, conn);
 		} catch (Exception e) {
@@ -77,10 +77,12 @@ public class BookDaoImpl implements BookDao {
 		String AUTHOR=book.getAUTHOR();
 		String VALUE=book.getVALUE(); 
 		String KINDNO=book.getKINDNO();
+		String ADDRESS=book.getADDRESS();
 		int STATUS=book.getSTATUS(); 
+		String PICTURE=book.getPICTURE();
 		try {
 			Connection conn=DBhelper_mysql.getConnection();
-			String sql="insert into TB_Book(BUID,NAME,DATE,PRESS,AUTHOR,VALUE,KINDNO,STATUS) values(?,?,?,?,?,?,?,?)";
+			String sql="insert into TB_Book(BUID,NAME,DATE,PRESS,AUTHOR,VALUE,KINDNO,ADDRESS,STATUS,PICTURE) values(?,?,?,?,?,?,?,?,?,?)";
 			PreparedStatement ps=conn.prepareStatement(sql);
 			ps.setString(1, BUID);
 			ps.setString(2, NAME);
@@ -89,7 +91,9 @@ public class BookDaoImpl implements BookDao {
 			ps.setString(5, AUTHOR);
 			ps.setString(6, VALUE);
 			ps.setString(7, KINDNO);
-			ps.setInt(8, STATUS);
+			ps.setString(8, ADDRESS);
+			ps.setInt(9, STATUS);
+			ps.setString(10, PICTURE);
 			int n=ps.executeUpdate();
 			if (n==1) {
 				flag=true;

@@ -2,9 +2,13 @@ package main.biz;
 
 import java.util.List;
 
-import main.entity.Book;
+import main.entity.BookKeep;
+import main.entity.BookRecord;
 import main.entity.User;
+import main.javaBean.Bookkeep;
 import main.javaBean.Bookrecord;
+import main.javaBean.UserBen;
+
 
 public interface UserBiz {
 	//判断注册用户
@@ -28,8 +32,22 @@ public interface UserBiz {
 	public boolean addndx(String longUUID,String  Nicname,String Action1,String Action2,String Action3,int Sex,String xinmima);
 	//借书记录
 	public List<Bookrecord> bookrecordList(String longUUID);
-	//全表查询
-	public List<User> userList();
+	public boolean addborrowbook(BookRecord bookrecord);//增加借书记录
+	public List<Bookrecord> listbookrecord(String longUUID,String Content);//根据书名查找
+	public boolean FindBookrecord(String BUID);//判断是否收藏的书籍是否存在
+	public boolean BookrecordCount(String longUUID);//每个人只能借5本书
+	public boolean returnbookrecord(String longUUID,String RUID);//还书
+	//收藏记录
+	public List<Bookkeep> listbookkeep(String longUUID);//全表查询
+	public boolean addbookkeep(BookKeep bookkeep);//增加借书记录
+	public boolean deletebookkeep(String KUID,String longUUID);//删除收藏记录
+	public List<Bookkeep> listbookkeep(String longUUID,String Content);//根据作者或者书名查找
+	public boolean FindBookkeep(String BUID);//判断是否收藏的书籍是否存在
+	public String findbyKUID(String KUID);//根据收藏记录id查找图书id
+	//用户查询
+	public List<UserBen> userList(int type,String content);//根据输入type判断查询
 	//登入界面
 	public boolean FindUser(String user);
+	public boolean UpdateUserLoginTime(String longUUID);//更新最新登入时间
+	public String FindUserLoginTime(String longUUID);//查找最新登入时间
 }

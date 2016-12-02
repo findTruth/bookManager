@@ -235,7 +235,7 @@
 			<div class="tiptop"><span>员工信息修改</span>
 				<a></a>
 			</div>
-
+			
 			<div class="tipinfo">
 				<table>
 					<input type="hidden" name="changeuid" id="changeuid" />
@@ -321,8 +321,38 @@
 			}
 			var dataRoot = data.jsonRoot;
 			if(pageTotal == 1) { // 当只有一页时  
-
+				
 				for(var j = 0; j < totalCount; j++) {
+					var quan = "";
+					switch (dataRoot[j].QUAN){
+						case 0:
+							quan = '普通权限';
+							break;
+						case 1:
+							quan = '图书录入和图书修改权限';
+							break;
+						case 2:
+							quan = '图书管理权限';
+							break;
+						case 3:
+							quan = '用户修改权限';
+							break;
+						case 4:
+							quan = '用户管理权限';
+							break;
+						default:
+							quan = '普通权限';
+							break;
+					}
+					var status = "";
+					switch (dataRoot[j].STATUS){
+						case 1:
+							status = '上班中';
+							break;
+						default:
+							status = '未上线';
+							break;
+					}
 					$(".tr-tag").eq(j).append("<td class='col1'><input type='checkbox' value='" + parseInt(j + 1) + "'/></td>")
 						.append("<td class='col2'>" + parseInt(j + 1) +
 							"</td>").append("<td class='col3'>" + dataRoot[j].UNAME +
@@ -333,8 +363,8 @@
 							"</td>").append("<td class='col8'>" + dataRoot[j].AGE +
 							"</td>").append("<td class='col9'>" + dataRoot[j].LASTLOGIN +
 							"</td>").append("<td class='col10'>" +
-							"<a class='changeEmpQuanButton' name=" + dataRoot[j].QUANNUM + " id=" + dataRoot[j].EUID + " style='cursor:pointer;'>" + dataRoot[j].QUAN + "</a>" +
-							"</td>").append("<td class='col11'>" + dataRoot[j].STATUS +
+							"<a class='changeEmpQuanButton' name=" + dataRoot[j].QUAN + " id=" + dataRoot[j].EUID + " style='cursor:pointer;'>" + quan + "</a>" +
+							"</td>").append("<td class='col11'>" + status +
 							"</td>").append("<td class='col12'>" + "<a class='changeButton' style='cursor:pointer'; name="+dataRoot[j].EUID+">修改</a>" +
 							"</td>");
 				}
@@ -343,6 +373,36 @@
 				for(var j = startPage, k = 0; j < endPage, k < pageSize; j++, k++) {
 					if(j == totalCount) {
 						break; // 当遍历到最后一条记录时，跳出循环  
+					}
+					var quan = "";
+					switch (dataRoot[j].QUAN){
+						case 0:
+							quan = '普通权限';
+							break;
+						case 1:
+							quan = '图书录入和图书修改权限';
+							break;
+						case 2:
+							quan = '图书管理权限';
+							break;
+						case 3:
+							quan = '用户修改权限';
+							break;
+						case 4:
+							quan = '用户管理权限';
+							break;
+						default:
+							quan = '普通权限';
+							break;
+					}
+					var status = "";
+					switch (dataRoot[j].STATUS){
+						case 1:
+							status = '上班中';
+							break;
+						default:
+							status = '未上线';
+							break;
 					}
 					$(".tr-tag").eq(k).append("<td class='col1'><input type='checkbox' value='" + parseInt(j + 1) + "'/></td>")
 						.append("<td class='col2'>" + parseInt(j + 1) +
@@ -354,7 +414,7 @@
 							"</td>").append("<td class='col8'>" + dataRoot[j].AGE +
 							"</td>").append("<td class='col9'>" + dataRoot[j].LASTLOGIN +
 							"</td>").append("<td class='col10'>" +
-							"<a class='changeEmpQuanButton' name=" + dataRoot[j].QUANNUM + " id=" + dataRoot[j].EUID + " style='cursor:pointer;'>" + dataRoot[j].QUAN + "</a>" +
+							"<a class='changeEmpQuanButton' name=" + dataRoot[j].QUAN + " id=" + dataRoot[j].EUID + " style='cursor:pointer;'>" + quan + "</a>" +
 							"</td>").append("<td class='col11'>" + dataRoot[j].STATUS +
 							"</td>").append("<td class='col12'>" + "<a class='changeButton' style='cursor:pointer'; name="+dataRoot[j].EUID+">修改</a>" +
 							"</td>");
@@ -372,13 +432,13 @@
 //				alert($(this).attr("name"));
 				var id = $(this).attr("name");
 				openChange(id);
-			});
+			});	
 		})
 	}
 
 	function getPage(url) {
 		$.getJSON(url, function(data) {
-
+			
 			pn = 1;
 			var totalCount = data.totalCount; // 总记录数  
 			var pageSize = 10; // 每页显示几条记录  
@@ -455,7 +515,7 @@
 	}
 
 	$(function() {
-		getPage("<%=basePath%>employee/list.do");
+	getPage("<%=basePath%>employee/list.do");
 
 	});
 

@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import main.biz.impl.EmployeeBizImpl;
@@ -50,7 +51,9 @@ public class ManagerController extends HttpServlet {
 //			response.sendRedirect("../jsp/manager/main.jsp");
 			request.getRequestDispatcher("../jsp/manager/main.jsp").forward(request, response);
 		}
-		else {
+		else if("/empList".equals(path)){
+			request.getRequestDispatcher("../jsp/emp/emp_list.jsp").forward(request, response);
+		}else {
 			request.getRequestDispatcher("../404.jsp").forward(request, response);
 		}
 	}

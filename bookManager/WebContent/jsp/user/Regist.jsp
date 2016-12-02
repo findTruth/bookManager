@@ -24,7 +24,7 @@
       </div>
     </div>
     <div class='box_main'>
-    <div class="line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="<%=basePath %>img/rs/注册1.jpg"   width="50" height="50"/></div>
+    <div class="line">&nbsp;<img src="<%=basePath %>img/rs/注册1.jpg"   width="50" height="50"/></div>
     <div class="line" id='line1'>欢迎注册</div>
       <div id="register" class="register">
         <form id="form" action="<%=basePath %>user/regist.do" method="post" onSubmit="return check();">
@@ -113,7 +113,7 @@
           
           <div id="div_submit" class="div_submit">
           <div id="Agreement">
-          	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" checked="checked" name="verify"/><font size="5">我已经仔细阅读并接收<a href="<%=basePath %>jsp/user/readagree.jsp">《图书馆借书协议》</a></font> 
+          	<input type="checkbox" checked="checked" name="verify"/><font size="5">我已经仔细阅读并接收<a href="<%=basePath %>jsp/user/readagree.jsp">《图书馆借书协议》</a></font> 
           <span class="control-group" id="checkbox_input">
           </div></br>
           	<div class='div_submit_button'></div>
@@ -221,7 +221,6 @@ function checkMobilePhone(telphone) {
 //密码强弱
 function checkPassword(){
     var pwd = $("#password1").val();
-    alert
     gPasswdStatus(pwd,'field-group');
     }
 function gPasswdStatus(value,id){

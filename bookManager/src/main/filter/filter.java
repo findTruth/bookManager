@@ -21,7 +21,7 @@ import main.entity.User;
 /**
  * Servlet Filter implementation class filter
  */
-@WebFilter("/*")
+
 public class filter implements Filter {
 
     /**

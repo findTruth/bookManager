@@ -2,7 +2,7 @@ package main.action;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -12,14 +12,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import main.biz.impl.BookBizImpl;
-import main.biz.impl.ManagerBizImpl;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
 import main.biz.impl.UserBizImpl;
+import main.entity.BookKeep;
+import main.entity.BookRecord;
 import main.entity.User;
+import main.javaBean.Bookkeep;
 import main.javaBean.Bookrecord;
+import main.javaBean.UserBen;
 import main.tool.Tools;
-import main.tool.json.BookJsonList;
-import main.tool.json.userJieShu;
 
 /**
  * Servlet implementation class UserController
@@ -31,14 +34,19 @@ public class UserController extends HttpServlet {
 	String longUUID;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String path = Tools.cut(request.getRequestURI());
+		response.setCharacterEncoding("utf-8");
+		PrintWriter out = response.getWriter();
 		if ("/top".equals(path)) {	
 			request.getRequestDispatcher("../jsp/user/top.jsp").forward(request, response);
 		}else if ("/left".equals(path)) {
 			request.getRequestDispatcher("../jsp/user/left.jsp").forward(request, response);
 		}else if ("/index".equals(path)) {
+			String logintime=userbizimpl.FindUserLoginTime(longUUID);
+			request.setAttribute("LoginTime", logintime);
+			userbizimpl.UpdateUserLoginTime(longUUID);
 			request.getRequestDispatcher("../jsp/user/home.jsp").forward(request, response);
 		}else if ("/BookCentre".equals(path)) {
-			request.getRequestDispatcher("../book/bookmanager.do").forward(request, response);
+			request.getRequestDispatcher("../book/UserBook.do").forward(request, response);
 		}else if ("/userGeRen".equals(path)) {
 			User user=userbizimpl.find(longUUID);
 			request.setAttribute("Nicname", user.getNICNAME());
@@ -49,17 +57,106 @@ public class UserController extends HttpServlet {
 			request.getRequestDispatcher("../jsp/user/userGeRen.jsp").forward(request, response);
 		}else if ("/userShouCang".equals(path)) {
 			request.getRequestDispatcher("../jsp/user/userShouCang.jsp").forward(request, response);
+		}else if ("/userShouCang2".equals(path)) {
+			String Content=request.getParameter("Content");
+			String Number=request.getParameter("NUMBER");
+			int number;
+			if (Number==null) {
+				number=1;
+			}else {
+				number=Integer.parseInt(Number);
+			}
+			if (number==0&&Content!=null) {			
+				List<Bookkeep> list=userbizimpl.listbookkeep(longUUID,Content);
+				JsonObject json = new JsonObject();
+				if (list!=null&&list.size()==0) {
+					json.addProperty("msg", "你查找的内容不存在,请重新确认");
+				}else {
+					json.addProperty("totalCount",list.size());
+					json.add("jsonRoot",new Gson().toJsonTree(list));	
+					json.addProperty("msg", "查找成功");
+				}
+				out.append(json.toString());
+				out.close();
+			}else {
+				List<Bookkeep> list=userbizimpl.listbookkeep(longUUID);
+				JsonObject json = new JsonObject();
+				if (list!=null||list.size()==0) {
+					json.addProperty("totalCount",list.size());
+					json.add("jsonRoot",new Gson().toJsonTree(list));						
+				}
+				out.append(json.toString());
+				out.close();						
+			}
 		}else if ("/userJieShu".equals(path)) {
-			request.getRequestDispatcher("../jsp/user/userJieShu.jsp ").forward(request, response);		
+			request.getRequestDispatcher("../jsp/user/userJieShu.jsp").forward(request, response);
 		}else if ("/userJieShu2".equals(path)) {
-			response.setCharacterEncoding("utf-8");
-			response.setContentType("text/plain");
-			response.getWriter().append(userJieShu.getBookRecordPage(userbizimpl.bookrecordList(longUUID)));
-		}else if ("/AddUser".equals(path)) {
-			request.getRequestDispatcher("../jsp/user/login.jsp").forward(request, response);
-		}else if ("/UserList".equals(path)) {
-			List<User> list=userbizimpl.userList(); 
-		}else{
+			String Content=request.getParameter("Content");
+			String Number=request.getParameter("NUMBER");
+			int number;
+			if (Number==null) {
+				number=1;
+			}else {
+				number=Integer.parseInt(Number);
+			}
+			if (number==0&&Content!=null) {			
+				List<Bookrecord> list=userbizimpl.listbookrecord(longUUID,Content);
+				JsonObject json = new JsonObject();
+				if (list!=null&&list.size()==0) {
+					json.addProperty("msg", "你查找的内容不存在,请重新确认");
+				}else {
+					json.addProperty("totalCount",list.size());
+					json.add("jsonRoot",new Gson().toJsonTree(list));	
+					json.addProperty("msg", "查找成功");
+				}
+				out.append(json.toString());
+				out.close();
+			}else {
+				List<Bookrecord> list=userbizimpl.bookrecordList(longUUID);
+				JsonObject json = new JsonObject();
+				if (list!=null||list.size()==0) {
+					json.addProperty("totalCount",list.size());
+					json.add("jsonRoot",new Gson().toJsonTree(list));						
+				}
+				out.append(json.toString());
+				out.close();						
+			}			
+		}else if ("/Addborrow".equals(path)) {
+			JsonObject json = new JsonObject();
+			String BUID=request.getParameter("BUID");
+				BookRecord bookrecord=new BookRecord(Tools.UUID(), BUID, longUUID, null, null, 0);
+				if (userbizimpl.BookrecordCount(longUUID)) {
+					boolean flag1=userbizimpl.FindBookrecord(BUID);
+					if (!flag1) {					
+						boolean flag=userbizimpl.addborrowbook(bookrecord);
+						if (flag) {
+							json.addProperty("msg", "借阅成功");
+						}					
+					}else {
+						json.addProperty("msg", "借阅失败,你已经借阅该书籍");
+					}
+				}else {
+					json.addProperty("msg", "借阅失败,超出借书上限");
+				}
+			out.append(json.toString());
+			out.close();	
+		}else if ("/Addbookkeep".equals(path)) {
+			JsonObject json = new JsonObject();
+			String BUID=request.getParameter("BUID");
+				boolean flag=userbizimpl.FindBookkeep(BUID);
+				if (!flag) {
+					BookKeep bookkeep=new BookKeep(Tools.UUID(), longUUID, BUID,null);
+					boolean flag1=userbizimpl.addbookkeep(bookkeep);
+					if (flag1) {
+						json.addProperty("msg", "收藏成功");
+					}
+				}else {
+					json.addProperty("msg", "收藏失败,你已经收藏该书籍");
+				}
+			out.append(json.toString());
+			out.close();	
+		}	
+		else{
 			request.getRequestDispatcher("../404.jsp").forward(request, response);
 		}
 	}
@@ -77,7 +174,7 @@ public class UserController extends HttpServlet {
 			String MD5password=Tools.MD5(PASSWORD);
 			String QUESTION=request.getParameter("question1");
 			String ANSWER=request.getParameter("answer"); 
-			User user=new User(PHONE, EMAIL, MD5password, ANSWER, QUESTION);
+			User user=new User(null, PHONE, EMAIL, MD5password, Tools.MD5(ANSWER), QUESTION, null, null, 0, 0, null, null, null, null);
 				if (userbizimpl.add(user)) {			
 					response.setHeader("refresh","1;url=http://localhost:8080/bookManager/jsp/user/login.jsp");
 				}else {
@@ -149,7 +246,7 @@ public class UserController extends HttpServlet {
 					request.getRequestDispatcher("../jsp/user/find.jsp").forward(request, response);
 				}
 			}else if (d.equals("3")) {
-				String UUID=userbizimpl.checkNCMB(niceng, question, answer);
+				String UUID=userbizimpl.checkNCMB(niceng, question, Tools.MD5(answer));
 				if (UUID!=null) {
 					 if (userbizimpl.update(UUID, MD5pwd)) {
 						 request.getRequestDispatcher("../jsp/user/login.jsp").forward(request, response);	
@@ -216,9 +313,67 @@ public class UserController extends HttpServlet {
 				out.println("{\"Usermsg\":\"没有该账户，请注册一个新用户\"}");
 				out.close();
 			}
-		}else if ("/userShouCang2".equals(path)) {
-			request.getRequestDispatcher("../user/userShouCang.do").forward(request, response);
-		}	
+		}else if ("/deletebookkeep".equals(path)) {
+			String KUID=request.getParameter("KUID");
+			boolean flag=userbizimpl.deletebookkeep(KUID, longUUID);
+			JsonObject json = new JsonObject();
+			if (flag) {
+				json.addProperty("msg", "删除成功");
+			}else{
+				json.addProperty("msg", "删除失败");
+			}
+			out.print(json.toString());
+			out.close();
+		}else if ("/borrowbookkeep".equals(path)) {
+			JsonObject json = new JsonObject();
+			String KUID=request.getParameter("KUID");
+			String BUID=userbizimpl.findbyKUID(KUID);
+			BookRecord bookrecord=new BookRecord(Tools.UUID(), BUID, longUUID, null, null, 0);
+			if (userbizimpl.BookrecordCount(longUUID)) {
+				boolean flag1=userbizimpl.FindBookrecord(BUID);
+				if (!flag1) {
+					boolean flag=userbizimpl.addborrowbook(bookrecord);
+					boolean flag2=userbizimpl.deletebookkeep(KUID, longUUID);
+					if (flag&&flag2) {
+						json.addProperty("msg", "借阅成功");
+					}										
+				}else {
+					json.addProperty("msg", "借阅失败,你已经借阅该书籍");
+				}
+			}else {
+				json.addProperty("msg", "借阅失败,超出借书上限");
+			}
+			out.print(json.toString());
+			out.close();
+		}else if ("/returnbookrecord".equals(path)) {
+			JsonObject json = new JsonObject();
+			String RUID=request.getParameter("RUID");
+			if (userbizimpl.returnbookrecord(longUUID, RUID)) {
+				json.addProperty("msg", "还书成功");
+			}
+			out.print(json.toString());
+			out.close();
+		}else if ("/UserList".equals(path)) {
+			int type=Integer.parseInt(request.getParameter("#"));
+			String content=request.getParameter("#");
+//			int type=3;
+//			String content="武";
+			JsonObject json = new JsonObject();
+			List<UserBen> list=new ArrayList<UserBen>();
+			if (type==3) {				
+				list=userbizimpl.userList(type, "%".concat(content).concat("%"));
+			}else {
+				list=userbizimpl.userList(type, content);
+			}
+			if (list!=null) {
+				json.addProperty("totalCount",list.size());
+				json.add("jsonRoot",new Gson().toJsonTree(list));						
+			}else {
+				json.addProperty("msg", "你需要查找的用户不存在,请重新输入");
+			}
+			out.append(json.toString());
+			out.close();	
+		}
 		else {
 			request.getRequestDispatcher("../404.jsp").forward(request, response);
 		}

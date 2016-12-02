@@ -10,13 +10,15 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>无标题文档</title>
+<title>图书列表</title>
 <link href="<%=basePath%>moban/css/style.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="<%=basePath%>moban/js/jquery.js"></script>
 <script type="text/javascript">
     function getJSONData(pn,url) {  
     // alert(pn);  
-    $.getJSON(url, function(data) {  
+   
+    $.post(url, function(data) {  
+    	
         var totalCount = data.totalCount; // 总记录数  
         var pageSize = 10; // 每页显示几条记录  
         var pageTotal = Math.ceil(totalCount / pageSize); // 总页数  
@@ -34,12 +36,12 @@
                 $(".tr-tag").eq(j).append("<td class='col1'><input type='checkbox' value='"+parseInt(j + 1)+"'/></td>")  
                 .append("<td class='col2'>" + parseInt(j + 1)  
                         + "</td>").append("<td class='col3'>" + dataRoot[j].NAME + "<p>" + dataRoot[j].DATE + "</p>"
-                        + "</td>").append("<td class='col4'>" + "图片"  
+                        + "</td>").append("<td class='col4'>" + "<img src='<%=basePath %>"+dataRoot[j].PICTURE+"'>" 
                         + "</td>").append("<td class='col5'>" + dataRoot[j].PRESS  
                         + "</td>").append("<td class='col6'>" + dataRoot[j].AUTHOR  
                         + "</td>").append("<td class='col7'>" + dataRoot[j].VALUE  
                         + "</td>").append("<td class='col8'>" + dataRoot[j].KINDNO  
-                        + "</td>").append("<td class='col9'>" + "123123"  
+                        + "</td>").append("<td class='col9'>" + "<a class='updateButton' style='cursor:pointer'; name="+dataRoot[j].BUID+">修改</a>"
                         + "</td>");
             }  
         } else {  
@@ -51,21 +53,25 @@
                  $(".tr-tag").eq(k).append("<td class='col1'><input type='checkbox' value='"+parseInt(j + 1)+"'/></td>")  
                 .append("<td class='col2'>" + parseInt(j + 1)  
                         + "</td>").append("<td class='col3'>" + dataRoot[j].NAME + "<p>" + dataRoot[j].DATE + "</p>"
-                        + "</td>").append("<td class='col4'>" + "图片"  
+                        + "</td>").append("<td class='col4'>" + "<img src='<%=basePath %>"+dataRoot[j].PICTURE+"'>"
                         + "</td>").append("<td class='col5'>" + dataRoot[j].PRESS  
                         + "</td>").append("<td class='col6'>" + dataRoot[j].AUTHOR  
                         + "</td>").append("<td class='col7'>" + dataRoot[j].VALUE  
                         + "</td>").append("<td class='col8'>" + dataRoot[j].KINDNO  
-                        + "</td>").append("<td class='col9'>" + "123123"  
+                        + "</td>").append("<td class='col9'>" + "修改"  
                         + "</td>");
             }  
         }  
         $(".page-count").text(totalCount);  
-    })  
+         $(".updateButton").click(function(){
+			var id = $(this).attr("name");
+			openUpdate(id);
+		});
+    },"json")  
 }  
 function getPage(url) {  
-    $.getJSON(url, function(data) {  
-
+    $.post(url, function(data) {  
+    	
                 pn = 1;  
                 var totalCount = data.totalCount; // 总记录数  
                 var pageSize = 10; // 每页显示几条记录  
@@ -124,6 +130,7 @@ function getPage(url) {
                         $(".page-num").val('').focus();  
                     }  
                 });
+               
                 $(".paginItema").click(function(){
                     var pn = $(this).attr('name');
                     $(".paginItem").attr("class","paginItem");
@@ -132,7 +139,7 @@ function getPage(url) {
                 });
                 $("#firstPage").trigger("click");  
                   
-            })  
+            },"json")  
 }  
 function gotoPage(pn,url) {  
     //alert(pn);  
@@ -143,7 +150,41 @@ function gotoPage(pn,url) {
 
  $(function(){
     getPage("<%=basePath%>book/list.do"); 
- })
+ 
+ });
+ 
+ function flushPage() {
+		getPage("<%=basePath%>book/list.do");
+	}
+//通过id查找员工信息
+	function findById(id) {
+		var data1 = "";
+		$.ajax({
+			type: "POST",
+			url: "<%=basePath%>employee/findById.do?EUID=" + id,
+			async: false,
+			dataType: 'json',
+			success: function(data) {
+				 data1 = data;
+			}
+		});
+		return data1;
+	}
+//跳转修改界面
+	function openUpdate(id) {
+//		var id = $(this).attr("name");
+		var data = findById(id);
+		//alert();
+		$("#changeuid").val(data.EUID);
+		$("#changeuname").val(data.UNAME);
+		$("#changename").val(data.NAME);
+		$("#changephone").val(data.PHONE);
+		$("#changeqq").val(data.QQ);
+		$("#changeid").val(data.ID);
+		$("#changeage").val(data.AGE);
+		$("#changequan").val(data.QUAN);
+		$("#change").fadeIn(200);
+	}
 </script>
 <script type="text/javascript">
     // $(document).ready(function () { $("#loadgif").hide();});
@@ -197,7 +238,7 @@ $(document).ready(function(){
     <div class="tools">
     
     	<ul class="toolbar">
-        <li class="click"><span><img src="<%=basePath%>moban/images/t01.png" /></span>添加</li>
+        <li class="click"><span><img src="<%=basePath%>moban/images/t01.png" onclick="location.href='<%=basePath %>jsp/book/add.jsp'"/></span>添加</li>
         <li class="click"><span><img src="<%=basePath%>moban/images/t02.png" /></span>修改</li>
         <li><span><img src="<%=basePath%>moban/images/t03.png" /></span>删除</li>
         <li><span><img src="<%=basePath%>moban/images/t04.png" /></span>统计</li>
@@ -221,7 +262,7 @@ $(document).ready(function(){
     <th width="100px;">缩略图</th>
     <th style="width:50px">出版社</th>
     <th style="width:60px">作者</th>
-    <th style="width:60px">价格</th>
+    <th style="width:60px">价格(元)</th>
     <th style="width:60px">类型</th>
     <th style="width:60px">操作</th>
     </tr>

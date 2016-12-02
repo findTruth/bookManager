@@ -10,13 +10,17 @@ public class Book {
 	private String AUTHOR;
 	private String VALUE;
 	private String KINDNO;
+	private String ADDRESS;
 	private int STATUS;
+	private String PICTURE;
 	
 	public Book() {
 	}
 	
+	
 	public Book(String bUID, String nAME, Date dATE, String pRESS, String aUTHOR, String vALUE, String kINDNO,
-			int sTATUS) {
+			String aDDRESS, int sTATUS,String pICTURE) {
+		super();
 		BUID = bUID;
 		NAME = nAME;
 		DATE = dATE;
@@ -24,8 +28,11 @@ public class Book {
 		AUTHOR = aUTHOR;
 		VALUE = vALUE;
 		KINDNO = kINDNO;
+		ADDRESS = aDDRESS;
 		STATUS = sTATUS;
+		PICTURE =pICTURE;
 	}
+
 	public String getBUID() {
 		return BUID;
 	}
@@ -68,11 +75,24 @@ public class Book {
 	public void setKINDNO(String kINDNO) {
 		KINDNO = kINDNO;
 	}
+
+	public String getADDRESS() {
+		return ADDRESS;
+	}
+	public void setADDRESS(String aDDRESS) {
+		ADDRESS = aDDRESS;
+	}
 	public int getSTATUS() {
 		return STATUS;
 	}
 	public void setSTATUS(int sTATUS) {
 		STATUS = sTATUS;
+	}
+	public String getPICTURE() {
+		return PICTURE;
+	}
+	public void setPICTURE(String pICTURE) {
+		PICTURE = pICTURE;
 	}
 	
 }

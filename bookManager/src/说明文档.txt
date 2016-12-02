@@ -24,14 +24,23 @@
 参数：无
 发送方式：get
 
-接口uri:/bookManager/user/AddUser.do
-说明：增加用户，跳转到用户注册界面
-参数：无
-发送方式：get
-
+/user/
 接口uri:/bookManager/user/UserList.do
-说明：用户全表查询
+说明：type=0 表示全表查询 1为电话号码查询  2为邮箱查询  3为昵称模糊查询(%%)
+参数：type(方式) Content(内容)
+发送方式：post
+
+接口uri:/bookManager/user/BookCentre.do
+说明：连接图书的全表查询页面(界面要有借阅和收藏两个按钮，并提供图书BUID)
 参数：无
 发送方式：get
 
-接口
+接口uri:/bookManager/user/Addborrow.do
+说明：点击借阅按钮，修改数据库，并返回提示信息
+参数：图书BUID
+发送方式：get
+
+接口uri:/bookManager/user/Addbookkeep.do
+说明：点击收藏按钮，修改数据库,并返回提示信息
+参数：图书BUID
+发送方式：get

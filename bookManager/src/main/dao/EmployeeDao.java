@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import main.entity.Emp;
+import main.javaBean.EmpWorkItem;
 
 public interface EmployeeDao {
 	public List<Emp> listEmp();//员工列表
@@ -12,6 +13,8 @@ public interface EmployeeDao {
 	public Emp findByName(String name);//通过name查询员工
 	public boolean del(String id);//删除员工
 	public boolean add(Emp emp);//增加员工
+	public List<EmpWorkItem> listEmpWork();//员工上班记录
+	public boolean addEmpWork(Emp emp);//增加员工上班记录
 	//修改员工信息
 	public boolean changeAll(Emp emp);
 	public boolean updateEmpPassword(String id,String Password);

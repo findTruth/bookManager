@@ -5,10 +5,10 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.tomcat.dbcp.pool2.BaseObject;
 
 import main.dao.UserDao;
 import main.entity.BookKeep;
@@ -16,30 +16,31 @@ import main.entity.BookRecord;
 import main.entity.User;
 import main.javaBean.Bookkeep;
 import main.javaBean.Bookrecord;
+import main.javaBean.UserBen;
 import main.tool.Tools;
 import main.util.DBhelper_mysql;
 
 public class UserDaoImpl implements UserDao{
 
 	@Override
-	public List<User> userList() {
-		List<User> list=new ArrayList<User>();
+	public List<UserBen> userList() {
+		List<UserBen> list=new ArrayList<UserBen>();
 		try {
 			Connection conn=DBhelper_mysql.getConnection();
-			String sql="select UUID,UPHONE,EMAIL,NICNAME,STATUS,ATION1,ATION2,ATION3 from TB_User";
+			String sql="select UUID,UPHONE,EMAIL,NICNAME,STATUS,LOGINTIME,SEX,ATION1+ATION2+ATION3 as ACTION from TB_User";
 			PreparedStatement	ps=conn.prepareStatement(sql);
 			ResultSet	rs=ps.executeQuery();
 			while (rs.next()) {
-				User user=new User();
-				user.setUUID(rs.getString("UUID"));
-				user.setPHONE(rs.getString("UPHONE"));
-				user.setEMAIL(rs.getString("EMAIL"));
-				user.setNICNAME(rs.getString("NICNAME"));
-				user.setATION1(rs.getString("ATION1"));
-				user.setATION2(rs.getString("ATION2"));
-				user.setATION3(rs.getString("ATION3"));
-				user.setSTATUS(rs.getInt("STATUS"));
-				list.add(user);
+				UserBen user1=new UserBen();
+				user1.setUUID(rs.getString("UUID"));
+				user1.setPHONE(rs.getString("UPHONE"));
+				user1.setEMAIL(rs.getString("EMAIL"));
+				user1.setNICNAME(rs.getString("NICNAME"));
+				user1.setAction(rs.getString("ACTION"));
+				user1.setSTATUS(rs.getInt("STATUS"));
+				user1.setSEX(rs.getInt("SEX"));
+				user1.setLOGINTIME(rs.getString("LOGINTIME"));
+				list.add(user1);
 			}
 			DBhelper_mysql.closeConnection(rs, ps, conn);
 		} catch (SQLException e) {
@@ -299,6 +300,7 @@ public class UserDaoImpl implements UserDao{
 		try {
 			Connection conn = DBhelper_mysql.getConnection();
 			String sql = "select"
+					+ " T.RUID as RUID,"
 					+ " B.NAME as NAME,"
 					+ "T.STARTTIME as STARTTIME,"
 					+ "T.OVERTIME as OVERTIME,"
@@ -310,9 +312,10 @@ public class UserDaoImpl implements UserDao{
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				Bookrecord bookrecord = new Bookrecord();
+				bookrecord.setRUID(rs.getString("RUID"));
 				bookrecord.setBname(rs.getString("NAME"));	
-				bookrecord.setSTARTTIME(rs.getDate("STARTTIME"));
-				bookrecord.setOVERTIME(rs.getDate("OVERTIME"));
+				bookrecord.setSTARTTIME(Tools.formatDate(rs.getTimestamp("STARTTIME")));
+				bookrecord.setOVERTIME(Tools.formatDate(rs.getTimestamp("OVERTIME")));
 				bookrecord.setSTATUS(rs.getInt("STATUS"));
 				list.add(bookrecord);
 			}
@@ -406,14 +409,13 @@ public class UserDaoImpl implements UserDao{
 		boolean flag=false;
 		try {
 			Connection conn=DBhelper_mysql.getConnection();
-			String sql="insert into TB_Bookrecord(RUUID,BUID,UUID,STARTTIME,OVERTIME,STATUS) values(?,?,?,?,?,?)";
+			String sql="insert into TB_BookRecord(RUID,BUID,UUID,STARTTIME,OVERTIME,STATUS) values(?,?,?,now(),?,?)";
 			PreparedStatement ps=conn.prepareStatement(sql);
 			ps.setString(1, bookrecord.getRUID());
 			ps.setString(2, bookrecord.getBUID());
 			ps.setString(3, bookrecord.getUUID());
-			ps.setDate(4, (Date) bookrecord.getSTARTTIME());
-			ps.setDate(5, (Date)bookrecord.getOVERTIME());
-			ps.setInt(6, bookrecord.getSTATUS());
+			ps.setDate(4, (Date)bookrecord.getOVERTIME());
+			ps.setInt(5, bookrecord.getSTATUS());
 			int n=ps.executeUpdate();
 			if (n==1) {
 				flag=true;
@@ -430,24 +432,18 @@ public class UserDaoImpl implements UserDao{
 		List<Bookkeep> list = new ArrayList<>();
 		try {
 			Connection conn = DBhelper_mysql.getConnection();
-			String sql = "select"
-					+ "B.NAME as NAME,"
-					+ "B.PRESS as PRESS,"
-					+ "B.AUTHOR as AUTHOR,"
-					+ "B.VALUE as VALUE,"
-					+ "T.TIME as TIME,"
-					+ "from TB_Bookeep T,TB_Book B"
-					+ "where B.BUID=T.BUID AND T.UUID=?";
+			String sql = "select T.KUID as KUID,B.NAME as NAME,B.PRESS as PRESS,B.AUTHOR as AUTHOR,B.VALUE as VALUE,T.TIME as TIME from TB_Bookkeep T,TB_Book B where B.BUID=T.BUID AND T.UUID=?";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, longUUID);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				Bookkeep bookkeep = new Bookkeep();
+				bookkeep.setKUID(rs.getString("KUID"));
 				bookkeep.setNAME(rs.getString("NAME"));
 				bookkeep.setPRESS(rs.getString("PRESS"));
 				bookkeep.setAUTHOR(rs.getString("AUTHOR"));
 				bookkeep.setVALUE(rs.getString("VALUE"));
-				bookkeep.setTIME(rs.getDate("TIME"));
+				bookkeep.setTIME(Tools.formatDate(rs.getTimestamp("TIME")));
 				list.add(bookkeep);
 			}
 			DBhelper_mysql.closeConnection(rs, ps, conn);
@@ -462,12 +458,12 @@ public class UserDaoImpl implements UserDao{
 		Boolean flag=false;
 		try {
 			Connection conn=DBhelper_mysql.getConnection();
-			String sql="insert into TB_BookKeep values(?,?,?,?);";
+			String sql="insert into TB_BookKeep(KUID,UUID,BUID,TIME) values(?,?,?,now());";
 			PreparedStatement ps=conn.prepareStatement(sql);
 			ps.setString(1, bookkeep.getKUID());
-			ps.setString(2, bookkeep.getBUID());
-			ps.setString(3, bookkeep.getUUID());
-			ps.setDate(4, (Date)bookkeep.getTIME());
+			ps.setString(2, bookkeep.getUUID());
+			ps.setString(3, bookkeep.getBUID());
+//			ps.setDate(4, (Date)bookkeep.getTIME());
 			int n=ps.executeUpdate();
 			if (n==1) {
 				flag=true;
@@ -497,6 +493,295 @@ public class UserDaoImpl implements UserDao{
 			e.printStackTrace();
 		}
 		return flag;
+	}
+
+	@Override
+	public boolean UpdateUserLoginTime(String longUUID) {
+		boolean flag=false;
+		try {
+			Connection conn=DBhelper_mysql.getConnection();
+			String sql="update TB_User set LOGINTIME=now() where UUID=?";
+			PreparedStatement ps=conn.prepareStatement(sql);
+			ps.setString(1, longUUID);
+			int n=ps.executeUpdate();
+			DBhelper_mysql.closeConnection(null, ps, conn);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return flag;
+	}
+
+	@Override
+	public String FindUserLoginTime(String longUUID) {
+		String logintime=null;
+		try {
+			Connection conn=DBhelper_mysql.getConnection();
+			String sql="select LOGINTIME from TB_User where UUID=?";
+			PreparedStatement ps=conn.prepareStatement(sql);
+			ps.setString(1, longUUID);
+			ResultSet rs=ps.executeQuery();
+			while (rs.next()) {
+				logintime=(Tools.formatDate(rs.getTimestamp("LOGINTIME")));
+			}
+			DBhelper_mysql.closeConnection(rs, ps, conn);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return logintime;
+	}
+
+	@Override
+	public List<Bookkeep> listbookkeep(String longUUID, String Content) {
+		List<Bookkeep> list = new ArrayList<>();
+		try {
+			Connection conn = DBhelper_mysql.getConnection();
+			String sql = "select T.KUID as KUID,B.NAME as NAME,B.PRESS as PRESS,B.AUTHOR as AUTHOR,B.VALUE as VALUE,T.TIME as TIME from TB_Bookkeep T,TB_Book B where B.BUID=T.BUID AND T.UUID=? AND T.BUID=(select BUID from TB_Book where NAME=? OR AUTHOR=?)";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, longUUID);
+			ps.setString(2, Content);
+			ps.setString(3, Content);
+			ResultSet rs = ps.executeQuery(); 	
+			while (rs.next()) {
+				Bookkeep bookkeep = new Bookkeep();
+				bookkeep.setKUID(rs.getString("KUID"));
+				bookkeep.setNAME(rs.getString("NAME"));
+				bookkeep.setPRESS(rs.getString("PRESS"));
+				bookkeep.setAUTHOR(rs.getString("AUTHOR"));
+				bookkeep.setVALUE(rs.getString("VALUE"));
+				bookkeep.setTIME(Tools.formatDate(rs.getTimestamp("TIME")));
+				list.add(bookkeep);
+			}
+			DBhelper_mysql.closeConnection(rs, ps, conn);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@Override
+	public List<Bookrecord> listbookrecord(String longUUID, String Content) {
+		List<Bookrecord> list = new ArrayList<>();
+		try {
+			Connection conn = DBhelper_mysql.getConnection();
+			String sql = "select"
+					+ " T.RUID as RUID,"
+					+ " B.NAME as NAME,"
+					+ "T.STARTTIME as STARTTIME,"
+					+ "T.OVERTIME as OVERTIME,"
+					+ "T.STATUS as STATUS "
+					+ "from TB_BookRecord T,TB_Book B "
+					+ "where B.BUID=T.BUID AND T.UUID=? AND T.BUID=(select BUID from TB_Book where NAME=?)";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, longUUID);
+			ps.setString(2, Content);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				Bookrecord bookrecord = new Bookrecord();
+				bookrecord.setRUID(rs.getString("RUID"));
+				bookrecord.setBname(rs.getString("NAME"));	
+				bookrecord.setSTARTTIME(Tools.formatDate(rs.getTimestamp("STARTTIME")));
+				bookrecord.setOVERTIME(Tools.formatDate(rs.getTimestamp("OVERTIME")));
+				bookrecord.setSTATUS(rs.getInt("STATUS"));
+				list.add(bookrecord);
+			}
+			DBhelper_mysql.closeConnection(rs, ps, conn);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@Override
+	public boolean FindBookrecord(String BUID) {
+		boolean flag=false;
+		String buid=null;
+		Timestamp overtime=null;
+		try {
+			Connection conn=DBhelper_mysql.getConnection();
+			String sql="select BUID, OVERTIME from TB_BookRecord where BUID=?";
+			PreparedStatement ps=conn.prepareStatement(sql);
+			ps.setString(1, BUID);
+			ResultSet rs=ps.executeQuery();
+			while (rs.next()) {
+				buid=rs.getString("BUID");	
+				overtime=rs.getTimestamp("OVERTIME");
+			}
+			if (buid!=null&&overtime==null) {
+				flag=true;
+			}
+			DBhelper_mysql.closeConnection(rs, ps, conn);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return flag;
+	}
+
+	@Override
+	public boolean FindBookkeep(String BUID) {
+		boolean flag=false;
+		String buid=null;
+		try {
+			Connection conn=DBhelper_mysql.getConnection();
+			String sql="select BUID from TB_BookKeep where BUID=?";
+			PreparedStatement ps=conn.prepareStatement(sql);
+			ps.setString(1, BUID);
+			ResultSet rs=ps.executeQuery();
+			while (rs.next()) {
+				buid=rs.getString("BUID");	
+			}
+			if (buid!=null) {
+				flag=true;
+			}
+			DBhelper_mysql.closeConnection(rs, ps, conn);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return flag;
+	}
+
+	@Override
+	public String findbyKUID(String KUID) {
+		String BUID=null;
+		try {
+			Connection conn=DBhelper_mysql.getConnection();
+			String sql="select BUID from TB_bookkeep where KUID=?";
+			PreparedStatement ps=conn.prepareStatement(sql);
+			ps.setString(1, KUID);
+			ResultSet rs=ps.executeQuery();
+			while (rs.next()) {
+				BUID=rs.getString("BUID");
+			}
+			DBhelper_mysql.closeConnection(rs, ps, conn);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return BUID;
+	}
+
+	@Override
+	public boolean BookrecordCount(String longUUID) {
+		boolean flag=false;
+		int n=0;
+		try {
+			Connection conn=DBhelper_mysql.getConnection();
+			String sql="select count(STATUS) as count from TB_bookrecord where UUID=? AND STATUS=0";
+			PreparedStatement ps=conn.prepareStatement(sql);
+			ps.setString(1, longUUID);
+			ResultSet rs=ps.executeQuery();
+			while (rs.next()) {
+				n=rs.getInt("count");
+			}
+			if (n<5) {
+				flag=true;
+			}
+			DBhelper_mysql.closeConnection(null, ps, conn);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return flag;
+	}
+
+	@Override
+	public boolean returnbookrecord(String longUUID, String RUID) {
+		boolean flag=false;
+		try {
+			Connection conn=DBhelper_mysql.getConnection();
+			String sql="update TB_Bookrecord set OVERTIME=now(),STATUS=1 where RUID=? and UUID=?";
+			PreparedStatement ps=conn.prepareStatement(sql);
+			ps.setString(1, RUID);
+			ps.setString(2, longUUID);
+			int n=ps.executeUpdate();
+			if (n==1) {
+				flag=true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return flag;
+	}
+
+	@Override
+	public List<UserBen> FindUserbyPhone(String Phone) {
+		List<UserBen> list=new ArrayList<UserBen>();
+		try {
+			Connection conn=DBhelper_mysql.getConnection();
+			String sql="select UUID,UPHONE,EMAIL,NICNAME,STATUS,LOGINTIME,SEX,ATION1+ATION2+ATION3 as ACTION from TB_User where UPHONE=?";
+			PreparedStatement	ps=conn.prepareStatement(sql);
+			ps.setString(1, Phone);
+			ResultSet	rs=ps.executeQuery();
+			while (rs.next()) {
+				UserBen user1=new UserBen();
+				user1.setUUID(rs.getString("UUID"));
+				user1.setPHONE(rs.getString("UPHONE"));
+				user1.setEMAIL(rs.getString("EMAIL"));
+				user1.setNICNAME(rs.getString("NICNAME"));
+				user1.setAction(rs.getString("ACTION"));
+				user1.setSTATUS(rs.getInt("STATUS"));
+				user1.setSEX(rs.getInt("SEX"));
+				user1.setLOGINTIME(rs.getString("LOGINTIME"));
+				list.add(user1);
+			}
+			DBhelper_mysql.closeConnection(rs, ps, conn);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@Override
+	public List<UserBen> FindUserbyEMAIL(String Email) {
+		List<UserBen> list=new ArrayList<UserBen>();
+		try {
+			Connection conn=DBhelper_mysql.getConnection();
+			String sql="select UUID,UPHONE,EMAIL,NICNAME,STATUS,LOGINTIME,SEX,ATION1+ATION2+ATION3 as ACTION from TB_User where EMAIL=?";
+			PreparedStatement	ps=conn.prepareStatement(sql);
+			ps.setString(1, Email);
+			ResultSet	rs=ps.executeQuery();
+			while (rs.next()) {
+				UserBen user1=new UserBen();
+				user1.setUUID(rs.getString("UUID"));
+				user1.setPHONE(rs.getString("UPHONE"));
+				user1.setEMAIL(rs.getString("EMAIL"));
+				user1.setNICNAME(rs.getString("NICNAME"));
+				user1.setAction(rs.getString("ACTION"));
+				user1.setSTATUS(rs.getInt("STATUS"));
+				user1.setSEX(rs.getInt("SEX"));
+				user1.setLOGINTIME(rs.getString("LOGINTIME"));
+				list.add(user1);
+			}
+			DBhelper_mysql.closeConnection(rs, ps, conn);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@Override
+	public List<UserBen> FindUserbyNicname(String Nicname) {
+		List<UserBen> list=new ArrayList<UserBen>();
+		try {
+			Connection conn=DBhelper_mysql.getConnection();
+			String sql="select UUID,UPHONE,EMAIL,NICNAME,STATUS,LOGINTIME,SEX,ATION1+ATION2+ATION3 as ACTION from TB_User where NICNAME LIKE ?";
+			PreparedStatement	ps=conn.prepareStatement(sql);
+			ps.setString(1, Nicname);
+			ResultSet	rs=ps.executeQuery();
+			while (rs.next()) {
+				UserBen user1=new UserBen();
+				user1.setUUID(rs.getString("UUID"));
+				user1.setPHONE(rs.getString("UPHONE"));
+				user1.setEMAIL(rs.getString("EMAIL"));
+				user1.setNICNAME(rs.getString("NICNAME"));
+				user1.setAction(rs.getString("ACTION"));
+				user1.setSTATUS(rs.getInt("STATUS"));
+				user1.setSEX(rs.getInt("SEX"));
+				user1.setLOGINTIME(rs.getString("LOGINTIME"));
+				list.add(user1);
+			}
+			DBhelper_mysql.closeConnection(rs, ps, conn);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
 	}
 
 }
