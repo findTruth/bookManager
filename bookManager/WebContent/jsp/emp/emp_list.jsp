@@ -1,3 +1,4 @@
+<%@page import="main.entity.Emp"%>
 <%@page import="main.entity.Book"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -22,6 +23,7 @@
 		<link href="<%=basePath%>moban/css/style.css" rel="stylesheet" type="text/css" />
 		<script type="text/javascript" src="<%=basePath%>moban/js/jquery.js"></script>
 		<script language="javascript">
+
 			$(function() {
 				//导航切换
 				$(".imglist li").click(function() {
@@ -106,7 +108,36 @@
 				</thead>
 
 				<tbody id="list">
-					
+					<%
+        	List<Emp> list = (List<Emp>)request.getAttribute("list");
+        	if(list!=null){
+        		int i = 0;
+        		for(Emp e : list){
+        %>
+    <tr>
+    <td><%=++i %></td>
+    <td><a href="#"><%=e.getNAME() %></a></td>
+    <td><%=e.getUNAME() %></td>
+    <td><%=e.getNAME() %></td>
+    <td><%=e.getPHONE() %></td>
+    <td><%=e.getQQ() %></td>
+    <td><%=e.getID() %></td>
+    <td><%=e.getAGE() %></td>
+    <td><%=e.getLASTLOGIN() %></td>
+    <td><%=e.getQUAN() %></td>
+    <td><%=e.getSTATUS() %></td>
+    <td>已审核</td>
+    </tr>
+    <%
+    		}
+    	}else{
+    %>
+    <tr>
+     <td colspan="8">暂无数据</td>
+    </tr>
+    <%
+    	}
+    %> 
 				</tbody>
 
 			</table>

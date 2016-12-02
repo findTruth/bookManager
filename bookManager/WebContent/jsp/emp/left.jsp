@@ -38,51 +38,47 @@ $(function(){
 	
 	<body > 
 	<div class="lefttop"><span></span>员工管理</div>
-	
     <dl class="leftmenu">
+	
+<dd>
+    <div class="title">
+    <span><img src="" /></span>
+   <a href="<%=basePath %>book/bookmanager.do" target="rightFrame">图书管理 </a>
+    </div>
+    </dd>
     <dd><div class="title"><span><img src="" /></span>书籍借阅与归还
     </div>   
      <ul class="menuson">
-        <li><cite></cite><a href="http://localhost:8080/bookManager/jsp/emp/borrow.jsp">书籍借阅</a><i></i></li>
-        <li><cite></cite><a href="http://localhost:8080/bookManager/jsp/emp/return.jsp">书籍归还</a><i></i></li>
+        <li><cite></cite><a href="<%=basePath%>emp/borrow.do" target="rightFrame">书籍借阅</a><i></i></li>
+        <li><cite></cite><a href="<%=basePath%>emp/return.do" target="rightFrame">书籍归还</a><i></i></li>
         </ul>     
     </dd>  
     
     <dd>
-    <div class="title">
-    <span><img src="" /></span>
-   <a href="http://localhost:8080/bookManager/jsp/book/bookList.jsp">书籍管理 </a>
-    </div>
-    </dd>
-<dd>
 
     <div class="title">
-    <span><img src="" /></span>用户管理
+    <span></span><a href="<%=basePath %>emp/userlist.do" target="rightFrame">用户管理</a>
     </div>
     <ul class="menuson">
-        <li><cite></cite><a href="#">增加用户信息</a><i></i></li>
-        <li><cite></cite><a href="#">修改用户信息</a><i></i></li>
-        <li><cite></cite><a href="#">查找用户信息</a><i></i></li>
-        <li><cite></cite><a href="#">删除用户信息</a><i></i></li>
+        <li><cite></cite><a href="<%=basePath %>emp/usechange.do" target="rightFrame">修改用户信息</a><i></i></li>
+        <li><cite></cite><a href="<%=basePath %>emp/usedelete.do" target="rightFrame">删除用户信息</a><i></i></li>
         </ul>     
     </dd> 
     
-    <dd><div class="title"><span><img src="" /></span>员工信息管理</div>
+    <dd><div class="title"><span></span>
+    <a href="<%=basePath %>emp/emp_list.do" target="rightFrame">员工信息管理</a></div>
     <ul class="menuson">
-        <li><cite></cite><a href="#">增加员工信息</a><i></i></li>
-        <li><cite></cite><a href="#">删除员工信息</a><i></i></li>
-        <li><cite></cite><a href="#">修改员工信息</a><i></i></li>
-        <li><cite></cite><a href="#">查找员工信息</a><i></i></li>
+        <li><cite></cite><a href="<%=basePath %>emp/addEmp.do" target="rightFrame">增加员工信息</a><i></i></li>
+        <li><cite></cite><a href="<%=basePath %>emp/changeEmp.do" target="rightFrame">修改员工信息</a><i></i></li>
     </ul>
     </dd>  
      <dd>
     <div class="title">
-    <span><img src="" /></span>
+    <span></span>
    <a href="">退出系统 </a>
     </div>
     </dd> 
     </dl>
-    
 
 	
 	</body> 
