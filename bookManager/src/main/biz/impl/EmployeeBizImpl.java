@@ -43,8 +43,12 @@ public class EmployeeBizImpl implements EmployeeBiz {
 
 	@Override
 	public boolean addEmp(Emp emp) {
-		// TODO Auto-generated method stub
-		return false;
+		return edi.add(emp);
+	}
+
+	@Override
+	public boolean delEmpList(List<String> list) {
+		return edi.delEmpList(list);
 	}
 
 }

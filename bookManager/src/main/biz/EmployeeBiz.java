@@ -13,4 +13,5 @@ public interface EmployeeBiz {
 	public List<EmpWorkItem> listEmpWork();//员工上班记录
 	public boolean addEmpWork(String EUID);//增加员工上班记录
 	public boolean addEmp(Emp emp);//增加员工
+	public boolean delEmpList(List<String> list);//批量删除员工
 }

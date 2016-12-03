@@ -15,6 +15,7 @@ public interface EmployeeDao {
 	public boolean add(Emp emp);//增加员工
 	public List<EmpWorkItem> listEmpWork();//员工上班记录
 	public boolean addEmpWork(Emp emp);//增加员工上班记录
+	public boolean delEmpList(List<String> list);//批量删除员工
 	//修改员工信息
 	public boolean changeAll(Emp emp);
 	public boolean updateEmpPassword(String id,String Password);

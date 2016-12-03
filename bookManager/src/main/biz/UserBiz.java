@@ -11,6 +11,11 @@ import main.javaBean.UserBen;
 
 
 public interface UserBiz {
+	public boolean delUserList(List<String> list);//批量删除员工
+	//修改用户信息
+	public boolean changeUser(User user);
+	//修改用户状态
+	public boolean changeUserStatus(String UUID,int Status);
 	//判断注册用户
 	public String findYxSj(String EMAIL,String UPHONE);
 	//增加用户

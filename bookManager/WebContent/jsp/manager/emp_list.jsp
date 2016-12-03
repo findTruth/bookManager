@@ -75,9 +75,7 @@
 
 				<ul class="toolbar">
 					<li onclick="openAddEmp()"><span><img src="<%=basePath%>moban/images/t01.png" /></span>添加</li>
-					<li class="click"><span><img src="<%=basePath%>moban/images/t02.png" /></span>修改</li>
-					<li><span><img src="<%=basePath%>moban/images/t03.png" /></span>删除</li>
-					<li><span><img src="<%=basePath%>moban/images/t04.png" /></span>统计</li>
+					<li onclick="delEmp()"><span><img src="<%=basePath%>moban/images/t03.png" /></span>删除</li>
 				</ul>
 
 				<ul class="toolbar1">
@@ -90,7 +88,7 @@
 
 				<thead>
 					<tr>
-						<th style="width:30px"><input type="checkbox" name="" value="全选"></th>
+						<th style="width:30px"><input type="checkbox" name="" value="全选" id="all"></th>
 						<th style="width:50px">序号</th>
 						<th>用户名</th>
 						<th>姓名</th>
@@ -118,17 +116,7 @@
 			<div class="pagin">
 				<div class="message">共<i class="blue page-count"></i>条纪录，当前显示第&nbsp;<i class="blue current-page"></i>&nbsp;页</div>
 				<ul class="paginList">
-					<!-- <li class="paginItem"><a id="prev"><span class="pagepre"></span></a></li>
-        
-        <li class="paginItem"><a id="firstPage">1</a></li>
-        
-        <li class="paginItem current"><a href="javascript:;">2</a></li>
-        <li class="paginItem"><a href="javascript:;">3</a></li>
-        <li class="paginItem"><a href="javascript:;">4</a></li>
-        <li class="paginItem"><a href="javascript:;">5</a></li>
-        <li class="paginItem more"><a href="javascript:;">...</a></li>
-        <li class="paginItem"><a href="javascript:;">10</a></li> 
-        <li class="paginItem"><a id="next"><span class="pagenxt"></span></a></li> -->
+				
 				</ul>
 			</div>
 
@@ -349,7 +337,7 @@
 	//分页
 	function getJSONData(pn, url) {
 		// alert(pn);  
-		$.getJSON(url, function(data) {
+		$.post(url, function(data) {
 			var totalCount = data.totalCount; // 总记录数  
 			var pageSize = 10; // 每页显示几条记录  
 			var pageTotal = Math.ceil(totalCount / pageSize); // 总页数  
@@ -394,7 +382,7 @@
 							status = '未上线';
 							break;
 					}
-					$(".tr-tag").eq(j).append("<td class='col1'><input type='checkbox' value='" + parseInt(j + 1) + "'/></td>")
+					$(".tr-tag").eq(j).append("<td class='col1'><input type='checkbox' name='checkBox' value='" + dataRoot[j].EUID + "'/></td>")
 						.append("<td class='col2'>" + parseInt(j + 1) +
 							"</td>").append("<td class='col3'>" + dataRoot[j].UNAME +
 							"</td>").append("<td class='col4'>" + dataRoot[j].NAME +
@@ -445,7 +433,7 @@
 							status = '未上线';
 							break;
 					}
-					$(".tr-tag").eq(k).append("<td class='col1'><input type='checkbox' value='" + parseInt(j + 1) + "'/></td>")
+					$(".tr-tag").eq(k).append("<td class='col1'><input type='checkbox' name='checkBox' value='" + dataRoot[j].EUID + "'/></td>")
 						.append("<td class='col2'>" + parseInt(j + 1) +
 							"</td>").append("<td class='col3'>" + dataRoot[j].UNAME +
 							"</td>").append("<td class='col4'>" + dataRoot[j].NAME +
@@ -474,11 +462,15 @@
 				var id = $(this).attr("name");
 				openChange(id);
 			});
-		})
+			$("#all").click(function(){
+//				$("checkbox[name='checkBox']").each.attr("checked", !$(this).attr("checked"));
+				$("#list :checkbox,#all").attr("checked", true); 
+			});
+		},"json")
 	}
 
 	function getPage(url) {
-		$.getJSON(url, function(data) {
+		$.post(url, function(data) {
 
 			pn = 1;
 			var totalCount = data.totalCount; // 总记录数  
@@ -546,7 +538,7 @@
 			});
 			$("#firstPage").trigger("click");
 
-		})
+		},"json")
 	}
 
 	function gotoPage(pn, url) {
@@ -692,6 +684,29 @@
 			}
 		});
 	}
+	
 	//批量删除
-	function delAll() {}
+	function delEmp() {
+	    var valArr = new Array; 
+	    
+	    $("#list :checkbox[checked]").each(function(i){ 
+	        valArr[i] = $(this).val(); 
+	    }); 
+	    var jsondata = {};
+	    for(var i=0;i<valArr.length;i++){
+	    	jsondata[i]=valArr[i];
+	    }
+	    jsondata['length'] = valArr.length;
+	   $.ajax({
+			type: "POST",
+			url: "<%=basePath%>manager/delEmp.do",
+			async: true,
+			dataType: 'json',
+			data: jsondata,
+			success: function(data) {
+				alert(data.msg);
+				flushPage();
+			}
+		});
+	}
 </script>

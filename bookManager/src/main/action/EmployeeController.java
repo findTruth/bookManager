@@ -35,10 +35,6 @@ public class EmployeeController extends HttpServlet {
 		response.setCharacterEncoding("utf-8");
 		if ("/empwork".equals(path)) {
 			request.getRequestDispatcher("../jsp/emp/empwork.jsp");
-		}else if("/list".equals(path)){
-			List<Emp> list = new EmployeeBizImpl().empList();
-			response.getWriter().append(Tools.json(list));
-			response.getWriter().close();
 		} else {
 			request.getRequestDispatcher("../404.jsp").forward(request, response);
 		}
@@ -63,6 +59,10 @@ public class EmployeeController extends HttpServlet {
 			String EUID = request.getParameter("EUID");
 			Emp emp = new EmployeeBizImpl().findById(EUID);
 			response.getWriter().append(new Gson().toJson(emp));
+			response.getWriter().close();
+		}else if("/list".equals(path)){
+			List<Emp> list = new EmployeeBizImpl().empList();
+			response.getWriter().append(Tools.json(list));
 			response.getWriter().close();
 		}else if("/add".equals(path)){
 			Emp emp = new Emp(Tools.UUID(), request.getParameter("UNAME"), request.getParameter("NAME"), Tools.MD5(request.getParameter("PASSWORD")), request.getParameter("PHONE"), request.getParameter("QQ"), request.getParameter("ID"), Integer.valueOf(request.getParameter("AGE")), null, Integer.valueOf(request.getParameter("QUAN")), 0);

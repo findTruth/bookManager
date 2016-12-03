@@ -74,10 +74,7 @@
 			<div class="tools">
 
 				<ul class="toolbar">
-					<li onclick="openAddUser()"><span><img src="<%=basePath%>moban/images/t01.png" /></span>添加</li>
-					<li class="click"><span><img src="<%=basePath%>moban/images/t02.png" /></span>修改</li>
-					<li><span><img src="<%=basePath%>moban/images/t03.png" /></span>删除</li>
-					<li><span><img src="<%=basePath%>moban/images/t04.png" /></span>统计</li>
+					<li onclick="delUser()"><span><img src="<%=basePath%>moban/images/t03.png" /></span>删除</li>
 				</ul>
 
 				<ul class="toolbar1">
@@ -90,16 +87,13 @@
 
 				<thead>
 					<tr>
-						<th style="width:30px"><input type="checkbox" name="" value="全选"></th>
+						<th style="width:30px"><input type="checkbox" name="" value="全选" id="all"></th>
 						<th style="width:50px">序号</th>
-						<th>用户名</th>
-						<th>姓名</th>
 						<th>电话</th>
-						<th>QQ</th>
-						<th>身份证</th>
-						<th>年龄</th>
+						<th>邮箱</th>
+						<th>昵称</th>
+						<th>性别</th>
 						<th>最后登录时间</th>
-						<th>权限</th>
 						<th>状态</th>
 						<th style="width:100px">操作</th>
 					</tr>
@@ -118,90 +112,16 @@
 			<div class="pagin">
 				<div class="message">共<i class="blue page-count"></i>条纪录，当前显示第&nbsp;<i class="blue current-page"></i>&nbsp;页</div>
 				<ul class="paginList">
-					<!-- <li class="paginItem"><a id="prev"><span class="pagepre"></span></a></li>
-        
-        <li class="paginItem"><a id="firstPage">1</a></li>
-        
-        <li class="paginItem current"><a href="javascript:;">2</a></li>
-        <li class="paginItem"><a href="javascript:;">3</a></li>
-        <li class="paginItem"><a href="javascript:;">4</a></li>
-        <li class="paginItem"><a href="javascript:;">5</a></li>
-        <li class="paginItem more"><a href="javascript:;">...</a></li>
-        <li class="paginItem"><a href="javascript:;">10</a></li> 
-        <li class="paginItem"><a id="next"><span class="pagenxt"></span></a></li> -->
 				</ul>
 			</div>
 
-			<div class="tip">
-				<div class="tiptop"><span>提示信息</span>
-					<a></a>
-				</div>
+			
 
-				<div class="tipinfo">
-					<span><img src="<%=basePath%>moban/images/ticon.png" /></span>
-					<div class="tipright">
-						<p>是否确认对信息的修改 ？</p>
-						<cite>如果是请点击确定按钮 ，否则请点取消。</cite>
-					</div>
-				</div>
+		
 
-				<div class="tipbtn">
-					<input name="" type="button" class="sure" value="确定" />&nbsp;
-					<input name="" type="button" class="cancel" value="取消" />
-				</div>
 
-			</div>
-
-		</div>
-
-		<div class="tip">
-			<div class="tiptop"><span>提示信息</span>
-				<a></a>
-			</div>
-
-			<div class="tipinfo">
-				<span><img src="<%=basePath%>moban/images/ticon.png" /></span>
-				<div class="tipright">
-					<p>是否确认对信息的修改 ？</p>
-					<cite>如果是请点击确定按钮 ，否则请点取消。</cite>
-				</div>
-			</div>
-
-			<div class="tipbtn">
-				<input name="" type="button" class="sure" value="确定" />&nbsp;
-				<input name="" type="button" class="cancel" value="取消" />
-			</div>
-
-		</div>
-
-		<div class="tip" id="changeEmpQuanTop">
-			<div class="tiptop"><span>员工权限修改</span>
-				<a></a>
-			</div>
-
-			<div class="tipinfo">
-				<form id="changeEmpQuanForm">
-					<input type="hidden" id="changeEmpQuanTopEUID" name="EUID"> 权限等级：
-					<select id="changeEmpQuanTopQUAN" name="QUAN" class="show-tick form-control" style="width: 230px;">
-						<option value="0">普通权限</option>
-						<option value="1">图书录入和修改权限</option>
-						<option value="2">图书管理权限</option>
-						<option value="3">用户修改权限</option>
-						<option value="4">用户管理权限</option>
-					</select>
-				</form>
-
-			</div>
-
-			<div class="tipbtn">
-				<input name="changeEmpQuanTopYes" type="button" onclick="changeEmpQuanFunction()" class="sure" value="确定" />&nbsp;
-				<input name="" type="button" class="cancel" value="取消" />
-			</div>
-
-		</div>
-
-		<div class="tip" id="change" style="height: 400px;">
-			<div class="tiptop"><span>员工信息修改</span>
+		<div class="tip" id="change" style="height: 350px;">
+			<div class="tiptop"><span>用户信息修改</span>
 				<a></a>
 			</div>
 
@@ -209,15 +129,9 @@
 				<table>
 					<input type="hidden" name="changeuid" id="changeuid" />
 					<tr>
-						<td>用户名</td>
+						<td>用户昵称</td>
 						<td>
-							<input type="text" class="form-control" readonly="readonly" name="changeuname" id="changeuname" />
-						</td>
-					</tr>
-					<tr>
-						<td>姓名</td>
-						<td>
-							<input type="text" class="form-control" name="changename" id="changename" />
+							<input type="text" class="form-control" readonly="readonly" name="changenicname" id="changenicname" />
 						</td>
 					</tr>
 					<tr>
@@ -227,116 +141,41 @@
 						</td>
 					</tr>
 					<tr>
-						<td>QQ</td>
+						<td>邮箱</td>
 						<td>
-							<input type="text" class="form-control" name="changeqq" id="changeqq" />
+							<input type="text" class="form-control" name="changeemail" id="changeemail" />
 						</td>
 					</tr>
 					<tr>
-						<td>身份证号</td>
+						<td>性别</td>
 						<td>
-							<input type="text" class="form-control" name="changeid" id="changeid" />
+							<select id="changesex" name="changesex" class="show-tick form-control" style="width: 230px;">
+								<option value="0">保密</option>
+								<option value="1">男</option>
+								<option value="2">女</option>
+							</select>
 						</td>
 					</tr>
 					<tr>
-						<td>年龄</td>
+						<td>状态</td>
 						<td>
-							<input type="text" class="form-control" name="changeage" id="changeage" />
-						</td>
-					</tr>
-					<tr>
-						<td>权限</td>
-						<td>
-							<select id="changequan" name="changequan" class="show-tick form-control" style="width: 230px;">
-								<option value="0">普通权限</option>
-								<option value="1">图书录入和修改权限</option>
-								<option value="2">图书管理权限</option>
-								<option value="3">用户修改权限</option>
-								<option value="4">用户管理权限</option>
+							<select id="changestatus" name="changestatus" class="show-tick form-control" style="width: 230px;">
+								<option value="0">正常状态</option>
+								<option value="1">封号状态</option>
 							</select>
 						</td>
 					</tr>
 				</table>
 			</div>
 
-			<div class="tipbtn" style="margin-top: 200px;">
+			<div class="tipbtn" style="margin-top: 150px;">
 				<input name="" type="button" class="sure" onclick="changeFunction()" value="确定" />&nbsp;
 				<input name="" type="button" class="cancel" value="取消" />
 			</div>
 
 		</div>
 
-		<div class="tip" id="add" style="height: 450px;">
-			<div class="tiptop"><span>新增员工</span>
-				<a></a>
-			</div>
-
-			<div class="tipinfo">
-				<table>
-					<input type="hidden" name="changeuid" id="changeuid" />
-					<tr>
-						<td>员工名</td>
-						<td>
-							<input type="text" class="form-control" name="adduname" id="adduname" />
-						</td>
-					</tr>
-					<tr>
-						<td>员工密码</td>
-						<td>
-							<input type="text" class="form-control" name="addpassword" id="addpassword" />
-						</td>
-					</tr>
-					<tr>
-						<td>姓名</td>
-						<td>
-							<input type="text" class="form-control" name="addname" id="addname" />
-						</td>
-					</tr>
-					<tr>
-						<td>电话</td>
-						<td>
-							<input type="text" class="form-control" name="addphone" id="addphone" />
-						</td>
-					</tr>
-					<tr>
-						<td>QQ</td>
-						<td>
-							<input type="text" class="form-control" name="addqq" id="addqq" />
-						</td>
-					</tr>
-					<tr>
-						<td>身份证号</td>
-						<td>
-							<input type="text" class="form-control" name="addid" id="addid" />
-						</td>
-					</tr>
-					<tr>
-						<td>年龄</td>
-						<td>
-							<input type="text" class="form-control" name="addage" id="addage" />
-						</td>
-					</tr>
-					<tr>
-						<td>权限</td>
-						<td>
-							<select id="addquan" name="addquan" class="show-tick form-control" style="width: 230px;">
-								<option value="0">普通权限</option>
-								<option value="1">图书录入和修改权限</option>
-								<option value="2">图书管理权限</option>
-								<option value="3">用户修改权限</option>
-								<option value="4">用户管理权限</option>
-							</select>
-						</td>
-					</tr>
-				</table>
-			</div>
-
-			<div class="tipbtn" style="margin-top: 250px;">
-				<input name="" type="button" class="sure" value="确定" onclick="addEmp()"/>&nbsp;
-				<input name="" type="button" class="cancel" value="取消" />
-			</div>
-
-		</div>
+		
 		<script type="text/javascript">
 			$('.imgtable tbody tr:odd').addClass('odd');
 		</script>
@@ -364,49 +203,36 @@
 			if(pageTotal == 1) { // 当只有一页时  
 
 				for(var j = 0; j < totalCount; j++) {
-					var quan = "";
-					switch(dataRoot[j].QUAN) {
-						case 0:
-							quan = '普通权限';
-							break;
+					var sex="";
+					switch (dataRoot[j].SEX){
 						case 1:
-							quan = '图书录入和图书修改权限';
+						sex="男";
 							break;
 						case 2:
-							quan = '图书管理权限';
-							break;
-						case 3:
-							quan = '用户修改权限';
-							break;
-						case 4:
-							quan = '用户管理权限';
+						sex="女";
 							break;
 						default:
-							quan = '普通权限';
+						sex="保密";
 							break;
 					}
 					var status = "";
 					switch(dataRoot[j].STATUS) {
-						case 1:
-							status = '上班中';
+						case 0:
+							status = '正常状态';
 							break;
 						default:
-							status = '未上线';
+							status = '封号状态';
 							break;
 					}
-					$(".tr-tag").eq(j).append("<td class='col1'><input type='checkbox' value='" + parseInt(j + 1) + "'/></td>")
+					$(".tr-tag").eq(j).append("<td class='col1'><input type='checkbox' value='" + dataRoot[j].UUID + "'/></td>")
 						.append("<td class='col2'>" + parseInt(j + 1) +
-							"</td>").append("<td class='col3'>" + dataRoot[j].UNAME +
-							"</td>").append("<td class='col4'>" + dataRoot[j].NAME +
-							"</td>").append("<td class='col5'>" + dataRoot[j].PHONE +
-							"</td>").append("<td class='col6'>" + dataRoot[j].QQ +
-							"</td>").append("<td class='col7'>" + dataRoot[j].ID +
-							"</td>").append("<td class='col8'>" + dataRoot[j].AGE +
-							"</td>").append("<td class='col9'>" + dataRoot[j].LASTLOGIN +
-							"</td>").append("<td class='col10'>" +
-							"<a class='changeEmpQuanButton' name=" + dataRoot[j].QUAN + " id=" + dataRoot[j].EUID + " style='cursor:pointer;'>" + quan + "</a>" +
-							"</td>").append("<td class='col11'>" + status +
-							"</td>").append("<td class='col12'>" + "<a class='changeButton' style='cursor:pointer'; name=" + dataRoot[j].EUID + ">修改</a>" +
+							"</td>").append("<td class='col3'>" + dataRoot[j].PHONE +
+							"</td>").append("<td class='col4'>" + dataRoot[j].EMAIL +
+							"</td>").append("<td class='col5'>" + dataRoot[j].NICNAME +
+							"</td>").append("<td class='col6'>" + sex +
+							"</td>").append("<td class='col7'>" + dataRoot[j].LOGINTIME +
+							"</td>").append("<td class='col7'>" + status +
+							"</td>").append("<td class='col10'>" + "<a class='changeButton' style='cursor:pointer'; name=" + dataRoot[j].UUID + ">修改</a>" +
 							"</td>");
 				}
 			} else {
@@ -415,66 +241,58 @@
 					if(j == totalCount) {
 						break; // 当遍历到最后一条记录时，跳出循环  
 					}
-					var quan = "";
-					switch(dataRoot[j].QUAN) {
-						case 0:
-							quan = '普通权限';
-							break;
+					var sex="";
+					switch (dataRoot[j].SEX){
 						case 1:
-							quan = '图书录入和图书修改权限';
+						sex="男";
 							break;
 						case 2:
-							quan = '图书管理权限';
-							break;
-						case 3:
-							quan = '用户修改权限';
-							break;
-						case 4:
-							quan = '用户管理权限';
+						sex="女";
 							break;
 						default:
-							quan = '普通权限';
+						sex="保密";
 							break;
 					}
 					var status = "";
 					switch(dataRoot[j].STATUS) {
-						case 1:
-							status = '上班中';
+						case 0:
+							status = '正常状态';
 							break;
 						default:
-							status = '未上线';
+							status = '封号状态';
 							break;
 					}
-					$(".tr-tag").eq(k).append("<td class='col1'><input type='checkbox' value='" + parseInt(j + 1) + "'/></td>")
+					$(".tr-tag").eq(k).append("<td class='col1'><input type='checkbox' value='" + dataRoot[j].UUID + "'/></td>")
 						.append("<td class='col2'>" + parseInt(j + 1) +
-							"</td>").append("<td class='col3'>" + dataRoot[j].UNAME +
-							"</td>").append("<td class='col4'>" + dataRoot[j].NAME +
-							"</td>").append("<td class='col5'>" + dataRoot[j].PHONE +
-							"</td>").append("<td class='col6'>" + dataRoot[j].QQ +
-							"</td>").append("<td class='col7'>" + dataRoot[j].ID +
-							"</td>").append("<td class='col8'>" + dataRoot[j].AGE +
-							"</td>").append("<td class='col9'>" + dataRoot[j].LASTLOGIN +
-							"</td>").append("<td class='col10'>" +
-							"<a class='changeEmpQuanButton' name=" + dataRoot[j].QUAN + " id=" + dataRoot[j].EUID + " style='cursor:pointer;'>" + quan + "</a>" +
-							"</td>").append("<td class='col11'>" + dataRoot[j].STATUS +
-							"</td>").append("<td class='col12'>" + "<a class='changeButton' style='cursor:pointer'; name=" + dataRoot[j].EUID + ">修改</a>" +
+							"</td>").append("<td class='col3'>" + dataRoot[j].PHONE +
+							"</td>").append("<td class='col4'>" + dataRoot[j].EMAIL +
+							"</td>").append("<td class='col5'>" + dataRoot[j].NICNAME +
+							"</td>").append("<td class='col6'>" + sex+
+							"</td>").append("<td class='col7'>" + dataRoot[j].LOGINTIME +
+							"</td>").append("<td class='col7'>" + status +
+							"</td>").append("<td class='col10'>" + "<a class='changeButton' style='cursor:pointer'; name=" + dataRoot[j].UUID + ">修改</a>" +
 							"</td>");
 				}
 			}
 			$(".page-count").text(totalCount);
-			$(".changeEmpQuanButton").click(function() {
-				var QUANNUM = $(this).attr("name");
-				var EUID = $(this).attr("id");
-				$("#changeEmpQuanTopEUID").val(EUID);
-				$("#changeEmpQuanTopQUAN").val(QUANNUM);
-				$("#changeEmpQuanTop").fadeIn(200);
-			},"json");
 			$(".changeButton").click(function() {
 				//				alert($(this).attr("name"));
+				
 				var id = $(this).attr("name");
 				openChange(id);
 			});
-		})
+			$("#all").click(function(){
+//				$("#list :checkbox,#all").each(function(){
+//					$(this).attr("checked", !$(this).attr("checked");
+//				});
+//				$("#list :checkbox,#all").attr("checked", true); 
+				if(!$(this).attr("checked")){
+					$("#list :checkbox").attr("checked", false); 
+				}else{
+					$("#list :checkbox").attr("checked", true); 
+				}
+			});
+		},"json")
 	}
 
 	function getPage(url) {
@@ -556,7 +374,7 @@
 	}
 
 	$(function() {
-		getPage("<%=basePath%>employee/list.do");
+		getPage("<%=basePath%>user/UserList.do");
 
 	});
 
@@ -565,34 +383,10 @@
 	}
 	
 	//打开新增页面
-	function openAddUser(){
-		$("#add").fadeIn(200);
-	}
+	
 	
 	//新增用户
-	function addEmp(){
-		var jsondata = {
-			"UNAME":$("#adduname").val(),
-			"PASSWORD":$("#addpassword").val(),
-			"NAME": $("#addname").val(),
-			"PHONE": $("#addphone").val(),
-			"QQ": $("#addqq").val(),
-			"ID": $("#addid").val(),
-			"AGE": parseInt($("#addage").val()),
-			"QUAN": parseInt($("#addquan").val()),
-		};
-		$.ajax({
-			type: "POST",
-			url: "<%=basePath%>employee/add.do",
-			async: true,
-			dataType: 'json',
-			data: jsondata,
-			success: function(data) {
-				alert(data.msg);
-				flushPage();
-			}
-		});
-	}
+	
 	
 	//权限修改
 	function changeEmpQuanFunction() {
@@ -637,7 +431,7 @@
 		var data1 = "";
 		$.ajax({
 			type: "POST",
-			url: "<%=basePath%>employee/findById.do?EUID=" + id,
+			url: "<%=basePath%>manager/findUserById.do?UUID=" + id,
 			async: false,
 			dataType: 'json',
 			success: function(data) {
@@ -651,38 +445,33 @@
 	function openChange(id) {
 		//		var id = $(this).attr("name");
 		var data = findById(id);
-		//alert();
-		$("#changeuid").val(data.EUID);
-		$("#changeuname").val(data.UNAME);
-		$("#changename").val(data.NAME);
+		$("#changeuid").val(data.UUID);
+		$("#changenicname").val(data.NICNAME);
 		$("#changephone").val(data.PHONE);
-		$("#changeqq").val(data.QQ);
-		$("#changeid").val(data.ID);
-		$("#changeage").val(data.AGE);
-		$("#changequan").val(data.QUAN);
+		$("#changeemail").val(data.EMAIL);
+		$("#changesex").val(data.SEX);
+		$("#changestatus").val(data.STATUS);
 		$("#change").fadeIn(200);
 	}
 	//大量修改
 	function changeFunction() {
-		var EUID = $("#changeuid").val();
-		var NAME = $("#changename").val();
+		var UUID = $("#changeuid").val();
+		var NICNAME = $("#changenicname").val();
 		var PHONE = $("#changephone").val();
-		var QQ = $("#changeqq").val();
-		var ID = $("#changeid").val();
-		var AGE = $("#changeage").val();
-		var QUAN = $("#changequan").val();
+		var EMAIL= $("#changeemail").val();
+		var SEX = $("#changesex").val();
+		var STATUS = $("#changestatus").val();
 		var jsondata = {
-			"EUID": EUID,
-			"NAME": NAME,
+			"UUID": UUID,
+			"NICNAME": NICNAME,
 			"PHONE": PHONE,
-			"QQ": QQ,
-			"ID": ID,
-			"AGE": AGE,
-			"QUAN": QUAN
+			"EMAIL": EMAIL,
+			"SEX": SEX,
+			"STATUS": STATUS
 		};
 		$.ajax({
 			type: "POST",
-			url: "<%=basePath%>manager/changeEmp.do",
+			url: "<%=basePath%>manager/changeUser.do",
 			async: true,
 			dataType: 'json',
 			data: jsondata,
@@ -693,5 +482,27 @@
 		});
 	}
 	//批量删除
-	function delAll() {}
+	function delUser() {
+	    var valArr = new Array; 
+	    
+	    $("#list :checkbox[checked]").each(function(i){ 
+	        valArr[i] = $(this).val(); 
+	    }); 
+	    var jsondata = {};
+	    for(var i=0;i<valArr.length;i++){
+	    	jsondata[i]=valArr[i];
+	    }
+	    jsondata['length'] = valArr.length;
+	   $.ajax({
+			type: "POST",
+			url: "<%=basePath%>manager/delUser.do",
+			async: true,
+			dataType: 'json',
+			data: jsondata,
+			success: function(data) {
+				alert(data.msg);
+				flushPage();
+			}
+		});
+	}
 </script>
