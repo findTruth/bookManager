@@ -41,4 +41,10 @@ public class EmployeeBizImpl implements EmployeeBiz {
 		return edi.addEmpWork(emp);
 	}
 
+	@Override
+	public boolean addEmp(Emp emp) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

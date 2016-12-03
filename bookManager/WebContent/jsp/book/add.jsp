@@ -60,7 +60,7 @@
 					<br>
 					<div class="add-lx">
 						图书类型:
-						<select name="add1" id="add1" disable=true>
+						<select name="BKINDNO" id="add1" disable=true>
 							<option selected="selected" value="0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 								<div class="imglist" id="list" style="height: 500px; width: 1000px; margin-left: 35px;">
 

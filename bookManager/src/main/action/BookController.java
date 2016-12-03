@@ -93,6 +93,12 @@ public class BookController extends HttpServlet {
 			response.getWriter().append(Tools.json(list));
 			response.getWriter().close();
 		} else if ("/add".equals(path)) {
+			JsonObject json = Tools.upload(request, response);
+			String BADDRESS = json.get("src").getAsString();
+			Book book = new Book(Tools.UUID(), request.getParameter("BNAME")
+					, null, request.getParameter("BPRESS"), request.getParameter("BAUTHOR")
+					, request.getParameter("BVALUE"),
+					request.getParameter("BKINDNO"), BADDRESS, 0, BADDRESS);
 			
 		} else {
 			request.getRequestDispatcher("../404.jsp").forward(request, response);

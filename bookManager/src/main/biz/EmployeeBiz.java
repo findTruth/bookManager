@@ -12,4 +12,5 @@ public interface EmployeeBiz {
 	public boolean changeAll(Emp emp);
 	public List<EmpWorkItem> listEmpWork();//员工上班记录
 	public boolean addEmpWork(String EUID);//增加员工上班记录
+	public boolean addEmp(Emp emp);//增加员工
 }

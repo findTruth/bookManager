@@ -52,7 +52,9 @@ public class ManagerController extends HttpServlet {
 			request.getRequestDispatcher("../jsp/manager/main.jsp").forward(request, response);
 		}
 		else if("/empList".equals(path)){
-			request.getRequestDispatcher("../jsp/emp/emp_list.jsp").forward(request, response);
+			request.getRequestDispatcher("../jsp/manager/emp_list.jsp").forward(request, response);
+		}else if("/usermanager".equals(path)){
+			request.getRequestDispatcher("../jsp/manager/user_list.jsp").forward(request, response);
 		}else {
 			request.getRequestDispatcher("../404.jsp").forward(request, response);
 		}
