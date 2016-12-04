@@ -562,7 +562,6 @@
 	}
 	//大量修改
 	function changeFunction(){
-		var EUID = $("#changeuid").val();
 		var NAME = $("#changename").val();
 		var PHONE = $("#changephone").val();
 		var QQ = $("#changeqq").val();

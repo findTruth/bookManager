@@ -182,7 +182,6 @@ public class EmployeeDaoImpl implements EmployeeDao {
 			return false;
 		}
 	}
-
 	@Override
 	public boolean changeAll(Emp emp) {
 		String sql = "update TB_Emp set NAME=?,PHONE=?,QQ=?,ID=?,AGE=?,QUAN = ? where EUID=?";

@@ -51,7 +51,7 @@ $(document).ready(function(){
     
     	<ul class="toolbar">
         <li class="click"><span><img src="<%=basePath %>moban/images/t01.png" onclick="location.href='<%=basePath %>jsp/book/add.jsp'"/></span>添加</li>
-        <li class="click"><span><img src="<%=basePath %>moban/images/t02.png" onclick="location.href='<%=basePath %>jsp/book/add.jsp'"/></span>修改</li>
+        <li class="click"><span><img src="<%=basePath %>moban/images/t02.png" onclick="location.href='<%=basePath %>jsp/book/bookList.jsp'"/></span>修改</li>
         <li class="click"><span><img src="<%=basePath %>moban/images/t03.png" onclick="location.href='<%=basePath %>jsp/book/add.jsp'"/></span>删除</li>    
         <li>
         
@@ -88,6 +88,22 @@ $(document).ready(function(){
 		
 	</ul>
 </div>
+ <div class="tip" id="delete">
+	
+    	<div class="tiptop"><span>删除提示信息</span><a></a></div>        
+      <div class="tipinfo">
+        <span><img src="<%=basePath%>moban/images/ticon.png" /></span>
+        <div class="tipright">
+        <p>是否要删除图书？</p>
+        <input type="hidden" name="BUID" id="BUID"/>
+        <cite>如果是请点击确定按钮 ，否则请点取消。</cite>
+        </div>
+        </div>      
+        <div class="tipbtn">
+        <input name="" type="button"  class="sure" value="确定" onclick="deleteensure()"/>&nbsp;
+        <input name="" type="button"   class="cancel" value="取消" onclick="deletecancle()"/>
+        </div>   
+</div>    
     <div class="tip">
     	<div class="tiptop"><span>提示信息</span><a></a></div>
         
@@ -126,7 +142,7 @@ function getJSONData(pn, url) {
 			var dataRoot = data.jsonRoot;
 			if(pageTotal == 1) { // 当只有一页时  
 				for(var j = 0; j < totalCount; j++) {
-					$(".li-tag").eq(j).append("<span><img src='<%=basePath %>"+dataRoot[j].ADDRESS+"'/></span>&nbsp;&nbsp;&nbsp;&nbsp;<h2><a href='#'>"+dataRoot[j].NAME+"</a></h2><p><a href='#'>编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href='#'>删除</a></p>");
+					$(".li-tag").eq(j).append("<span><img src='<%=basePath %>"+dataRoot[j].ADDRESS+"'/></span>&nbsp;&nbsp;&nbsp;&nbsp;<h2><a href='#'>"+dataRoot[j].NAME+"</a></h2><p><a href='#'>编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;<a class='deleteButton' style='cursor:pointer'; name="+dataRoot[j].BUID+">删除</a></p>");
 				}
 			} else {
 
@@ -134,10 +150,14 @@ function getJSONData(pn, url) {
 					if(j == totalCount) {
 						break; // 当遍历到最后一条记录时，跳出循环  
 					}
-					$(".li-tag").eq(k).append("<span><img src='<%=basePath %>"+dataRoot[j].ADDRESS+"'/></span>&nbsp;&nbsp;&nbsp;&nbsp;<h2><a href='#'>"+dataRoot[j].NAME+"</a></h2><p><a href='#'>编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href='#'>删除</a></p>");
+					$(".li-tag").eq(k).append("<span><img src='<%=basePath %>"+dataRoot[j].ADDRESS+"'/></span>&nbsp;&nbsp;&nbsp;&nbsp;<h2><a href='#'>"+dataRoot[j].NAME+"</a></h2><p><a href='#'>编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;<a class='deleteButton' style='cursor:pointer'; name="+dataRoot[j].BUID+">删除</a></p>");
 				}
 			}
 			$(".page-count").text(totalCount);
+			$(".deleteButton").click(function(){
+				var id = $(this).attr("name");
+				openDelete(id);
+			});
 		})
 	}
 
@@ -226,6 +246,30 @@ function getJSONData(pn, url) {
 
 	function flushPage() {
 		getPage("<%=basePath%>book/list.do");
+	}
+	function openDelete(id) {
+		$("#BUID").val(id);
+		$("#delete").fadeIn(200);
+	}
+ function deleteensure(){
+		var BUID = $("input[name='BUID']").val();
+		$.ajax({
+			type: "POST",
+			url: "<%=basePath%>book/deletebookhelp.do?BUID=" + BUID,
+			async: true,
+			dataType: 'json',
+			success: function(data) {
+				alert(data.msg);
+				flushPage();
+				$("#delete").fadeOut(200);
+			},
+			error: function() {
+				alert("网络连接异常，请检查网络设置");
+			}
+		});
+	}
+ function deletecancle(){	
+		$("#delete").fadeOut(200);
 	}
 
 </script>
