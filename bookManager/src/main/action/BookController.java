@@ -92,14 +92,9 @@ public class BookController extends HttpServlet {
 			JsonObject json = new JsonObject();
 			json.addProperty("totalCount", list.size());
 			json.add("jsonRoot", new Gson().toJsonTree(list));
-			response.getWriter().append(json.toString());
-			
-			
+			response.getWriter().append(json.toString());			
 		}else if ("/deletebookhelp".equals(path)) {
-			
-			
-			
-			
+				
 			BookBizImpl bookbizimpl= new BookBizImpl();
 			String BUID =request.getParameter("BUID");
 			System.out.println(BUID);
@@ -116,9 +111,7 @@ public class BookController extends HttpServlet {
 			
 			String BUID = request.getParameter("BUID");
 			
-			Book book = new BookBizImpl().findById(BUID);
-			
-			System.out.println(book.getNAME()+"55555");
+			Book book = new BookBizImpl().findById(BUID);			
 			response.getWriter().append(new Gson().toJson(book));
 			response.getWriter().close();
 		}else {
