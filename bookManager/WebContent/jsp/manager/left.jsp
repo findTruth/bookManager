@@ -57,7 +57,7 @@ $(function(){
     <span><img src="<%=basePath %>moban/images/leftico02.png" /></span>用户管理
     </div>
     <ul class="menuson">
-        <li><cite></cite><a href="<%=basePath %>user/usermanager.do" target="rightFrame">用户信息管理</a><i></i></li>
+        <li><cite></cite><a href="<%=basePath %>manager/usermanager.do" target="rightFrame">用户信息管理</a><i></i></li>
         <li><cite></cite><a href="<%=basePath %>user/userkeep.do" target="rightFrame">用户收藏纪录</a><i></i></li>
         </ul>     
     </dd> 

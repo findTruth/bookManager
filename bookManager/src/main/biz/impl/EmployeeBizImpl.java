@@ -41,4 +41,14 @@ public class EmployeeBizImpl implements EmployeeBiz {
 		return edi.addEmpWork(emp);
 	}
 
+	@Override
+	public boolean addEmp(Emp emp) {
+		return edi.add(emp);
+	}
+
+	@Override
+	public boolean delEmpList(List<String> list) {
+		return edi.delEmpList(list);
+	}
+
 }

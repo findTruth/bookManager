@@ -204,4 +204,20 @@ public class UserBizImpl implements UserBiz{
 		return flag;
 	}
 
+	@Override
+	public boolean changeUserStatus(String UUID, int Status) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean changeUser(User user) {
+		return userdaoimpl.changeUser(user);
+	}
+
+	@Override
+	public boolean delUserList(List<String> list) {
+		return userdaoimpl.delUserList(list);
+	}
+
 }

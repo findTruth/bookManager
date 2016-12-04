@@ -68,7 +68,7 @@ public class ToolContorller extends HttpServlet {
 					manager = mbi.findByName(request.getParameter("Name"));
 				} catch (SQLException e) {
 					JsonObject json = new JsonObject();
-					json.addProperty("result", "1");
+					json.addProperty("result", "-1");
 					json.addProperty("msg", "网络连接错误");
 					out.print(json.toString());
 					out.close();

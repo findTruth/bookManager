@@ -46,7 +46,7 @@
                         + "</td>").append("<td class='col6'>" + dataRoot[j].AUTHOR  
                         + "</td>").append("<td class='col7'>" + dataRoot[j].VALUE  
                         + "</td>").append("<td class='col8'>" + dataRoot[j].KINDNO  
-                        + "</td>").append("<td class='col9'>" + "<a class='deleteButton' style='cursor:pointer'; name="+dataRoot[j].BUID+">删除</a>&nbsp;&nbsp;<a class='updateButton' style='cursor:pointer'; name="+dataRoot[j].BUID+">修改</a>"  
+                        + "</td>").append("<td class='col9'>" + "<a class='updateButton' style='cursor:pointer'; name="+dataRoot[j].BUID+">修改</a>"  
                         + "</td>");
             }  
         } else {  
@@ -63,15 +63,11 @@
                         + "</td>").append("<td class='col6'>" + dataRoot[j].AUTHOR  
                         + "</td>").append("<td class='col7'>" + dataRoot[j].VALUE  
                         + "</td>").append("<td class='col8'>" + dataRoot[j].KINDNO  
-                        + "</td>").append("<td class='col9'>" + "<a class='deleteButton' style='cursor:pointer'; name="+dataRoot[j].BUID+">删除</a>&nbsp;&nbsp;<a class='updateButton' style='cursor:pointer'; name="+dataRoot[j].BUID+">修改</a>"  
+                        + "</td>").append("<td class='col9'>" + "修改"   
                         + "</td>");
             }  
         }  
         $(".page-count").text(totalCount); 
-        $(".deleteButton").click(function(){
-			var id = $(this).attr("name");
-			openDelete(id);
-		});
 		$(".updateButton").click(function(){
 			var id = $(this).attr("name");
 			alert(id);
@@ -81,8 +77,8 @@
 	})
 }  
 function getPage(url) {  
-    $.getJSON(url, function(data) {  
-
+    $.post(url, function(data) {  
+    	
                 pn = 1;  
                 var totalCount = data.totalCount; // 总记录数  
                 var pageSize = 10; // 每页显示几条记录  
@@ -149,7 +145,7 @@ function getPage(url) {
                 });
                 $("#firstPage").trigger("click");  
                   
-            })  
+            },"json")  
 }  
 function gotoPage(pn,url) {  
     //alert(pn);  
@@ -165,33 +161,6 @@ function gotoPage(pn,url) {
  
  function flushPage() {
 		getPage("<%=basePath%>book/list.do");
-	}
- function openDelete(id) {
-		$("#BUID").val(id);
-		$("#delete").fadeIn(200);
-	}
- 
- 
- function deleteensure(){
-		var BUID = $("input[name='BUID']").val();
-		$.ajax({
-			type: "POST",
-			url: "<%=basePath%>book/deletebookhelp.do?BUID=" + BUID,
-			async: true,
-			dataType: 'json',
-			success: function(data) {
-				alert(data.msg);
-				flushPage();
-				$("#delete").fadeOut(200);
-			},
-			error: function() {
-				alert("网络连接异常，请检查网络设置");
-			}
-		});
-	}
- 
- function deletecancle(){	
-		$("#delete").fadeOut(200);
 	}
 
 //通过id查找员工信息
@@ -335,25 +304,7 @@ $(document).ready(function(){
 			</thead>
 
 			<tbody id="list">
-				<!-- <%List<Book> list = (List<Book>) request.getAttribute("list");
-			if (list != null) {
-				int i = 0;
-				for (Book b : list) {%>
-    <tr>
-    <td><%=++i%></td>
-    <td><a href="#"><%=b.getNAME()%></a><p><%=b.getDATE()%></p></td>
-    <td class="imgtd"><img src="<%=basePath%><%=b.getAUTHOR()%>" title="图片" alt="暂无数据"/></td>
-    <td><%=b.getPRESS()%></td>
-    <td><%=b.getAUTHOR()%></td>
-    <td><%=b.getVALUE()%></td>
-    <td>已审核</td>
-    </tr>
-    <%}
-			} else {%>
-    <tr>
-    <td colspan="8">暂无数据</td>
-    </tr>
-    <%}%> -->
+				
 			</tbody>
 
 		</table>
@@ -384,25 +335,7 @@ $(document).ready(function(){
         <li class="paginItem"><a id="next"><span class="pagenxt"></span></a></li> -->
 			</ul>
 		</div>
-		<div class="tip" id="delete">
-
-			<div class="tiptop">
-				<span>删除提示信息</span><a></a>
-			</div>
-			<div class="tipinfo">
-				<span><img src="<%=basePath%>moban/images/ticon.png" /></span>
-				<div class="tipright">
-					<p>是否要删除图书？</p>
-					<input type="hidden" name="BUID" id="BUID" /> <cite>如果是请点击确定按钮
-						，否则请点取消。</cite>
-				</div>
-			</div>
-			<div class="tipbtn">
-				<input name="" type="button" class="sure" value="确定"
-					onclick="deleteensure()" />&nbsp; <input name="" type="button"
-					class="cancel" value="取消" onclick="deletecancle()" />
-			</div>
-		</div>
+		
 
 
 

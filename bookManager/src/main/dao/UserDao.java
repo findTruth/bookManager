@@ -14,7 +14,9 @@ public interface UserDao {
 	public User findByName(String user,String pwd);//通过账号user查找用户信息
 	public boolean del(User user);//删除用户
 	public boolean add(User user);//新增用户
+	public boolean delUserList(List<String> list);//批量删除用户
 	//修改用户各项信息
+	public boolean changeUser(User user);
 	public boolean updateUserStatus(String UUID,int Status);
 	//注册页面
 	public String findYxSj(String EMAIL,String UPHONE);//判断是否注册
