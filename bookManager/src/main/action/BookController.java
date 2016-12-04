@@ -126,10 +126,7 @@ public class BookController extends HttpServlet {
 				response.getWriter().close();
 			}
 			request.getRequestDispatcher("../jsp/emp/borrow.jsp").forward(request, response);
-		}else if("/list".equals(path)){
-			BookBizImpl bookbizimpl = new BookBizImpl();
-			int type = Integer.valueOf(request.getParameter("type"));
-		} else if ("/list".equals(path)) {
+		}else if ("/list".equals(path)) {
 			BookBizImpl bookbizimpl = new BookBizImpl();
 			if (request.getParameter("type") != null) {
 				int type = Integer.valueOf(request.getParameter("type"));
@@ -163,11 +160,6 @@ public class BookController extends HttpServlet {
 			
 			Book book = new BookBizImpl().findById(BUID);			
 			response.getWriter().append(new Gson().toJson(book));
-			response.getWriter().close();
-		}else if(""){
-			BookBizImpl bookbizimpl = new BookBizImpl();
-			List<Book> list = bookbizimpl.bookList();
-			response.getWriter().append(Tools.json(list));
 			response.getWriter().close();
 		}else if ("/add".equals(path)) {
 			JsonObject json = Tools.upload(request, response);
