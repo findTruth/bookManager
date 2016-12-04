@@ -11,6 +11,8 @@ import main.entity.Manager;
 import main.entity.User;
 
 public class BookBizImpl implements BookBiz {
+	private static final String BUID = null;
+	private static final String NAME = null;
 	BookDaoImpl bookdaoimpl=new BookDaoImpl();
 	
 	@Override
@@ -21,8 +23,8 @@ public class BookBizImpl implements BookBiz {
 
 	@Override
 	public Book findById(String BUID) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return bookdaoimpl.findById(BUID);
 	}
 
 	@Override
@@ -37,5 +39,17 @@ public class BookBizImpl implements BookBiz {
 		flag=bookdaoimpl.add(book);
 		return flag;
 	}
+
+	public boolean deletebookhelp(String BUID) {
+		boolean flag=bookdaoimpl.deletebookhelp(BUID);
+		return flag;
+		
+	}
+
+	public boolean updateAll(Book book) {
+		return bookdaoimpl.updateAll(book);
+	}
+
+	
 
 }
