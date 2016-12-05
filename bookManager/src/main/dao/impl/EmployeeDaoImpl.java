@@ -91,8 +91,29 @@ public class EmployeeDaoImpl implements EmployeeDao {
 
 	@Override
 	public boolean add(Emp emp) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean flag=false;
+		try {
+			Connection conn=DBhelper_mysql.getConnection();
+			String sql="insert into TB_Emp(EUID,UNAME,NAME,PASSWORD,PHONE,QQ,ID,AGE,LASTLOGIN,QUAN) values(?,?,?,?,?,?,?,?,now(),?)";
+			PreparedStatement ps=conn.prepareStatement(sql);
+			ps.setString(1, emp.getEUID());
+			ps.setString(2, emp.getUNAME());
+			ps.setString(3, emp.getNAME());
+			ps.setString(4, emp.getPASSWORD());
+			ps.setString(5, emp.getPHONE());
+			ps.setString(6, emp.getQQ());
+			ps.setString(7, emp.getID());
+			ps.setInt(8, emp.getAGE());
+			ps.setInt(9, emp.getQUAN());
+			int n=ps.executeUpdate();
+			if (n==1) {
+				flag=true;
+			}
+			DBhelper_mysql.closeConnection(null, ps, conn);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return flag;
 	}
 
 
@@ -182,7 +203,6 @@ public class EmployeeDaoImpl implements EmployeeDao {
 			return false;
 		}
 	}
-
 	@Override
 	public boolean changeAll(Emp emp) {
 		String sql = "update TB_Emp set NAME=?,PHONE=?,QQ=?,ID=?,AGE=?,QUAN = ? where EUID=?";
@@ -245,6 +265,30 @@ public class EmployeeDaoImpl implements EmployeeDao {
 			e.printStackTrace();
 		}
 		
+		return flag;
+	}
+
+	@Override
+	public boolean delEmpList(List<String> list) {
+		boolean flag=false;
+		try {
+			Connection conn=DBhelper_mysql.getConnection();
+			conn.setAutoCommit(false);
+			String sql="delete from TB_Emp where EUID=?";
+			PreparedStatement ps=conn.prepareStatement(sql);
+			for(String a:list){
+				ps.setString(1, a);
+				ps.addBatch();
+			}
+			int n=ps.executeUpdate();
+			conn.commit();
+			if (n>=1) {
+				flag=true;
+			}
+			DBhelper_mysql.closeConnection(null, ps, conn);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return flag;
 	}
 

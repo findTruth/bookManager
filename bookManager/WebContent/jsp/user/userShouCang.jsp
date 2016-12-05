@@ -47,7 +47,7 @@ function getJSONData(pn, url) {
 				if(j == totalCount) {
 					break; // 当遍历到最后一条记录时，跳出循环  
 				}
-				$(".tr-tag").eq(j).append("<td class='col1'><input type='checkbox' value='" + parseInt(j + 1) + "'/></td>")
+				$(".tr-tag").eq(k).append("<td class='col1'><input type='checkbox' value='" + parseInt(j + 1) + "'/></td>")
 					.append("<td class='col2'>" + parseInt(j + 1) +
 					"</td>").append("<td class='col3'>" + dataRoot[j].NAME +
 					"</td>").append("<td class='col4'>" + dataRoot[j].PRESS +

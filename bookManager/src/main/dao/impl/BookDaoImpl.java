@@ -23,11 +23,12 @@ public class BookDaoImpl implements BookDao {
 	@Override
 	public List<Book> list() {
 		Connection conn = DBhelper_mysql.getConnection();
-		List<Book> list = new ArrayList<>();
+		List<Book> list = new ArrayList<Book>();
 		String sql = "select b.BUID,b.NAME,b.DATE,b.PRESS,b.AUTHOR,b.VALUE,(select c.KINDNAME from TB_BookKinds c where b.KINDNO=c.KINDNO) AS KIND,b.STATUS,b.ADDRESS,b.PICTURE from TB_Book b";
+		System.out.println("11111");
 		try {
-			Statement ps = conn.createStatement();
-			ResultSet rs = ps.executeQuery(sql);
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
 			Book book = null;
 			while (rs.next()) {
 				book = new Book(rs.getString("BUID"), rs.getString("NAME"), rs.getTimestamp("DATE"), rs.getString("PRESS"), rs.getString("AUTHOR"), rs.getString("VALUE"), rs.getString("KIND"),rs.getString("ADDRESS"), rs.getInt("STATUS"),rs.getString("PICTURE"));
@@ -41,36 +42,47 @@ public class BookDaoImpl implements BookDao {
 
 	@Override
 	public Book findById(String BUID) {
-		// TODO Auto-generated method stub
-		return null;
+		String sql = "select BUID,NAME,PRESS,AUTHOR,KINDNO,VALUE,STATUS,DATE,ADDRESS,PICTURE from TB_Book where BUID = ?";
+		Connection conn = DBhelper_mysql.getConnection();
+		Book book = null;
+		try {
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, BUID);
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				System.out.println(rs.getString("BUID"));
+				book = new Book(rs.getString("BUID"), rs.getString("NAME"), rs.getTimestamp("DATE"), rs.getString("PRESS"), rs.getString("AUTHOR"), rs.getString("VALUE"), rs.getString("KINDNO"),rs.getString("ADDRESS"), rs.getInt("STATUS"),rs.getString("PICTURE"));;
+			}
+			DBhelper_mysql.closeConnection(rs, ps, conn);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return book;
 	}
+
 
 	@Override
 	public Book findByName(String NAME) {
-		Book book = null;
 		String sql = "select BUID,NAME,DATE,PRESS,AUTHOR,VALUE,KINDNO,STATUS,ADDRESS,PICTURE from TB_Book where NAME=?";
+		Book book = null;
 		try {
 			Connection conn = DBhelper_mysql.getConnection();
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, NAME);
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
-				book = book = new Book(rs.getString("BUID"), rs.getString("NAME"), rs.getTimestamp("DATE"), rs.getString("PRESS"), rs.getString("AUTHOR"), rs.getString("VALUE"), rs.getString("KIND"),rs.getString("ADDRESS"), rs.getInt("STATUS"),rs.getString("PICTURE"));;
+				 book = new Book(rs.getString("BUID"), rs.getString("NAME"), rs.getTimestamp("DATE"), rs.getString("PRESS"), rs.getString("AUTHOR"), rs.getString("VALUE"), rs.getString("KIND"),rs.getString("ADDRESS"), rs.getInt("STATUS"),rs.getString("PICTURE"));;
 			}
 			DBhelper_mysql.closeConnection(rs, ps, conn);
 		} catch (Exception e) {
 		}
 		return book;
 	}
-	@Override
-	public boolean delete(String BUID) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
 	@Override
 	public boolean add(Book book) {
 		boolean flag=false;
+		String BUID=book.getBUID();
 		String NAME=book.getNAME();
 		Date DATE=book.getDATE();
 		String PRESS=book.getPRESS();
@@ -105,93 +117,63 @@ public class BookDaoImpl implements BookDao {
 		}
 		return flag;
 	}
+	
+	
 
 	@Override
-	//书名
-	public boolean updatebookName(String BUID, String NAME) {
-		String sql = "update TB_Book set  NAME= ? where BUID=?";
+	public boolean deletebookhelp(String BUID) {
+		boolean flag=false;
 		try {
-			Connection conn = DBhelper_mysql.getConnection();
-			PreparedStatement ps = conn.prepareStatement(sql);
-			ps.setString(1, NAME);
-			ps.setString(2, BUID);
-			int n = ps.executeUpdate();
-			DBhelper_mysql.closeConnection(null, ps, conn);
-			if (n==0) {
-				return false;
-			}else{
-				return true;
+			Connection conn=DBhelper_mysql.getConnection();
+			String sql="delete from TB_Book where BUID=?";
+			PreparedStatement ps=conn.prepareStatement(sql);
+			ps.setString(1, BUID);
+			int n=ps.executeUpdate();
+			if (n==1) {
+				flag=true;
 			}
-		} catch (Exception e) {
-			return false;
-		}
-	}
-
-	@Override
-	public boolean updatebookDate(String BUID, String DATE) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-   //出版社
-	public boolean updatebookPress(String BUID, String PRESS) {
-		String sql = "update TB_Book set  PRESS= ? where BUID=?";
-		try {
-			Connection conn = DBhelper_mysql.getConnection();
-			PreparedStatement ps = conn.prepareStatement(sql);
-			ps.setString(1, PRESS);
-			ps.setString(2, BUID);
-			int n = ps.executeUpdate();
 			DBhelper_mysql.closeConnection(null, ps, conn);
-			if (n==0) {
-				return false;
-			}else{
-				return true;
-			}
-		} catch (Exception e) {
-			return false;
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
-	}
-
-	@Override
-	//作者
-	public boolean updatebookAuthor(String BUID, String AUTHOR) {
-		String sql = "update TB_Book set  AUTHOR= ? where BUID=?";
-		try {
-			Connection conn = DBhelper_mysql.getConnection();
-			PreparedStatement ps = conn.prepareStatement(sql);
-			ps.setString(1, AUTHOR);
-			ps.setString(2, BUID);
-			int n = ps.executeUpdate();
-			DBhelper_mysql.closeConnection(null, ps, conn);
-			if (n==0) {
-				return false;
-			}else{
-				return true;
-			}
-		} catch (Exception e) {
-			return false;
-		}
-	}
-
-	@Override
-	public boolean updatebookValue(String BUID, String VALUE) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean updatebookKindno(String BUID, String KINDNO) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean updatebookStatus(String BUID, int STATUS) {
-		// TODO Auto-generated method stub
-		return false;
+		return flag;
 	}
 	
 	
+//修改图书
+@Override
+public boolean updateAll(Book book) {
+	boolean flag=false;
+	try {
+		Connection conn=DBhelper_mysql.getConnection();
+		String sql="update TB_Book set NAME=?,PRESS=?,AUTHOR=?,VALUE=?,KINDNO=?,STATUS=?,DATE=?,ADDRESS,PICTURE Where BUID=?";
+		PreparedStatement ps=conn.prepareStatement(sql);
+		ps.setString(1, book.getNAME());
+	    ps.setString(2, book.getPRESS());
+	    ps.setString(3, book.getAUTHOR());
+	    ps.setString(4, book.getVALUE());
+	    ps.setString(5, book.getKINDNO());
+	    ps.setInt(6, book.getSTATUS());
+	    ps.setDate(7, (java.sql.Date) book.getDATE());
+	    ps.setString(8, book.getADDRESS());
+	    ps.setString(9, book.getPICTURE());
+	    ps.setString(10, book.getBUID());
+		int n=ps.executeUpdate();
+		 if (n==1) {
+			flag=true;
+		}
+		 DBhelper_mysql.closeConnection(null, ps, conn);
+	} catch (SQLException e) {
+		e.printStackTrace();
+	}
+	return flag;
+}
+
+  public static void main(String[] args) {
+	  List<Book> list = new BookDaoImpl().list();
+	  
+	  System.out.println(list.size());
+}
+
+
 }

@@ -106,7 +106,7 @@ public class UserDaoImpl implements UserDao{
 		String ANSWER=user.getANSWER(); 
 		try {
 			Connection conn=DBhelper_mysql.getConnection();
-			String sql="insert into TB_User(UUID,UPHONE,EMAIL,PASSWORD,QUESTION,ANSWER) values(?,?,?,?,?,?)";
+			String sql="insert into TB_User(UUID,UPHONE,EMAIL,PASSWORD,QUESTION,ANSWER,LOGINTIME) values(?,?,?,?,?,?,now())";
 			PreparedStatement ps=conn.prepareStatement(sql);
 			ps.setString(1, Tools.UUID());
 			ps.setString(2, PHONE);
@@ -251,16 +251,20 @@ public class UserDaoImpl implements UserDao{
 		User users=new User();
 		try {
 			Connection conn=DBhelper_mysql.getConnection();
-			String sql="select NICNAME,SEX,ATION1,ATION2,ATION3,PASSWORD from TB_User where UUID=?";
+			String sql="select NICNAME,UPHONE,EMAIL,SEX,ATION1,ATION2,ATION3,PASSWORD,STATUS from TB_User where UUID=?";
 			PreparedStatement ps=conn.prepareStatement(sql);
 			ps.setString(1, UUID);
 			ResultSet rs=ps.executeQuery();
 			while (rs.next()) {
+				users.setUUID(UUID);
 				users.setNICNAME(rs.getString("NICNAME"));
+				users.setPHONE(rs.getString("UPHONE"));
+				users.setEMAIL(rs.getString("EMAIL"));
 				users.setATION1(rs.getString("ATION1"));
 				users.setATION2(rs.getString("ATION2"));
 				users.setATION3(rs.getString("ATION3"));
 				users.setPASSWORD(rs.getString("PASSWORD"));
+				users.setSTATUS(rs.getInt("STATUS"));
 				users.setSEX(rs.getInt("SEX"));
 			}		
 			DBhelper_mysql.closeConnection(rs, ps, conn);
@@ -782,6 +786,52 @@ public class UserDaoImpl implements UserDao{
 			e.printStackTrace();
 		}
 		return list;
+	}
+
+	@Override
+	public boolean changeUser(User user) {
+		boolean flag=false;
+		try {
+			Connection conn=DBhelper_mysql.getConnection();
+			String sql="update TB_User set UPHONE=?,EMAIL=?,NICNAME=?,STATUS=?,SEX=? where UUID=?";
+			PreparedStatement ps=conn.prepareStatement(sql);
+			ps.setString(1, user.getPHONE());
+			ps.setString(2, user.getEMAIL());
+			ps.setString(3, user.getNICNAME());
+			ps.setInt(4, user.getSTATUS());
+			ps.setInt(5, user.getSEX());
+			ps.setString(6, user.getUUID());
+			int n=ps.executeUpdate();
+			DBhelper_mysql.closeConnection(null, ps, conn);
+			flag=true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return flag;
+	}
+
+	@Override
+	public boolean delUserList(List<String> list) {
+		boolean flag=false;
+		try {
+			Connection conn=DBhelper_mysql.getConnection();
+			conn.setAutoCommit(false);
+			String sql="delete from TB_User where UUID=?";
+			PreparedStatement ps=conn.prepareStatement(sql);
+			for(String a:list){
+				ps.setString(1, a);
+				ps.addBatch();
+			}
+			int n=ps.executeUpdate();
+			conn.commit();
+			if (n>=1) {
+				flag=true;
+			}
+			DBhelper_mysql.closeConnection(null, ps, conn);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return flag;
 	}
 
 }

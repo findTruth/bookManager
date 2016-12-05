@@ -70,7 +70,7 @@ public class Tools {
 	}
 	
 	//图片上传
-	public final static String upload(HttpServletRequest request,HttpServletResponse response){
+	public final static JsonObject upload(HttpServletRequest request,HttpServletResponse response){
 		JsonObject json = new JsonObject();
 		boolean flag = false;
 		try{  
@@ -99,7 +99,7 @@ public class Tools {
 	            if (e instanceof SizeLimitExceededException) {  
 	            	json.addProperty("result", "-1");
 	            	json.addProperty("msg","文件尺寸超过规定大小:" + MAX_SIZE + "字节");
-	                return json.toString();  
+	                return json;  
 	            }  
 	            e.printStackTrace();  
 	        }  
@@ -107,7 +107,7 @@ public class Tools {
 	        if (fileList == null || fileList.size() == 0) {  
 	        	json.addProperty("result", "-1");
 	        	json.addProperty("msg", "请选择上传文件");
-	            return json.toString();  
+	            return json;  
 	        }  
 	        // 得到所有上传的文件  
 	        Iterator fileItr = fileList.iterator();  
@@ -129,7 +129,7 @@ public class Tools {
 	            if ("".equals(path1) || size == 0) {  
 	            	json.addProperty("result", "-1");
 	            	json.addProperty("msg", "请选择上传文件");
-	                return json.toString();  
+	                return json;  
 	            }  
 	            // 得到去除路径的文件名  
 	            String t_name = path1.substring(path1.lastIndexOf("//") + 1);  
@@ -149,7 +149,7 @@ public class Tools {
 	                	sb.append("*." + allowedExt[allowFlag]  + "   ");
 	                json.addProperty("result", "-1");
 	            	json.addProperty("msg", sb.toString());
-	                return json.toString();  
+	                return json;  
 	            }  
 	            long now = System.currentTimeMillis();  
 	            // 根据系统时间生成上传后保存的文件名  
@@ -170,7 +170,7 @@ public class Tools {
 	            	json.addProperty("msg","文件上传成功. 已保存为: " + prefix + "." + t_ext  
 	                        + "   文件大小: " + size + "字节" );
 	            	json.addProperty("src", "res/book/"+prefix+ "." + t_ext);
-		            out.println(json.toString());  
+	            	return json;  
 	            } catch (Exception e) {  
 	                e.printStackTrace();  
 	            }  
@@ -178,6 +178,6 @@ public class Tools {
 	        }catch(Exception e){  
 	            e.printStackTrace();  
 	        }  
-		return "";
+		return json;
 	}
 }

@@ -78,7 +78,7 @@ function getJSONData(pn, url) {
 					overtime=dataRoot[j].OVERTIME;
 				}
 				
-				$(".tr-tag").eq(j).append("<td class='col1'><input type='checkbox' value='" + parseInt(j + 1) + "'/></td>")
+				$(".tr-tag").eq(k).append("<td class='col1'><input type='checkbox' value='" + parseInt(j + 1) + "'/></td>")
 					.append("<td class='col2'>" + parseInt(j + 1) +
 					"</td>").append("<td class='col3'>" + dataRoot[j].Bname +
 					"</td>").append("<td class='col4'>" + dataRoot[j].STARTTIME +

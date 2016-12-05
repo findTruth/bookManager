@@ -354,16 +354,23 @@ public class UserController extends HttpServlet {
 			out.print(json.toString());
 			out.close();
 		}else if ("/UserList".equals(path)) {
-			int type=Integer.parseInt(request.getParameter("#"));
-			String content=request.getParameter("#");
+			String typev = request.getParameter("type");
+			int type = 0;
+			if(typev!=null){
+				type =Integer.parseInt(typev);
+			}
+			String content=request.getParameter("keyword");
+			if(content==null){
+				content="";
+			}
 //			int type=3;
 //			String content="武";
 			JsonObject json = new JsonObject();
 			List<UserBen> list=new ArrayList<UserBen>();
-			if (type==3) {				
+			if (0<=type&&type<2) {				
 				list=userbizimpl.userList(type, "%".concat(content).concat("%"));
 			}else {
-				list=userbizimpl.userList(type, content);
+				list=null;
 			}
 			if (list!=null) {
 				json.addProperty("totalCount",list.size());

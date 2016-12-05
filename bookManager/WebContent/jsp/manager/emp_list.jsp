@@ -1,4 +1,3 @@
-<%@page import="main.entity.Emp"%>
 <%@page import="main.entity.Book"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -15,15 +14,14 @@
 		<title>无标题文档</title>
 		<script type="text/javascript" src="<%=basePath%>js/jquery-3.1.0.min.js"></script>
 		<link rel="stylesheet" href="<%=basePath%>css/bootstrap.min.css" />
-		
+
 		<!--下拉菜单样式-->
 		<script type="text/javascript" src="<%=basePath%>js/bootstrap-select.js"></script>
 		<link rel="stylesheet" href="<%=basePath%>css/bootstrap-select.css" />
-		
+
 		<link href="<%=basePath%>moban/css/style.css" rel="stylesheet" type="text/css" />
 		<script type="text/javascript" src="<%=basePath%>moban/js/jquery.js"></script>
 		<script language="javascript">
-
 			$(function() {
 				//导航切换
 				$(".imglist li").click(function() {
@@ -76,10 +74,8 @@
 			<div class="tools">
 
 				<ul class="toolbar">
-					<li class="click"><span><img src="<%=basePath%>moban/images/t01.png" /></span>添加</li>
-					<li class="click"><span><img src="<%=basePath%>moban/images/t02.png" /></span>修改</li>
-					<li><span><img src="<%=basePath%>moban/images/t03.png" /></span>删除</li>
-					<li><span><img src="<%=basePath%>moban/images/t04.png" /></span>统计</li>
+					<li onclick="openAddEmp()"><span><img src="<%=basePath%>moban/images/t01.png" /></span>添加</li>
+					<li onclick="delEmp()"><span><img src="<%=basePath%>moban/images/t03.png" /></span>删除</li>
 				</ul>
 
 				<ul class="toolbar1">
@@ -92,7 +88,7 @@
 
 				<thead>
 					<tr>
-						<th style="width:30px"><input type="checkbox" name="" value="全选"></th>
+						<th style="width:30px"><input type="checkbox" name="" value="全选" id="all"></th>
 						<th style="width:50px">序号</th>
 						<th>用户名</th>
 						<th>姓名</th>
@@ -108,36 +104,7 @@
 				</thead>
 
 				<tbody id="list">
-					<%
-        	List<Emp> list = (List<Emp>)request.getAttribute("list");
-        	if(list!=null){
-        		int i = 0;
-        		for(Emp e : list){
-        %>
-    <tr>
-    <td><%=++i %></td>
-    <td><a href="#"><%=e.getNAME() %></a></td>
-    <td><%=e.getUNAME() %></td>
-    <td><%=e.getNAME() %></td>
-    <td><%=e.getPHONE() %></td>
-    <td><%=e.getQQ() %></td>
-    <td><%=e.getID() %></td>
-    <td><%=e.getAGE() %></td>
-    <td><%=e.getLASTLOGIN() %></td>
-    <td><%=e.getQUAN() %></td>
-    <td><%=e.getSTATUS() %></td>
-    <td>已审核</td>
-    </tr>
-    <%
-    		}
-    	}else{
-    %>
-    <tr>
-     <td colspan="8">暂无数据</td>
-    </tr>
-    <%
-    	}
-    %> 
+
 				</tbody>
 
 			</table>
@@ -149,17 +116,7 @@
 			<div class="pagin">
 				<div class="message">共<i class="blue page-count"></i>条纪录，当前显示第&nbsp;<i class="blue current-page"></i>&nbsp;页</div>
 				<ul class="paginList">
-					<!-- <li class="paginItem"><a id="prev"><span class="pagepre"></span></a></li>
-        
-        <li class="paginItem"><a id="firstPage">1</a></li>
-        
-        <li class="paginItem current"><a href="javascript:;">2</a></li>
-        <li class="paginItem"><a href="javascript:;">3</a></li>
-        <li class="paginItem"><a href="javascript:;">4</a></li>
-        <li class="paginItem"><a href="javascript:;">5</a></li>
-        <li class="paginItem more"><a href="javascript:;">...</a></li>
-        <li class="paginItem"><a href="javascript:;">10</a></li> 
-        <li class="paginItem"><a id="next"><span class="pagenxt"></span></a></li> -->
+				
 				</ul>
 			</div>
 
@@ -235,7 +192,7 @@
 			<div class="tiptop"><span>员工信息修改</span>
 				<a></a>
 			</div>
-			
+
 			<div class="tipinfo">
 				<table>
 					<input type="hidden" name="changeuid" id="changeuid" />
@@ -296,6 +253,78 @@
 			</div>
 
 		</div>
+
+		<div class="tip" id="add" style="height: 450px;">
+			<div class="tiptop"><span>新增员工</span>
+				<a></a>
+			</div>
+
+			<div class="tipinfo">
+				<table>
+					<input type="hidden" name="changeuid" id="changeuid" />
+					<tr>
+						<td>员工名</td>
+						<td>
+							<input type="text" class="form-control" name="adduname" id="adduname" />
+						</td>
+					</tr>
+					<tr>
+						<td>员工密码</td>
+						<td>
+							<input type="text" class="form-control" name="addpassword" id="addpassword" />
+						</td>
+					</tr>
+					<tr>
+						<td>姓名</td>
+						<td>
+							<input type="text" class="form-control" name="addname" id="addname" />
+						</td>
+					</tr>
+					<tr>
+						<td>电话</td>
+						<td>
+							<input type="text" class="form-control" name="addphone" id="addphone" />
+						</td>
+					</tr>
+					<tr>
+						<td>QQ</td>
+						<td>
+							<input type="text" class="form-control" name="addqq" id="addqq" />
+						</td>
+					</tr>
+					<tr>
+						<td>身份证号</td>
+						<td>
+							<input type="text" class="form-control" name="addid" id="addid" />
+						</td>
+					</tr>
+					<tr>
+						<td>年龄</td>
+						<td>
+							<input type="text" class="form-control" name="addage" id="addage" />
+						</td>
+					</tr>
+					<tr>
+						<td>权限</td>
+						<td>
+							<select id="addquan" name="addquan" class="show-tick form-control" style="width: 230px;">
+								<option value="0">普通权限</option>
+								<option value="1">图书录入和修改权限</option>
+								<option value="2">图书管理权限</option>
+								<option value="3">用户修改权限</option>
+								<option value="4">用户管理权限</option>
+							</select>
+						</td>
+					</tr>
+				</table>
+			</div>
+
+			<div class="tipbtn" style="margin-top: 250px;">
+				<input name="" type="button" class="sure" value="确定" onclick="addEmp()"/>&nbsp;
+				<input name="" type="button" class="cancel" value="取消" />
+			</div>
+
+		</div>
 		<script type="text/javascript">
 			$('.imgtable tbody tr:odd').addClass('odd');
 		</script>
@@ -308,7 +337,7 @@
 	//分页
 	function getJSONData(pn, url) {
 		// alert(pn);  
-		$.getJSON(url, function(data) {
+		$.post(url, function(data) {
 			var totalCount = data.totalCount; // 总记录数  
 			var pageSize = 10; // 每页显示几条记录  
 			var pageTotal = Math.ceil(totalCount / pageSize); // 总页数  
@@ -321,10 +350,10 @@
 			}
 			var dataRoot = data.jsonRoot;
 			if(pageTotal == 1) { // 当只有一页时  
-				
+
 				for(var j = 0; j < totalCount; j++) {
 					var quan = "";
-					switch (dataRoot[j].QUAN){
+					switch(dataRoot[j].QUAN) {
 						case 0:
 							quan = '普通权限';
 							break;
@@ -345,7 +374,7 @@
 							break;
 					}
 					var status = "";
-					switch (dataRoot[j].STATUS){
+					switch(dataRoot[j].STATUS) {
 						case 1:
 							status = '上班中';
 							break;
@@ -353,7 +382,7 @@
 							status = '未上线';
 							break;
 					}
-					$(".tr-tag").eq(j).append("<td class='col1'><input type='checkbox' value='" + parseInt(j + 1) + "'/></td>")
+					$(".tr-tag").eq(j).append("<td class='col1'><input type='checkbox' name='checkBox' value='" + dataRoot[j].EUID + "'/></td>")
 						.append("<td class='col2'>" + parseInt(j + 1) +
 							"</td>").append("<td class='col3'>" + dataRoot[j].UNAME +
 							"</td>").append("<td class='col4'>" + dataRoot[j].NAME +
@@ -365,7 +394,7 @@
 							"</td>").append("<td class='col10'>" +
 							"<a class='changeEmpQuanButton' name=" + dataRoot[j].QUAN + " id=" + dataRoot[j].EUID + " style='cursor:pointer;'>" + quan + "</a>" +
 							"</td>").append("<td class='col11'>" + status +
-							"</td>").append("<td class='col12'>" + "<a class='changeButton' style='cursor:pointer'; name="+dataRoot[j].EUID+">修改</a>" +
+							"</td>").append("<td class='col12'>" + "<a class='changeButton' style='cursor:pointer'; name=" + dataRoot[j].EUID + ">修改</a>" +
 							"</td>");
 				}
 			} else {
@@ -375,7 +404,7 @@
 						break; // 当遍历到最后一条记录时，跳出循环  
 					}
 					var quan = "";
-					switch (dataRoot[j].QUAN){
+					switch(dataRoot[j].QUAN) {
 						case 0:
 							quan = '普通权限';
 							break;
@@ -396,7 +425,7 @@
 							break;
 					}
 					var status = "";
-					switch (dataRoot[j].STATUS){
+					switch(dataRoot[j].STATUS) {
 						case 1:
 							status = '上班中';
 							break;
@@ -404,7 +433,7 @@
 							status = '未上线';
 							break;
 					}
-					$(".tr-tag").eq(k).append("<td class='col1'><input type='checkbox' value='" + parseInt(j + 1) + "'/></td>")
+					$(".tr-tag").eq(k).append("<td class='col1'><input type='checkbox' name='checkBox' value='" + dataRoot[j].EUID + "'/></td>")
 						.append("<td class='col2'>" + parseInt(j + 1) +
 							"</td>").append("<td class='col3'>" + dataRoot[j].UNAME +
 							"</td>").append("<td class='col4'>" + dataRoot[j].NAME +
@@ -416,7 +445,7 @@
 							"</td>").append("<td class='col10'>" +
 							"<a class='changeEmpQuanButton' name=" + dataRoot[j].QUAN + " id=" + dataRoot[j].EUID + " style='cursor:pointer;'>" + quan + "</a>" +
 							"</td>").append("<td class='col11'>" + dataRoot[j].STATUS +
-							"</td>").append("<td class='col12'>" + "<a class='changeButton' style='cursor:pointer'; name="+dataRoot[j].EUID+">修改</a>" +
+							"</td>").append("<td class='col12'>" + "<a class='changeButton' style='cursor:pointer'; name=" + dataRoot[j].EUID + ">修改</a>" +
 							"</td>");
 				}
 			}
@@ -428,17 +457,21 @@
 				$("#changeEmpQuanTopQUAN").val(QUANNUM);
 				$("#changeEmpQuanTop").fadeIn(200);
 			});
-			$(".changeButton").click(function(){
-//				alert($(this).attr("name"));
+			$(".changeButton").click(function() {
+				//				alert($(this).attr("name"));
 				var id = $(this).attr("name");
 				openChange(id);
-			});	
-		})
+			});
+			$("#all").click(function(){
+//				$("checkbox[name='checkBox']").each.attr("checked", !$(this).attr("checked"));
+				$("#list :checkbox,#all").attr("checked", true); 
+			});
+		},"json")
 	}
 
 	function getPage(url) {
-		$.getJSON(url, function(data) {
-			
+		$.post(url, function(data) {
+
 			pn = 1;
 			var totalCount = data.totalCount; // 总记录数  
 			var pageSize = 10; // 每页显示几条记录  
@@ -505,7 +538,7 @@
 			});
 			$("#firstPage").trigger("click");
 
-		})
+		},"json")
 	}
 
 	function gotoPage(pn, url) {
@@ -515,14 +548,44 @@
 	}
 
 	$(function() {
-	getPage("<%=basePath%>employee/list.do");
+		getPage("<%=basePath%>employee/list.do");
 
 	});
 
 	function flushPage() {
 		getPage("<%=basePath%>employee/list.do");
 	}
-
+	
+	//打开新增页面
+	function openAddEmp(){
+		$("#add").fadeIn(200);
+	}
+	
+	//新增用户
+	function addEmp(){
+		var jsondata = {
+			"UNAME":$("#adduname").val(),
+			"PASSWORD":$("#addpassword").val(),
+			"NAME": $("#addname").val(),
+			"PHONE": $("#addphone").val(),
+			"QQ": $("#addqq").val(),
+			"ID": $("#addid").val(),
+			"AGE": parseInt($("#addage").val()),
+			"QUAN": parseInt($("#addquan").val()),
+		};
+		$.ajax({
+			type: "POST",
+			url: "<%=basePath%>employee/add.do",
+			async: true,
+			dataType: 'json',
+			data: jsondata,
+			success: function(data) {
+				alert(data.msg);
+				flushPage();
+			}
+		});
+	}
+	
 	//权限修改
 	function changeEmpQuanFunction() {
 		var EUID = $("#changeEmpQuanTopEUID").val();
@@ -570,7 +633,7 @@
 			async: false,
 			dataType: 'json',
 			success: function(data) {
-				 data1 = data;
+				data1 = data;
 			}
 		});
 		return data1;
@@ -578,7 +641,7 @@
 
 	//跳转修改界面
 	function openChange(id) {
-//		var id = $(this).attr("name");
+		//		var id = $(this).attr("name");
 		var data = findById(id);
 		//alert();
 		$("#changeuid").val(data.EUID);
@@ -592,26 +655,58 @@
 		$("#change").fadeIn(200);
 	}
 	//大量修改
-	function changeFunction(){
+	function changeFunction() {
+		var EUID = $("#changeuid").val();
 		var NAME = $("#changename").val();
 		var PHONE = $("#changephone").val();
 		var QQ = $("#changeqq").val();
 		var ID = $("#changeid").val();
 		var AGE = $("#changeage").val();
 		var QUAN = $("#changequan").val();
-		var jsondata = {"EUID":EUID,"NAME":NAME,"PHONE":PHONE,"QQ":QQ,"ID":ID,"AGE":AGE,"QUAN":QUAN};
+		var jsondata = {
+			"EUID": EUID,
+			"NAME": NAME,
+			"PHONE": PHONE,
+			"QQ": QQ,
+			"ID": ID,
+			"AGE": AGE,
+			"QUAN": QUAN
+		};
 		$.ajax({
 			type: "POST",
 			url: "<%=basePath%>manager/changeEmp.do",
 			async: true,
 			dataType: 'json',
-			data:jsondata,
+			data: jsondata,
 			success: function(data) {
 				alert(data.msg);
 				flushPage();
 			}
 		});
 	}
+	
 	//批量删除
-	function delAll(){}
+	function delEmp() {
+	    var valArr = new Array; 
+	    
+	    $("#list :checkbox[checked]").each(function(i){ 
+	        valArr[i] = $(this).val(); 
+	    }); 
+	    var jsondata = {};
+	    for(var i=0;i<valArr.length;i++){
+	    	jsondata[i]=valArr[i];
+	    }
+	    jsondata['length'] = valArr.length;
+	   $.ajax({
+			type: "POST",
+			url: "<%=basePath%>manager/delEmp.do",
+			async: true,
+			dataType: 'json',
+			data: jsondata,
+			success: function(data) {
+				alert(data.msg);
+				flushPage();
+			}
+		});
+	}
 </script>

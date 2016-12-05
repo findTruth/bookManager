@@ -100,7 +100,7 @@
     <form method="post" action="<%=basePath %>user/login.do" id="Form">
     <li><input name="user" type="text" class="loginuser" value=""  placeholder="请输入手机号或者邮箱" onblur="CheckUser()"/> <div style="position: absolute; left: 270px;"><label id="nameTop"></label></div></li>
     <li><input name="pwd" type="password" class="loginpwd" value=""  placeholder="请输入您的密码"/><div style="position: absolute; left: 270px;"><label id="pwdTop"></label></div></li>
-    <li id="yzm">验证码：<input type="text" name="yzm" class="Yzm" onkeyup="this.value=this.value.toUpperCase()"><img src="${pageContext.request.contextPath }/tool/VerifyImage.do" id="Yzm" title="看不清，点击刷新"/></li>
+    <li id="yzm">验证码：<input type="text" name="yzm" class="LoginYzm" onkeyup="this.value=this.value.toUpperCase()"><img src="${pageContext.request.contextPath }/tool/VerifyImage.do" id="Yzm" title="看不清，点击刷新"/></li>
     <li id="yzm">&nbsp;&nbsp;<div style="position: absolute; left: 270px ;" class="Top"><label id="drTop" class="drtop">${loginmessage}</label></div><input  type="button" class="loginbtn" value="登录"  onclick="sub()"  />&nbsp;&nbsp;<input name="" type="button" class="loginbtn" value="注册"  onclick="location.href='<%=basePath %>jsp/user/Regist.jsp'" /><label><a href="<%=basePath %>jsp/user/find.jsp" id="mima">忘记密码？</a></label></li>
     </form>
     </ul>

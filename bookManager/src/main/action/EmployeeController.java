@@ -50,8 +50,8 @@ public class EmployeeController extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String path = Tools.cut(request.getRequestURI());
-		response.setCharacterEncoding("utf-8");
 		request.setCharacterEncoding("utf-8");
+		response.setCharacterEncoding("utf-8");
 		if ("/main".equals(path)) {
 			ManagerBizImpl mbi = new ManagerBizImpl();
 			try {
