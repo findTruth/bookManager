@@ -30,8 +30,15 @@ public class EmployeeController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String path = Tools.cut(request.getRequestURI());
 		response.setCharacterEncoding("utf-8");
-		if ("/empwork".equals(path)) {
-			request.getRequestDispatcher("../jsp/emp/empwork.jsp");
+		if ("/top".equals(path)) {
+			request.getRequestDispatcher("../jsp/emp/top.jsp").forward(request, response);
+		}else if ("/left".equals(path)) {
+			request.getRequestDispatcher("../jsp/emp/left.jsp").forward(request, response);
+		}else if ("/index".equals(path)) {
+			request.getRequestDispatcher("../jsp/emp/home.jsp").forward(request, response);
+		}else if ("/home".equals(path)) {
+			request.setAttribute("emp", request.getSession().getAttribute("emp"));
+			request.getRequestDispatcher("../jsp/emp/main.jsp").forward(request, response);
 		}else if("/list".equals(path)){
 			List<Emp> list = new EmployeeBizImpl().empList();
 			response.getWriter().append(Tools.json(list));
@@ -44,17 +51,16 @@ public class EmployeeController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String path = Tools.cut(request.getRequestURI());
 		response.setCharacterEncoding("utf-8");
-		if ("/empwork".equals(path)) {
-//			request.setAttribute("page", "manager");
+		request.setCharacterEncoding("utf-8");
+		if ("/main".equals(path)) {
 			ManagerBizImpl mbi = new ManagerBizImpl();
 			try {
-				mbi.LastLoginTime(((HashMap<String, String>)request.getSession().getAttribute("emp")).get("MUID"));
+				mbi.LastLoginTime(((HashMap<String, String>)request.getSession().getAttribute("emp")).get("EUID"));
 			} catch (SQLException e) {
 				response.getWriter().append("网络连接异常");
 				response.getWriter().close();
 			}
-//			response.sendRedirect("../jsp/manager/main.jsp");
-			request.getRequestDispatcher("../jsp/emp/empwork.jsp").forward(request, response);
+			request.getRequestDispatcher("../jsp/emp/main.jsp").forward(request, response);
 		}else if("/findById".equals(path)){
 			String EUID = request.getParameter("EUID");
 			Emp emp = new EmployeeBizImpl().findById(EUID);

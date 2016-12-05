@@ -49,7 +49,7 @@ $(function(){
     <dd><div class="title"><span><img src="" /></span>书籍借阅与归还
     </div>   
      <ul class="menuson">
-        <li><cite></cite><a href="<%=basePath%>emp/borrow.do" target="rightFrame">书籍借阅</a><i></i></li>
+        <li><cite></cite><a href="<%=basePath%>user/userJieShu.do" target="rightFrame">书籍借阅</a><i></i></li>
         <li><cite></cite><a href="<%=basePath%>emp/return.do" target="rightFrame">书籍归还</a><i></i></li>
         </ul>     
     </dd>  
@@ -67,10 +67,6 @@ $(function(){
     
     <dd><div class="title"><span></span>
     <a href="<%=basePath %>emp/emp_list.do" target="rightFrame">员工信息管理</a></div>
-    <ul class="menuson">
-        <li><cite></cite><a href="<%=basePath %>emp/addEmp.do" target="rightFrame">增加员工信息</a><i></i></li>
-        <li><cite></cite><a href="<%=basePath %>emp/changeEmp.do" target="rightFrame">修改员工信息</a><i></i></li>
-    </ul>
     </dd>  
      <dd>
     <div class="title">
