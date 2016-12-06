@@ -24,8 +24,7 @@ public class BookDaoImpl implements BookDao {
 	public List<Book> list() {
 		Connection conn = DBhelper_mysql.getConnection();
 		List<Book> list = new ArrayList<Book>();
-		String sql = "select b.BUID,b.NAME,b.DATE,b.PRESS,b.AUTHOR,b.VALUE,(select c.KINDNAME from TB_BookKinds c where b.KINDNO=c.KINDNO) AS KIND,b.STATUS,b.ADDRESS,b.PICTURE from TB_Book b";
-		System.out.println("11111");
+		String sql = "select b.BUID,b.NAME,b.DATE,b.PRESS,b.AUTHOR,b.VALUE,(select c.KINDNO from TB_BookKinds c where b.KINDNO=c.KINDNO) AS KIND,b.STATUS,b.ADDRESS,b.PICTURE from TB_Book b";
 		try {
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ResultSet rs = ps.executeQuery();
@@ -168,12 +167,12 @@ public boolean updateAll(Book book) {
 	}
 	return flag;
 }
-
-  public static void main(String[] args) {
-	  List<Book> list = new BookDaoImpl().list();
+//测试
+ // public static void main(String[] args) {
+//	  List<Book> list = new BookDaoImpl().list();
 	  
-	  System.out.println(list.size());
-}
+//	  System.out.println(list.size());
+//}
 
 
 }

@@ -43,60 +43,34 @@ import main.tool.UUIDUtils;
 public class BookController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	
-//	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		String path = Tools.cut(request.getRequestURI());
-//		System.out.println(path);
-//		
-//		
-//	}
-	
-
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
 		String path = Tools.cut(request.getRequestURI());
- 
-//		request.getRequestDispatcher("../404.jsp").forward(request, response);
-		
-		System.out.println(path);
-		
- 
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("text/plain"); 
 		PrintWriter out =  response.getWriter();
-		
-		// request.getRequestDispatcher("../404.jsp").forward(request,
-		// response);
 		if ("/bookmanager".equals(path)) {
 			request.getRequestDispatcher("../jsp/book/bookList.jsp").forward(request, response);
-
-		}else if ("/bookkindmanager".equals(path)) {
-			
-		}else if ("/bookrecordmanager".equals(path)) {
-			
-		}else if("/list".equals(path)){
-			BookBizImpl bookbizimpl = new BookBizImpl();
-
 		} else if ("/bookkindmanager".equals(path)) {
-
+			
 		} else if ("/bookrecordmanager".equals(path)) {
-
+			
 		} else if ("/list".equals(path)) {
+			System.out.println("111");
 			BookBizImpl bookbizimpl = new BookBizImpl();
-			response.setCharacterEncoding("utf-8");
-
-			response.setContentType("text/plain"); 
 			List<Book> list = bookbizimpl.bookList();
+			for (Book b:list) {
+				System.out.println(b.getKINDNO());
+				System.out.println(b.getNAME());
+			}
+			System.out.println(list.size());
 			JsonObject json = new JsonObject();
 			json.addProperty("totalCount", list.size());
 			json.add("jsonRoot", new Gson().toJsonTree(list));
-			response.getWriter().append(json.toString());
+			out.append(json.toString());
+			out.close();
 		}else if ("/UserBook".equals(path)) {
-
-			response.setContentType("text/plain");
-			BookBizImpl bookbizimpl = new BookBizImpl();
-			List<Book> list = bookbizimpl.bookList();
-			response.getWriter().append(Tools.json(list));
-		} else if ("/UserBook".equals(path)) {
 			request.getRequestDispatcher("../jsp/book/worker.jsp").forward(request, response);
 
 		}else {
@@ -107,12 +81,9 @@ public class BookController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String path = Tools.cut(request.getRequestURI());
-		System.out.println(path);
-		
+		System.out.println(path);		
 		response.setCharacterEncoding("utf-8");
-		request.setCharacterEncoding("utf-8");
-		response.setContentType("text/plain");
-		
+		response.setContentType("text/plain");	
 		PrintWriter out =  response.getWriter();
 		
 		if ("/borrow".equals(path)) {
@@ -140,8 +111,7 @@ public class BookController extends HttpServlet {
 			json.addProperty("totalCount", list.size());
 			json.add("jsonRoot", new Gson().toJsonTree(list));
 			response.getWriter().append(json.toString());			
-		}else if ("/deletebookhelp".equals(path)) {
-				
+		}else if ("/deletebookhelp".equals(path)) {				
 			BookBizImpl bookbizimpl= new BookBizImpl();
 			String BUID =request.getParameter("BUID");
 			System.out.println(BUID);
