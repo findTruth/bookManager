@@ -27,9 +27,9 @@
     <div class="title">
      <ul class="menuson">
      	<li><cite></cite><a href="<%=basePath %>user/BookCentre.do" target="rightFrame">图书中心</a><i></i></li>
-        <li><cite></cite><a href="<%=basePath %>user/userGeRen.do" target="rightFrame">个人中心</a><i></i></li>
         <li><cite></cite><a href="<%=basePath %>user/userShouCang.do" target="rightFrame">用户收藏纪录</a><i></i></li>
         <li><cite></cite><a href="<%=basePath %>user/userJieShu.do" target="rightFrame">用户借书纪录</a><i></i></li>
+        <li><cite></cite><a href="<%=basePath %>user/userGeRen.do" target="rightFrame">个人中心</a><i></i></li>
      </ul>     
     </div>
     </dd1> 
