@@ -84,6 +84,7 @@ public class ToolContorller extends HttpServlet {
 						out.print(json.toString());
 						out.close();
 					}else if(Tools.MD5(request.getParameter("Pwd")).equals(emp.getPASSWORD())){
+						request.getSession().setAttribute("emp", emp);
 						JsonObject json = new JsonObject();
 						json.addProperty("result", "2");
 						json.addProperty("msg", "登陆成功");
@@ -115,6 +116,7 @@ public class ToolContorller extends HttpServlet {
 					}
 				}else if (emp!=null) {
 					if(Tools.MD5(request.getParameter("Pwd")).equals(emp.getPASSWORD())){
+						request.getSession().setAttribute("emp", emp);
 						JsonObject json = new JsonObject();
 						json.addProperty("result", "2");
 						json.addProperty("msg", "登陆成功");

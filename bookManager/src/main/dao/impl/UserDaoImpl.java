@@ -27,7 +27,7 @@ public class UserDaoImpl implements UserDao{
 		List<UserBen> list=new ArrayList<UserBen>();
 		try {
 			Connection conn=DBhelper_mysql.getConnection();
-			String sql="select UUID,UPHONE,EMAIL,NICNAME,STATUS,LOGINTIME,SEX,ATION1+ATION2+ATION3 as ACTION from TB_User";
+			String sql="select UUID,UPHONE,EMAIL,NICNAME,STATUS,LOGINTIME,SEX,ATION1+ATION2+ATION3 as ACTION from TB_User ORDER BY  LOGINTIME DESC";
 			PreparedStatement	ps=conn.prepareStatement(sql);
 			ResultSet	rs=ps.executeQuery();
 			while (rs.next()) {
@@ -310,7 +310,7 @@ public class UserDaoImpl implements UserDao{
 					+ "T.OVERTIME as OVERTIME,"
 					+ "T.STATUS as STATUS "
 					+ "from TB_BookRecord T,TB_Book B "
-					+ "where B.BUID=T.BUID AND T.UUID=?";
+					+ "where B.BUID=T.BUID AND T.UUID=? ORDER BY  OVERTIME DESC";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, longUUID);
 			ResultSet rs = ps.executeQuery();
@@ -436,7 +436,7 @@ public class UserDaoImpl implements UserDao{
 		List<Bookkeep> list = new ArrayList<>();
 		try {
 			Connection conn = DBhelper_mysql.getConnection();
-			String sql = "select T.KUID as KUID,B.NAME as NAME,B.PRESS as PRESS,B.AUTHOR as AUTHOR,B.VALUE as VALUE,T.TIME as TIME from TB_Bookkeep T,TB_Book B where B.BUID=T.BUID AND T.UUID=?";
+			String sql = "select T.KUID as KUID,B.NAME as NAME,B.PRESS as PRESS,B.AUTHOR as AUTHOR,B.VALUE as VALUE,T.TIME as TIME from TB_Bookkeep T,TB_Book B where B.BUID=T.BUID AND T.UUID=? ORDER BY  TIME DESC";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, longUUID);
 			ResultSet rs = ps.executeQuery();
@@ -539,7 +539,7 @@ public class UserDaoImpl implements UserDao{
 		List<Bookkeep> list = new ArrayList<>();
 		try {
 			Connection conn = DBhelper_mysql.getConnection();
-			String sql = "select T.KUID as KUID,B.NAME as NAME,B.PRESS as PRESS,B.AUTHOR as AUTHOR,B.VALUE as VALUE,T.TIME as TIME from TB_Bookkeep T,TB_Book B where B.BUID=T.BUID AND T.UUID=? AND T.BUID=(select BUID from TB_Book where NAME=? OR AUTHOR=?)";
+			String sql = "select T.KUID as KUID,B.NAME as NAME,B.PRESS as PRESS,B.AUTHOR as AUTHOR,B.VALUE as VALUE,T.TIME as TIME from TB_Bookkeep T,TB_Book B where B.BUID=T.BUID AND T.UUID=? AND T.BUID=(select BUID from TB_Book where NAME=? OR AUTHOR=?) ORDER BY  TIME DESC";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, longUUID);
 			ps.setString(2, Content);
@@ -574,7 +574,7 @@ public class UserDaoImpl implements UserDao{
 					+ "T.OVERTIME as OVERTIME,"
 					+ "T.STATUS as STATUS "
 					+ "from TB_BookRecord T,TB_Book B "
-					+ "where B.BUID=T.BUID AND T.UUID=? AND T.BUID=(select BUID from TB_Book where NAME=?)";
+					+ "where B.BUID=T.BUID AND T.UUID=? AND T.BUID=(select BUID from TB_Book where NAME=?) ORDER BY  OVERTIME DESC";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, longUUID);
 			ps.setString(2, Content);
@@ -709,7 +709,7 @@ public class UserDaoImpl implements UserDao{
 		List<UserBen> list=new ArrayList<UserBen>();
 		try {
 			Connection conn=DBhelper_mysql.getConnection();
-			String sql="select UUID,UPHONE,EMAIL,NICNAME,STATUS,LOGINTIME,SEX,ATION1+ATION2+ATION3 as ACTION from TB_User where UPHONE=?";
+			String sql="select UUID,UPHONE,EMAIL,NICNAME,STATUS,LOGINTIME,SEX,ATION1+ATION2+ATION3 as ACTION from TB_User where UPHONE=? ORDER BY  LOGINTIME DESC";
 			PreparedStatement	ps=conn.prepareStatement(sql);
 			ps.setString(1, Phone);
 			ResultSet	rs=ps.executeQuery();
@@ -737,7 +737,7 @@ public class UserDaoImpl implements UserDao{
 		List<UserBen> list=new ArrayList<UserBen>();
 		try {
 			Connection conn=DBhelper_mysql.getConnection();
-			String sql="select UUID,UPHONE,EMAIL,NICNAME,STATUS,LOGINTIME,SEX,ATION1+ATION2+ATION3 as ACTION from TB_User where EMAIL=?";
+			String sql="select UUID,UPHONE,EMAIL,NICNAME,STATUS,LOGINTIME,SEX,ATION1+ATION2+ATION3 as ACTION from TB_User where EMAIL=? ORDER BY  LOGINTIME DESC";
 			PreparedStatement	ps=conn.prepareStatement(sql);
 			ps.setString(1, Email);
 			ResultSet	rs=ps.executeQuery();
@@ -765,7 +765,7 @@ public class UserDaoImpl implements UserDao{
 		List<UserBen> list=new ArrayList<UserBen>();
 		try {
 			Connection conn=DBhelper_mysql.getConnection();
-			String sql="select UUID,UPHONE,EMAIL,NICNAME,STATUS,LOGINTIME,SEX,ATION1+ATION2+ATION3 as ACTION from TB_User where NICNAME LIKE ?";
+			String sql="select UUID,UPHONE,EMAIL,NICNAME,STATUS,LOGINTIME,SEX,ATION1+ATION2+ATION3 as ACTION from TB_User where NICNAME LIKE ? ORDER BY  LOGINTIME DESC";
 			PreparedStatement	ps=conn.prepareStatement(sql);
 			ps.setString(1, Nicname);
 			ResultSet	rs=ps.executeQuery();

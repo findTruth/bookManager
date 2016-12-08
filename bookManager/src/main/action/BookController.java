@@ -42,7 +42,6 @@ import main.tool.UUIDUtils;
 @WebServlet("/book/*")
 public class BookController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	String twoNAME;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
