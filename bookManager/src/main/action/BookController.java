@@ -42,6 +42,7 @@ import main.tool.UUIDUtils;
 @WebServlet("/book/*")
 public class BookController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	String twoNAME;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -57,14 +58,8 @@ public class BookController extends HttpServlet {
 		} else if ("/bookrecordmanager".equals(path)) {
 			
 		} else if ("/list".equals(path)) {
-			System.out.println("111");
 			BookBizImpl bookbizimpl = new BookBizImpl();
 			List<Book> list = bookbizimpl.bookList();
-			for (Book b:list) {
-				System.out.println(b.getKINDNO());
-				System.out.println(b.getNAME());
-			}
-			System.out.println(list.size());
 			JsonObject json = new JsonObject();
 			json.addProperty("totalCount", list.size());
 			json.add("jsonRoot", new Gson().toJsonTree(list));
@@ -80,8 +75,7 @@ public class BookController extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String path = Tools.cut(request.getRequestURI());
-		System.out.println(path);		
+		String path = Tools.cut(request.getRequestURI());	
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/plain");	
 		PrintWriter out =  response.getWriter();
@@ -105,7 +99,6 @@ public class BookController extends HttpServlet {
 				int type = 0;
 			}
 			String keyword = request.getParameter("keyword");
-			
 			List<Book> list = bookbizimpl.bookList();
 			JsonObject json = new JsonObject();
 			json.addProperty("totalCount", list.size());

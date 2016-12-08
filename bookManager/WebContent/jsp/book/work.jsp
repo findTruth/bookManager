@@ -53,7 +53,7 @@ $(document).ready(function(){
     	<ul class="toolbar">
         <li class="click"><span><img src="<%=basePath %>moban/images/t01.png" onclick="addbook()"/></span>添加</li>
         <li class="click"><span><img src="<%=basePath %>moban/images/t02.png" onclick="location.href='<%=basePath %>jsp/book/bookList.jsp'"/></span>修改</li>
-        <li class="click"><span><img src="<%=basePath %>moban/images/t03.png" /></span>删除</li>    
+        <li class="click"><span><img src="<%=basePath %>moban/images/t03.png" onclick="location.href='<%=basePath %>jsp/book/bookList.jsp'"/></span>删除</li>    
         <li>
         
         <div class="uew-select">
@@ -73,7 +73,7 @@ $(document).ready(function(){
        </li>
        <li><span><img src="<%=basePath %>moban/images/确定按钮1.png" onclick="findByKind()"></span>确定</li>
        
-        <li><input name="" type="text" class="scinput" placeholder="请输入图书名称"/></li>
+        <li><input name="scinput" type="text" class="scinput" placeholder="请输入图书名称"/></li>
         <li><span><img src="<%=basePath %>moban/images/ico06.png" onclick="findByName()"></span>查询</li>          
          </div>
          </div>
@@ -210,7 +210,7 @@ function getJSONData(pn, url) {
 			var dataRoot = data.jsonRoot;
 			if(pageTotal == 1) { // 当只有一页时  
 				for(var j = 0; j < totalCount; j++) {
-					$(".li-tag").eq(j).append("<span><img src='<%=basePath %>"+dataRoot[j].ADDRESS+"'/></span>&nbsp;&nbsp;&nbsp;&nbsp;<h2><a href='#'>"+dataRoot[j].NAME+"</a></h2><p><a href='#'>编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;<a class='deleteButton' style='cursor:pointer'; name="+dataRoot[j].BUID+">删除</a></p>");
+					$(".li-tag").eq(j).append("<span><img src='<%=basePath %>"+dataRoot[j].ADDRESS+"'/></span><h2><a href='#'>"+dataRoot[j].NAME+"</a></h2><p><a href='#'>编辑</a>&nbsp;&nbsp;<a class='deleteButton' style='cursor:pointer'; name="+dataRoot[j].BUID+">删除</a></p>");
 				}
 			} else {
 
@@ -218,7 +218,7 @@ function getJSONData(pn, url) {
 					if(j == totalCount) {
 						break; // 当遍历到最后一条记录时，跳出循环  
 					}
-					$(".li-tag").eq(k).append("<span><img src='<%=basePath %>"+dataRoot[j].ADDRESS+"'/></span>&nbsp;&nbsp;&nbsp;&nbsp;<h2><a href='#'>"+dataRoot[j].NAME+"</a></h2><p><a href='#'>编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;<a class='deleteButton' style='cursor:pointer'; name="+dataRoot[j].BUID+">删除</a></p>");
+					$(".li-tag").eq(k).append("<span><img src='<%=basePath %>"+dataRoot[j].ADDRESS+"'/></span><h2><a href='#'>"+dataRoot[j].NAME+"</a></h2><p><a href='#'>编辑</a>&nbsp;&nbsp;<a class='deleteButton' style='cursor:pointer'; name="+dataRoot[j].BUID+">删除</a></p>");
 				}
 			}
 			$(".page-count").text(totalCount);
@@ -315,6 +315,10 @@ function getJSONData(pn, url) {
 	function flushPage() {
 		getPage("<%=basePath%>book/list.do");
 	}
+	function findflushPage() {
+		var content = $("input[name='scinput']").val();
+		getPage("<%=basePath%>book/bookfindByName.do?Content=" + content +"&NUMBER=" + 0);
+	}
 	function openDelete(id) {
 		$("#BUID").val(id);
 		$("#delete").fadeIn(200);
@@ -323,7 +327,20 @@ function getJSONData(pn, url) {
 		$("#addbook").fadeIn(200);
 	}
 	function findByName(){
-		
+		var content =$("input[name='scinput']").val();
+		$.ajax({
+			type: "GET",
+			url: "<%=basePath%>book/list.do?Content=" + content +"&NUMBER=" + 0,
+			async: true,
+			dataType: 'json',
+			success: function(data) {
+				alert(data.msg);
+				findflushPage();
+			},
+			error: function() {
+				alert("网络连接异常，请检查网络设置");
+			}
+		});
 	}
 	function findByKind(){
 		

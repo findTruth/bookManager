@@ -9,6 +9,7 @@ import main.dao.impl.UserDaoImpl;
 import main.entity.Book;
 import main.entity.Manager;
 import main.entity.User;
+import main.javaBean.Bookkeep;
 
 public class BookBizImpl implements BookBiz {
 	private static final String BUID = null;
@@ -28,9 +29,9 @@ public class BookBizImpl implements BookBiz {
 	}
 
 	@Override
-	public Book findByName(String NAME) {
-		
-		return bookdaoimpl.findByName(NAME);
+	public List<Book> findByName(String twoNAME) {
+		List<Book> list=bookdaoimpl.findByName(twoNAME);
+		return list;
 	}
           //添加书籍
 	@Override

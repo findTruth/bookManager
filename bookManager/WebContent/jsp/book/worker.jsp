@@ -72,8 +72,7 @@ $(document).ready(function(){
 
 				<li><input name="" type="text" class="scinput"
 					placeholder="请输入书籍名称" /></li>
-				<li class="click"><span><img
-						src="<%=basePath %>moban/images/ico06.png" onclick="#"></span>查询</li>
+				<li class="click"><span><img src="<%=basePath %>moban/images/ico06.png"></span>查询</li>
 						
 		</div>
 	</div>
