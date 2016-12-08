@@ -1,3 +1,4 @@
+<%@page import="main.entity.Emp"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -29,13 +30,14 @@
     
     <div class="welinfo">
     <span><img src="<%=basePath %>moban/images/sun.png" alt="天气" /></span>
-    <b>${emp.UNAME}早上好，欢迎使用图书管理系统</b>email:${emp.EMAIL }
+    <% Emp emp = (Emp)session.getAttribute("emp"); %>
+    <b><%=emp.getNAME() %>早上好，欢迎使用图书管理系统</b>
     <a href="#">账号设置</a>
     </div>
     
     <div class="welinfo">
     <span><img src="<%=basePath %>moban/images/time.png" alt="时间" /></span>
-    <i>您上次登录的时间：${emp.LASTLOGINTIME}</i>（不是您登录的？<a href="#">请点这里</a>）
+    <i>您上次登录的时间：<%=emp.getLASTLOGIN() %></i>（不是您登录的？<a href="#">请点这里</a>）
     </div>
     
     <div class="xline"></div>
