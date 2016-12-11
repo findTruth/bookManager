@@ -35,8 +35,6 @@
         }  
         var dataRoot = data.jsonRoot;  
         if (pageTotal == 1) {     // 当只有一页时  
-
-        	alert("aaa");
             for (var j = 0; j < totalCount; j++) {  
                 $(".tr-tag").eq(j).append("<td class='col1'><input type='checkbox' value='"+parseInt(j + 1)+"'/></td>")  
                 .append("<td class='col2'>" + parseInt(j + 1)  

@@ -107,11 +107,9 @@ public class BookController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String path = Tools.cut(request.getRequestURI());
-		System.out.println(path);
 		
 		response.setCharacterEncoding("utf-8");
 		request.setCharacterEncoding("utf-8");
-		response.setContentType("text/plain");
 		
 		PrintWriter out =  response.getWriter();
 		
@@ -136,10 +134,8 @@ public class BookController extends HttpServlet {
 			String keyword = request.getParameter("keyword");
 			
 			List<Book> list = bookbizimpl.bookList();
-			JsonObject json = new JsonObject();
-			json.addProperty("totalCount", list.size());
-			json.add("jsonRoot", new Gson().toJsonTree(list));
-			response.getWriter().append(json.toString());			
+			response.getWriter().append(Tools.json(list));
+			response.getWriter().close();
 		}else if ("/deletebookhelp".equals(path)) {
 				
 			BookBizImpl bookbizimpl= new BookBizImpl();
