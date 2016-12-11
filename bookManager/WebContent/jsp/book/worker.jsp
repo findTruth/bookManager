@@ -1,12 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
 <% 
 	String path = request.getContextPath();
 	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
-
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -75,8 +72,7 @@ $(document).ready(function(){
 
 				<li><input name="" type="text" class="scinput"
 					placeholder="请输入书籍名称" /></li>
-				<li class="click"><span><img
-						src="<%=basePath %>moban/images/ico06.png" onclick="#"></span>查询</li>
+				<li class="click"><span><img src="<%=basePath %>moban/images/ico06.png"></span>查询</li>
 						
 		</div>
 	</div>
@@ -234,8 +230,7 @@ function getJSONData(pn, url) {
 	}
 
 	$(function() {
-	getPage("<%=basePath%>book/list.do");
-
+		getPage("<%=basePath%>book/list.do");
 	});
 
 	function flushPage() {

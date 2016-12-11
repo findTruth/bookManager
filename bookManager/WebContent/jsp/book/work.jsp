@@ -10,6 +10,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>图书管理</title>
+<link rel="stylesheet" href="<%=basePath%>css/bootstrap.min.css" />
 <link href="<%=basePath %>moban/css/style.css" rel="stylesheet" type="text/css" />
 <script language="JavaScript" src="<%=basePath %>moban/js/jquery.js"></script>
 <script type="text/javascript" src="<%=basePath %>js/jquery-3.1.0.min.js"></script>
@@ -50,9 +51,9 @@ $(document).ready(function(){
     <div class="tools" style="margin-left:25px;">
     
     	<ul class="toolbar">
-        <li class="click"><span><img src="<%=basePath %>moban/images/t01.png" onclick="location.href='<%=basePath %>jsp/book/add.jsp'"/></span>添加</li>
+        <li class="click"><span><img src="<%=basePath %>moban/images/t01.png" onclick="addbook()"/></span>添加</li>
         <li class="click"><span><img src="<%=basePath %>moban/images/t02.png" onclick="location.href='<%=basePath %>jsp/book/bookList.jsp'"/></span>修改</li>
-        <li class="click"><span><img src="<%=basePath %>moban/images/t03.png" onclick="location.href='<%=basePath %>jsp/book/add.jsp'"/></span>删除</li>    
+        <li class="click"><span><img src="<%=basePath %>moban/images/t03.png" onclick="location.href='<%=basePath %>jsp/book/bookList.jsp'"/></span>删除</li>    
         <li>
         
         <div class="uew-select">
@@ -70,10 +71,10 @@ $(document).ready(function(){
 	        <option>其他</option>	        
 	        </select>
        </li>
-       <li class="click"><span><img src="<%=basePath %>moban/images/确定按钮1.png"></span>确定</li>
+       <li><span><img src="<%=basePath %>moban/images/确定按钮1.png" onclick="findByKind()"></span>确定</li>
        
-        <li><input name="" type="text" class="scinput" placeholder="请输入图书名称"/></li>
-        <li class="click"><span><img src="<%=basePath %>moban/images/ico06.png" onclick=""></span>查询</li>          
+        <li><input name="scinput" type="text" class="scinput" placeholder="请输入图书名称"/></li>
+        <li><span><img src="<%=basePath %>moban/images/ico06.png" onclick="findByName()"></span>查询</li>          
          </div>
          </div>
           </div>
@@ -121,6 +122,73 @@ $(document).ready(function(){
         </div>
     
     </div>
+    <div class="tip" id="add" style="height: 400px;">
+			<div class="tiptop"><span>图书添加</span>
+				<a></a>
+			</div>
+			
+			<form id="form" action="<%=basePath%>book/add.do" method="post" onSubmit="return check();">							
+					<div class="tipinfo">
+					<table>
+					<tr>
+						<td>图书类型:</td>
+						<td>
+						<select id="addlei" name="addlei" class="show-tick form-control" style="width: 230px;">
+							<option value="0">请选择图书类型</option>				
+							<option value="1">文学类</option>
+							<option value="2">历史类</option>
+							<option value="3">哲学类</option>
+							<option value="4">文化、教育类</option>
+							<option value="5">艺术、美学类</option>
+							<option value="6">经济类</option>
+							<option value="7">社会学类</option>
+							<option value="8">心理学类</option>
+							<option value="9">政治类</option>
+							<option value="10">法律类</option>
+							<option value="11">其他</option>
+
+						</select>
+						</td>
+						</tr>
+						<tr>
+						<td>图书名称:</td>
+						<td>
+						<input type="text" class="form-control"  name="BNAME" id="BNAME" />
+						</td>
+					</tr>
+					<tr>
+						<td>出版社:</td>
+						<td>
+						<input type="text" class="form-control"  name="BPRESS" id="BPRESS" />
+						</td>
+					</tr>
+					<tr>
+						<td>图书作者:</td>
+						<td>
+						<input type="text" class="form-control"  name="BAUTHOR" id="BAUTHOR" />
+						</td>
+					</tr>
+					<tr>
+						<td>图书价格(元):</td>
+						<td>
+						<input type="text" class="form-control"  name="VALUE" id="VALUE" />
+						</td>
+					</tr>
+					<tr>
+					<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+					</tr>
+					<tr>
+						<td>图书封面:</td>
+						<td>
+						<input type="file" name="BADDRESS" id="BADDRESS" style="border: 1px solid white; height: 25px; width: 200px" onblur="checkcb('cb');">
+						</td>
+					</tr>
+					</table>						
+				<div class="addbutton" style="margin-top:70px;margin-left:70px">
+					<input id="submit" type="submit" class="sure" value="确定" />
+					<input id="submit" type="button" class="sure" value="返回" onclick="location.href='<%=basePath%>jsp/book/work.jsp'" />
+				</div>
+</form>
        
 </body>
 </html>
@@ -142,7 +210,7 @@ function getJSONData(pn, url) {
 			var dataRoot = data.jsonRoot;
 			if(pageTotal == 1) { // 当只有一页时  
 				for(var j = 0; j < totalCount; j++) {
-					$(".li-tag").eq(j).append("<span><img src='<%=basePath %>"+dataRoot[j].ADDRESS+"'/></span>&nbsp;&nbsp;&nbsp;&nbsp;<h2><a href='#'>"+dataRoot[j].NAME+"</a></h2><p><a href='#'>编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;<a class='deleteButton' style='cursor:pointer'; name="+dataRoot[j].BUID+">删除</a></p>");
+					$(".li-tag").eq(j).append("<span><img src='<%=basePath %>"+dataRoot[j].ADDRESS+"'/></span><h2><a href='#'>"+dataRoot[j].NAME+"</a></h2><p><a href='#'>编辑</a>&nbsp;&nbsp;<a class='deleteButton' style='cursor:pointer'; name="+dataRoot[j].BUID+">删除</a></p>");
 				}
 			} else {
 
@@ -150,7 +218,7 @@ function getJSONData(pn, url) {
 					if(j == totalCount) {
 						break; // 当遍历到最后一条记录时，跳出循环  
 					}
-					$(".li-tag").eq(k).append("<span><img src='<%=basePath %>"+dataRoot[j].ADDRESS+"'/></span>&nbsp;&nbsp;&nbsp;&nbsp;<h2><a href='#'>"+dataRoot[j].NAME+"</a></h2><p><a href='#'>编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;<a class='deleteButton' style='cursor:pointer'; name="+dataRoot[j].BUID+">删除</a></p>");
+					$(".li-tag").eq(k).append("<span><img src='<%=basePath %>"+dataRoot[j].ADDRESS+"'/></span><h2><a href='#'>"+dataRoot[j].NAME+"</a></h2><p><a href='#'>编辑</a>&nbsp;&nbsp;<a class='deleteButton' style='cursor:pointer'; name="+dataRoot[j].BUID+">删除</a></p>");
 				}
 			}
 			$(".page-count").text(totalCount);
@@ -247,9 +315,35 @@ function getJSONData(pn, url) {
 	function flushPage() {
 		getPage("<%=basePath%>book/list.do");
 	}
+	function findflushPage() {
+		var content = $("input[name='scinput']").val();
+		getPage("<%=basePath%>book/bookfindByName.do?Content=" + content +"&NUMBER=" + 0);
+	}
 	function openDelete(id) {
 		$("#BUID").val(id);
 		$("#delete").fadeIn(200);
+	}
+	function addbook(){
+		$("#addbook").fadeIn(200);
+	}
+	function findByName(){
+		var content =$("input[name='scinput']").val();
+		$.ajax({
+			type: "GET",
+			url: "<%=basePath%>book/list.do?Content=" + content +"&NUMBER=" + 0,
+			async: true,
+			dataType: 'json',
+			success: function(data) {
+				alert(data.msg);
+				findflushPage();
+			},
+			error: function() {
+				alert("网络连接异常，请检查网络设置");
+			}
+		});
+	}
+	function findByKind(){
+		
 	}
  function deleteensure(){
 		var BUID = $("input[name='BUID']").val();

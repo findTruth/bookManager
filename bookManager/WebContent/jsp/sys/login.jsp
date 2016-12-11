@@ -65,7 +65,7 @@
                         window.location.href="<%=basePath%>manager/main.do";
                     }else if(data.result==2){
                     	//员工跳转
-                    	window.location.href="<%=basePath%>manager/main.do";
+                    	window.location.href="<%=basePath%>employee/home.do";
                     }
                 }
             });

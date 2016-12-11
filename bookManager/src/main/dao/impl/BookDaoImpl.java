@@ -13,6 +13,7 @@ import main.dao.BookDao;
 import main.entity.Book;
 import main.entity.Emp;
 import main.entity.User;
+import main.javaBean.Bookkeep;
 import main.tool.Tools;
 import main.util.DBhelper_mysql;
 
@@ -24,8 +25,7 @@ public class BookDaoImpl implements BookDao {
 	public List<Book> list() {
 		Connection conn = DBhelper_mysql.getConnection();
 		List<Book> list = new ArrayList<Book>();
-		String sql = "select b.BUID,b.NAME,b.DATE,b.PRESS,b.AUTHOR,b.VALUE,(select c.KINDNAME from TB_BookKinds c where b.KINDNO=c.KINDNO) AS KIND,b.STATUS,b.ADDRESS,b.PICTURE from TB_Book b";
-		System.out.println("11111");
+		String sql = "select b.BUID,b.NAME,b.DATE,b.PRESS,b.AUTHOR,b.VALUE,(select c.KINDNO from TB_BookKinds c where b.KINDNO=c.KINDNO) AS KIND,b.STATUS,b.ADDRESS,b.PICTURE from TB_Book b";
 		try {
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ResultSet rs = ps.executeQuery();
@@ -59,26 +59,6 @@ public class BookDaoImpl implements BookDao {
 		}
 		return book;
 	}
-
-
-	@Override
-	public Book findByName(String NAME) {
-		String sql = "select BUID,NAME,DATE,PRESS,AUTHOR,VALUE,KINDNO,STATUS,ADDRESS,PICTURE from TB_Book where NAME=?";
-		Book book = null;
-		try {
-			Connection conn = DBhelper_mysql.getConnection();
-			PreparedStatement ps = conn.prepareStatement(sql);
-			ps.setString(1, NAME);
-			ResultSet rs = ps.executeQuery();
-			if (rs.next()) {
-				 book = new Book(rs.getString("BUID"), rs.getString("NAME"), rs.getTimestamp("DATE"), rs.getString("PRESS"), rs.getString("AUTHOR"), rs.getString("VALUE"), rs.getString("KIND"),rs.getString("ADDRESS"), rs.getInt("STATUS"),rs.getString("PICTURE"));;
-			}
-			DBhelper_mysql.closeConnection(rs, ps, conn);
-		} catch (Exception e) {
-		}
-		return book;
-	}
-
 	@Override
 	public boolean add(Book book) {
 		boolean flag=false;
@@ -168,12 +148,41 @@ public boolean updateAll(Book book) {
 	}
 	return flag;
 }
+//测试
+ // public static void main(String[] args) {
+//	  List<Book> list = new BookDaoImpl().list();
 
-  public static void main(String[] args) {
-	  List<Book> list = new BookDaoImpl().list();
-	  
-	  System.out.println(list.size());
+@Override
+public List<Book> findByName(String twoNAME) {
+	List<Book> list = new ArrayList<>();
+	try {
+		Connection conn = DBhelper_mysql.getConnection();
+		String sql = "select b.BUID,b.NAME,b.DATE,b.PRESS,b.AUTHOR,b.VALUE,(select c.KINDNO from TB_BookKinds c where b.KINDNO=c.KINDNO) AS KIND,b.STATUS,b.ADDRESS,b.PICTURE from TB_Book b where b.NAME=? or b.AUTHOR=?";
+		PreparedStatement ps = conn.prepareStatement(sql);
+		ps.setString(1, twoNAME);
+		ps.setString(2, twoNAME);
+		ResultSet rs = ps.executeQuery();
+		while (rs.next()) {
+			Book book = new Book();
+			book.setNAME(rs.getString("NAME"));
+			book.setAUTHOR(rs.getString("AUTHOR"));			
+			list.add(book);
+		}
+		DBhelper_mysql.closeConnection(rs, ps, conn);
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+	return list;
 }
-
+//测试
+//public static void main(String[] args) {
+	
+//	  BookDaoImpl bookdaoimp=new BookDaoImpl();
+//	  List<Book> list = bookdaoimp.findByName("老人与海");
+//	  for (Book b:list) {
+//		System.out.println(b.getNAME());
+//		System.out.println(b.getAUTHOR());
+//	}
+// }
 
 }

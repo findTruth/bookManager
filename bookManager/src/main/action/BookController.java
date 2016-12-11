@@ -106,11 +106,9 @@ public class BookController extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String path = Tools.cut(request.getRequestURI());
-		
+		String path = Tools.cut(request.getRequestURI());	
 		response.setCharacterEncoding("utf-8");
-		request.setCharacterEncoding("utf-8");
-		
+		response.setContentType("text/plain");	
 		PrintWriter out =  response.getWriter();
 		
 		if ("/borrow".equals(path)) {
