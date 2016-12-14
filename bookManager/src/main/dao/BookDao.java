@@ -10,8 +10,8 @@ public interface BookDao {
 	//查询
 	public List<Book> list();//全表查询
 	public Book findById(String BUID);//通过id查询书籍
-	public List<Book> findByName(String twoNAME);//通过name查询书籍
-	
+	public List<Book> findByName(String content);//通过name查询书籍
+	public List<Book> findByKind(String type);
 	
 	public boolean deletebookhelp(String BUID);//删除图书
 	

@@ -53,32 +53,30 @@ $(document).ready(function(){
 				<li>
 
 					<div class="stylesheet">
-						<select class="select3" style="width: 110px; height: 30px;">
-							<option>请选择图书类别</option>
-							<option>文学类</option>
-							<option>法律类</option>
-							<option>历史类</option>
-							<option>哲学类</option>
-							<option>文化、教育类</option>
-							<option>经济类</option>
-							<option>社会学类</option>
-							<option>心理学类</option>
-							<option>政治类</option>
-							<option>其他</option>
-						</select>
+						<select class="select3" style="width: 110px; height: 30px;"id="Kindtype">
+							<option value="请选择图书类别">请选择图书类别</option>
+	            <option value="1">文学类</option>
+	           <option value="10">法律类</option>
+	           <option value="2">历史类</option>
+	           <option value="3">哲学类</option>
+	           <option value="4">文化、教育类</option>
+	           <option value="5">艺术、美学类</option>
+	           <option value="6">经济类</option>
+	           <option value="7">社会学类</option>
+	           <option value="8">心理学类</option>
+	           <option value="9">政治类</option>
+	           <option value="11">其他</option>	  
+			</select>
 				</li>
-				<li class="click"><span>
+				<li><span onclick="findByKind()">
 				<img src="<%=basePath %>moban/images/确定按钮1.png"></span>确定</li>
 
-				<li><input name="" type="text" class="scinput"
-					placeholder="请输入书籍名称" /></li>
-				<li class="click"><span><img src="<%=basePath %>moban/images/ico06.png"></span>查询</li>
+				<li><input name="scinput" type="text" class="scinput" placeholder="请输入书籍名称或作者" /></li>
+				<li><span onclick="findByName()"><img src="<%=basePath %>moban/images/ico06.png"></span>查询</li>
 						
 		</div>
 	</div>
 	</div>
-
-
 	<div class="imglist" id="list"style="height: 500px; width: 1000px; margin-left: 35px;"></div>
 	<div class="pagin">
 		<div class="message">
@@ -236,7 +234,40 @@ function getJSONData(pn, url) {
 	function flushPage() {
 		getPage("<%=basePath%>book/list.do");
 	}
-	
+	function findByName(){
+		var type="名字查找";
+		var content =$("input[name='scinput']").val();
+		$.ajax({
+			type: "GET",
+			url: "<%=basePath%>book/list.do?Content=" + content +"&type=" + type,
+			async: true,
+			dataType: 'json',
+			success: function(data) {
+				alert(data.msg);
+				getPage("<%=basePath%>book/list.do?Content=" + content +"&type=" + type+"");
+			},
+			error: function() {
+				alert("网络连接异常，请检查网络设置");
+			}
+		});
+	}
+	function findByKind(){
+		var type =$("#Kindtype").val();
+		var content="类别查找";
+		$.ajax({
+			type: "GET",
+			url: "<%=basePath%>book/list.do?Content=" + content +"&type=" + type,
+			async: true,
+			dataType: 'json',
+			success: function(data) {
+				alert(data.msg);
+				getPage("<%=basePath%>book/list.do?Content=" + content +"&type=" + type+"");
+			},
+			error: function() {
+				alert("网络连接异常，请检查网络设置");
+			}
+		});
+	}
 	function Addbookkeep(id) {
 		$.ajax({
 			type: "GET",

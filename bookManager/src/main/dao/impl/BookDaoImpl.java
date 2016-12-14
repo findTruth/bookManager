@@ -98,8 +98,6 @@ public class BookDaoImpl implements BookDao {
 		return flag;
 	}
 	
-	
-
 	@Override
 	public boolean deletebookhelp(String BUID) {
 		boolean flag=false;
@@ -148,24 +146,55 @@ public boolean updateAll(Book book) {
 	}
 	return flag;
 }
-//测试
- // public static void main(String[] args) {
-//	  List<Book> list = new BookDaoImpl().list();
-
 @Override
-public List<Book> findByName(String twoNAME) {
+public List<Book> findByName(String content) {
 	List<Book> list = new ArrayList<>();
 	try {
 		Connection conn = DBhelper_mysql.getConnection();
 		String sql = "select b.BUID,b.NAME,b.DATE,b.PRESS,b.AUTHOR,b.VALUE,(select c.KINDNO from TB_BookKinds c where b.KINDNO=c.KINDNO) AS KIND,b.STATUS,b.ADDRESS,b.PICTURE from TB_Book b where b.NAME=? or b.AUTHOR=?";
 		PreparedStatement ps = conn.prepareStatement(sql);
-		ps.setString(1, twoNAME);
-		ps.setString(2, twoNAME);
+		ps.setString(1, content);
+		ps.setString(2, content);
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			Book book = new Book();
+			book.setBUID(rs.getString("BUID"));
 			book.setNAME(rs.getString("NAME"));
-			book.setAUTHOR(rs.getString("AUTHOR"));			
+			book.setAUTHOR(rs.getString("AUTHOR"));
+			book.setSTATUS(rs.getInt("STATUS"));
+			book.setPRESS(rs.getString("PRESS"));
+			book.setVALUE(rs.getString("VALUE"));
+			book.setKINDNO(rs.getString("KIND"));
+			book.setADDRESS(rs.getString("ADDRESS"));
+			book.setPICTURE(rs.getString("PICTURE"));
+			list.add(book);
+		}
+		DBhelper_mysql.closeConnection(rs, ps, conn);
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+	return list;
+}
+@Override
+public List<Book> findByKind(String type) {
+	List<Book> list = new ArrayList<>();
+	try{
+		Connection conn = DBhelper_mysql.getConnection();
+		String sql = "select b.BUID,b.NAME,b.DATE,b.PRESS,b.AUTHOR,b.VALUE,(select c.KINDNO from TB_BookKinds c where b.KINDNO=c.KINDNO) AS KIND,b.STATUS,b.ADDRESS,b.PICTURE from TB_Book b where b.KINDNO=?";
+		PreparedStatement ps = conn.prepareStatement(sql);
+		ps.setString(1, type);	
+		ResultSet rs = ps.executeQuery();
+		while (rs.next()) {
+			Book book = new Book();	
+			book.setBUID(rs.getString("BUID"));
+			book.setNAME(rs.getString("NAME"));
+			book.setAUTHOR(rs.getString("AUTHOR"));
+			book.setSTATUS(rs.getInt("STATUS"));
+			book.setPRESS(rs.getString("PRESS"));
+			book.setVALUE(rs.getString("VALUE"));
+			book.setKINDNO(rs.getString("KIND"));
+			book.setADDRESS(rs.getString("ADDRESS"));
+			book.setPICTURE(rs.getString("PICTURE"));		
 			list.add(book);
 		}
 		DBhelper_mysql.closeConnection(rs, ps, conn);
@@ -175,14 +204,13 @@ public List<Book> findByName(String twoNAME) {
 	return list;
 }
 //测试
-//public static void main(String[] args) {
-	
-//	  BookDaoImpl bookdaoimp=new BookDaoImpl();
-//	  List<Book> list = bookdaoimp.findByName("老人与海");
-//	  for (Book b:list) {
-//		System.out.println(b.getNAME());
-//		System.out.println(b.getAUTHOR());
-//	}
+      // public static void main(String[] args) {
+	 // BookDaoImpl bookdaoimp=new BookDaoImpl();
+     // List<Book> list = bookdaoimp.findByKind("1");
+	  //for (Book b:list) {
+		//System.out.println(b.getNAME());
+		//System.out.println(b.getAUTHOR());
+	//}
 // }
 
 }
