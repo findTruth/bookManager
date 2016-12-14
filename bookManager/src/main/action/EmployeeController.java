@@ -39,10 +39,6 @@ public class EmployeeController extends HttpServlet {
 		}else if ("/home".equals(path)) {
 			request.setAttribute("emp", request.getSession().getAttribute("emp"));
 			request.getRequestDispatcher("../jsp/emp/main.jsp").forward(request, response);
-		}else if("/list".equals(path)){
-			List<Emp> list = new EmployeeBizImpl().empList();
-			response.getWriter().append(Tools.json(list));
-			response.getWriter().close();
 		} else {
 			request.getRequestDispatcher("../404.jsp").forward(request, response);
 		}
@@ -65,6 +61,10 @@ public class EmployeeController extends HttpServlet {
 			String EUID = request.getParameter("EUID");
 			Emp emp = new EmployeeBizImpl().findById(EUID);
 			response.getWriter().append(new Gson().toJson(emp));
+			response.getWriter().close();
+		}else if("/list".equals(path)){
+			List<Emp> list = new EmployeeBizImpl().empList();
+			response.getWriter().append(Tools.json(list));
 			response.getWriter().close();
 		}else {
 			request.getRequestDispatcher("../404.jsp").forward(request, response);

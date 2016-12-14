@@ -31,7 +31,7 @@ public class BookDaoImpl implements BookDao {
 			ResultSet rs = ps.executeQuery();
 			Book book = null;
 			while (rs.next()) {
-				book = new Book(rs.getString("BUID"), rs.getString("NAME"), rs.getTimestamp("DATE"), rs.getString("PRESS"), rs.getString("AUTHOR"), rs.getString("VALUE"), rs.getString("KIND"),rs.getString("ADDRESS"), rs.getInt("STATUS"),rs.getString("PICTURE"));
+				book = new Book(rs.getString("BUID"), rs.getString("NAME"), Tools.formatDate(rs.getTimestamp("DATE")), rs.getString("PRESS"), rs.getString("AUTHOR"), rs.getString("VALUE"), rs.getString("KIND"),rs.getString("ADDRESS"), rs.getInt("STATUS"),rs.getString("PICTURE"));
 				list.add(book);
 			}
 		} catch (Exception e) {
@@ -51,7 +51,7 @@ public class BookDaoImpl implements BookDao {
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
 				System.out.println(rs.getString("BUID"));
-				book = new Book(rs.getString("BUID"), rs.getString("NAME"), rs.getTimestamp("DATE"), rs.getString("PRESS"), rs.getString("AUTHOR"), rs.getString("VALUE"), rs.getString("KINDNO"),rs.getString("ADDRESS"), rs.getInt("STATUS"),rs.getString("PICTURE"));;
+				book = new Book(rs.getString("BUID"), rs.getString("NAME"), Tools.formatDate(rs.getTimestamp("DATE")), rs.getString("PRESS"), rs.getString("AUTHOR"), rs.getString("VALUE"), rs.getString("KINDNO"),rs.getString("ADDRESS"), rs.getInt("STATUS"),rs.getString("PICTURE"));;
 			}
 			DBhelper_mysql.closeConnection(rs, ps, conn);
 		} catch (SQLException e) {
@@ -64,7 +64,7 @@ public class BookDaoImpl implements BookDao {
 		boolean flag=false;
 		String BUID=book.getBUID();
 		String NAME=book.getNAME();
-		Date DATE=book.getDATE();
+		String DATE=book.getDATE();
 		String PRESS=book.getPRESS();
 		String AUTHOR=book.getAUTHOR();
 		String VALUE=book.getVALUE(); 
@@ -74,18 +74,17 @@ public class BookDaoImpl implements BookDao {
 		String PICTURE=book.getPICTURE();
 		try {
 			Connection conn=DBhelper_mysql.getConnection();
-			String sql="insert into TB_Book(BUID,NAME,DATE,PRESS,AUTHOR,VALUE,KINDNO,ADDRESS,STATUS,PICTURE) values(?,?,?,?,?,?,?,?,?,?)";
+			String sql="insert into TB_Book(BUID,NAME,DATE,PRESS,AUTHOR,VALUE,KINDNO,ADDRESS,STATUS,PICTURE) values(?,?,now(),?,?,?,?,?,?,?)";
 			PreparedStatement ps=conn.prepareStatement(sql);
 			ps.setString(1, BUID);
 			ps.setString(2, NAME);
-			ps.setDate(3, (java.sql.Date) DATE);
-			ps.setString(4, PRESS);
-			ps.setString(5, AUTHOR);
-			ps.setString(6, VALUE);
-			ps.setString(7, KINDNO);
-			ps.setString(8, ADDRESS);
-			ps.setInt(9, STATUS);
-			ps.setString(10, PICTURE);
+			ps.setString(3, PRESS);
+			ps.setString(4, AUTHOR);
+			ps.setString(5, VALUE);
+			ps.setString(6, KINDNO);
+			ps.setString(7, ADDRESS);
+			ps.setInt(8, STATUS);
+			ps.setString(9, PICTURE);
 			int n=ps.executeUpdate();
 			if (n==1) {
 				flag=true;
@@ -126,7 +125,7 @@ public boolean updateAll(Book book) {
 	boolean flag=false;
 	try {
 		Connection conn=DBhelper_mysql.getConnection();
-		String sql="update TB_Book set NAME=?,PRESS=?,AUTHOR=?,VALUE=?,KINDNO=?,STATUS=?,DATE=?,ADDRESS,PICTURE Where BUID=?";
+		String sql="update TB_Book set NAME=?,PRESS=?,AUTHOR=?,VALUE=?,KINDNO=?,STATUS=?,DATE=now(),ADDRESS,PICTURE Where BUID=?";
 		PreparedStatement ps=conn.prepareStatement(sql);
 		ps.setString(1, book.getNAME());
 	    ps.setString(2, book.getPRESS());
@@ -134,10 +133,9 @@ public boolean updateAll(Book book) {
 	    ps.setString(4, book.getVALUE());
 	    ps.setString(5, book.getKINDNO());
 	    ps.setInt(6, book.getSTATUS());
-	    ps.setDate(7, (java.sql.Date) book.getDATE());
-	    ps.setString(8, book.getADDRESS());
-	    ps.setString(9, book.getPICTURE());
-	    ps.setString(10, book.getBUID());
+	    ps.setString(7, book.getADDRESS());
+	    ps.setString(8, book.getPICTURE());
+	    ps.setString(9, book.getBUID());
 		int n=ps.executeUpdate();
 		 if (n==1) {
 			flag=true;

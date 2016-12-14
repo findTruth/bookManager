@@ -54,18 +54,9 @@ public class BookController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
 		String path = Tools.cut(request.getRequestURI());
- 
-//		request.getRequestDispatcher("../404.jsp").forward(request, response);
-		
 		System.out.println(path);
-		
- 
 		PrintWriter out =  response.getWriter();
-		
-		// request.getRequestDispatcher("../404.jsp").forward(request,
-		// response);
 		if ("/bookmanager".equals(path)) {
 			request.getRequestDispatcher("../jsp/book/bookList.jsp").forward(request, response);
 
@@ -73,10 +64,7 @@ public class BookController extends HttpServlet {
 			
 		}else if ("/bookrecordmanager".equals(path)) {
 			
-		}else if("/list".equals(path)){
-			BookBizImpl bookbizimpl = new BookBizImpl();
-
-		} else if ("/bookkindmanager".equals(path)) {
+		}else if ("/bookkindmanager".equals(path)) {
 
 		} else if ("/bookrecordmanager".equals(path)) {
 
@@ -115,8 +103,6 @@ public class BookController extends HttpServlet {
 			ManagerBizImpl mangerbizimpl = new ManagerBizImpl();
 			try { 
 				mangerbizimpl.LastLoginTime(((HashMap<String, String>)request.getSession().getAttribute("emp")).get("MUID"));
-
-				mangerbizimpl.LastLoginTime(((HashMap<String, String>) request.getSession().getAttribute("emp")).get("MUID"));
 			} catch (SQLException e) {
 				response.getWriter().append("网络连接异常");
 				response.getWriter().close();
