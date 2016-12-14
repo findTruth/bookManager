@@ -41,17 +41,8 @@ import main.tool.UUIDUtils;
  */
 @WebServlet("/book/*")
 public class BookController extends HttpServlet {
+
 	private static final long serialVersionUID = 1L;
-
-	
-//	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		String path = Tools.cut(request.getRequestURI());
-//		System.out.println(path);
-//		
-//		
-//	}
-	
-
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String path = Tools.cut(request.getRequestURI());
@@ -74,10 +65,53 @@ public class BookController extends HttpServlet {
 
 			response.setContentType("text/plain"); 
 			List<Book> list = bookbizimpl.bookList();
+			String type=request.getParameter("type");
+			String content=request.getParameter("Content");
+			List<Book> list=new ArrayList<Book>();
+			if (type==null) {
+				type="";
+			}
+			if (content==null) {
+				content="";
+			}
+			BookDaoImpl bookdaoimpl=new BookDaoImpl(); 
 			JsonObject json = new JsonObject();
 			json.addProperty("totalCount", list.size());
 			json.add("jsonRoot", new Gson().toJsonTree(list));
 			response.getWriter().append(json.toString());
+			if (type!=""&&content.equals("类别查找")) {
+				list=bookdaoimpl.findByKind(type);
+				if (list.size()!=0) {
+					json.addProperty("totalCount", list.size());
+					json.add("jsonRoot", new Gson().toJsonTree(list));
+					json.addProperty("msg", "查找成功");				
+				}else {
+					json.addProperty("msg", "查找失败，该类型的图书暂无");	
+				}
+				out.append(json.toString());
+				out.close();
+			}else if(type.equals("名字查找")&&content!=""){
+				list=bookdaoimpl.findByName(content);
+				if (list.size()!=0) {
+					json.addProperty("totalCount", list.size());
+					json.add("jsonRoot", new Gson().toJsonTree(list));
+					json.addProperty("msg", "查找成功");					
+				}else {
+					json.addProperty("msg", "查找失败，请仔细想想图书名称或作者");	
+				}
+				out.append(json.toString());
+				out.close();
+			}else if(type==""&&content==""){
+				list=bookdaoimpl.list();
+				json.addProperty("totalCount", list.size());
+				json.add("jsonRoot", new Gson().toJsonTree(list));
+				out.append(json.toString());
+				out.close();
+			}else {
+				json.addProperty("msg", "查找失败");
+				out.append(json.toString());
+				out.close();
+			}						
 		}else if ("/UserBook".equals(path)) {
 
 			response.setContentType("text/plain");

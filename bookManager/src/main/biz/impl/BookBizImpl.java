@@ -1,6 +1,7 @@
 package main.biz.impl;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import main.biz.BookBiz;
@@ -29,8 +30,8 @@ public class BookBizImpl implements BookBiz {
 	}
 
 	@Override
-	public List<Book> findByName(String twoNAME) {
-		List<Book> list=bookdaoimpl.findByName(twoNAME);
+	public List<Book> findByName(String content) {
+		List<Book> list=bookdaoimpl.findByName(content);
 		return list;
 	}
           //添加书籍
@@ -49,6 +50,26 @@ public class BookBizImpl implements BookBiz {
 
 	public boolean updateAll(Book book) {
 		return bookdaoimpl.updateAll(book);
+	}
+
+	@Override
+	public List<Book> findList(String type, String content) {
+		List<Book> list=new ArrayList<Book>();
+		if (type!=""&&content.equals("类别查找")) {
+			list=bookdaoimpl.findByKind(type);
+		}else if(type.equals("名字查找")&&content!=""){
+			System.out.println("名字");
+			list=bookdaoimpl.findByName(content);
+		}else{
+			list=bookdaoimpl.list();
+		}
+		return list;
+	}
+
+	@Override
+	public List<Book> findByKind(String type) {
+		List<Book> list=bookdaoimpl.findByKind(type);
+		return list;
 	}
 
 	
