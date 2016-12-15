@@ -67,20 +67,18 @@ public class BookController extends HttpServlet {
 			List<Book> list = bookbizimpl.bookList();
 			String type=request.getParameter("type");
 			String content=request.getParameter("Content");
-			List<Book> list=new ArrayList<Book>();
 			if (type==null) {
 				type="";
 			}
 			if (content==null) {
 				content="";
 			}
-			BookDaoImpl bookdaoimpl=new BookDaoImpl(); 
 			JsonObject json = new JsonObject();
 			json.addProperty("totalCount", list.size());
 			json.add("jsonRoot", new Gson().toJsonTree(list));
 			response.getWriter().append(json.toString());
 			if (type!=""&&content.equals("类别查找")) {
-				list=bookdaoimpl.findByKind(type);
+				list=bookbizimpl.findByKind(type);
 				if (list.size()!=0) {
 					json.addProperty("totalCount", list.size());
 					json.add("jsonRoot", new Gson().toJsonTree(list));
@@ -91,7 +89,7 @@ public class BookController extends HttpServlet {
 				out.append(json.toString());
 				out.close();
 			}else if(type.equals("名字查找")&&content!=""){
-				list=bookdaoimpl.findByName(content);
+				list=bookbizimpl.findByName(content);
 				if (list.size()!=0) {
 					json.addProperty("totalCount", list.size());
 					json.add("jsonRoot", new Gson().toJsonTree(list));
@@ -102,7 +100,7 @@ public class BookController extends HttpServlet {
 				out.append(json.toString());
 				out.close();
 			}else if(type==""&&content==""){
-				list=bookdaoimpl.list();
+				list=bookbizimpl.bookList();
 				json.addProperty("totalCount", list.size());
 				json.add("jsonRoot", new Gson().toJsonTree(list));
 				out.append(json.toString());
