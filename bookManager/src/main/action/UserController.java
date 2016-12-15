@@ -227,7 +227,9 @@ public class UserController extends HttpServlet {
 				 String UUID=userbizimpl.checkphone(phone);
 				 if (UUID!=null) {
 					 if (userbizimpl.update(UUID, MD5pwd)) {
-						 request.getRequestDispatcher("../jsp/user/login.jsp").forward(request, response);	
+						 String message="密码修改成功";
+							request.setAttribute("findmessage", message);
+							request.getRequestDispatcher("../jsp/user/find.jsp").forward(request, response);
 					}
 				}else {
 					String message="你输入的手机号码不存在，请仔细想想";
@@ -238,7 +240,9 @@ public class UserController extends HttpServlet {
 				String UUID=userbizimpl.checkemail(email);
 				 if (UUID!=null) {
 					 if (userbizimpl.update(UUID, MD5pwd)) {
-						 request.getRequestDispatcher("../jsp/user/login.jsp").forward(request, response);	
+						 String message="密码修改成功";
+							request.setAttribute("findmessage", message);
+							request.getRequestDispatcher("../jsp/user/find.jsp").forward(request, response);
 						}
 				}else {
 					String message="你输入的邮箱不存在，请仔细想想";
@@ -249,10 +253,12 @@ public class UserController extends HttpServlet {
 				String UUID=userbizimpl.checkNCMB(niceng, question, Tools.MD5(answer));
 				if (UUID!=null) {
 					 if (userbizimpl.update(UUID, MD5pwd)) {
-						 request.getRequestDispatcher("../jsp/user/login.jsp").forward(request, response);	
+						 String message="密码修改成功";
+							request.setAttribute("findmessage", message);
+							request.getRequestDispatcher("../jsp/user/find.jsp").forward(request, response);
 						}
 				}else {
-					String message="您还没有设置昵称或者您输入密保问题有误，请选择其它方式找回密码或者仔细想想";
+					String message="您还没有设置昵称或者您输入的密保问题或答案有误，请选择其它方式找回密码或者仔细想想";
 					request.setAttribute("findmessage", message);
 					request.getRequestDispatcher("../jsp/user/find.jsp").forward(request, response);
 				}		
