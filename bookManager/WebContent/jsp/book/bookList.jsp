@@ -18,11 +18,217 @@
 
 
 <script type="text/javascript" src="<%=basePath%>moban/js/jquery.js"></script>
+
+<script language="javascript">
+ $(function(){	
+	//导航切换
+	$(".imglist li").click(function(){
+		$(".imglist li.selected").removeClass("selected")
+		$(this).addClass("selected");
+	})	
+    
+ })	
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+  $(".click").click(function(){
+  $(".tip").fadeIn(200);
+  });
+  
+  $(".tiptop a").click(function(){
+  $(".tip").fadeOut(200);
+	});
+
+  $(".sure").click(function(){
+  $(".tip").fadeOut(100);
+	});
+
+  $(".cancel").click(function(){
+  $(".tip").fadeOut(100);
+	});
+
+});
+</script>
+</head>
+
+
+<body>
+
+	<div class="place">
+		<span>位置：</span>
+		<ul class="placeul">
+			<li><a href="#">首页</a></li>
+			<li><a href="#">图片列表</a></li>
+		</ul>
+	</div>
+
+	<div class="rightinfo">
+
+		<div class="tools">
+
+			<ul class="toolbar">
+				<li onclick="location.href='<%=basePath%>jsp/book/add.jsp'"><span><img
+						src="<%=basePath%>moban/images/t01.png"
+						 /></span>添加</li>
+				<li class="click"><span><img
+						src="<%=basePath%>moban/images/t02.png"
+						onclick="location.href='<%=basePath%>jsp/book/bookList.jsp'" /></span>修改</li>
+				<li><span><img src="<%=basePath%>moban/images/t03.png" /></span>删除</li>
+				<li><span><img src="<%=basePath%>moban/images/t04.png" /></span>统计</li>
+			</ul>
+			<ul class="toolbar1">
+				<li><span><img src="<%=basePath%>moban/images/t05.png" /></span>设置</li>
+			</ul>
+
+		</div>
+
+
+		<table class="imgtable">
+
+			<thead>
+				<tr>
+					<th style="width: 30px"><input type="checkbox" name=""
+						value="全选"></th>
+					<th style="width: 30px">序号</th>
+					<th style="width: 100px">书名</th>
+					<th width="100px;">缩略图</th>
+					<th style="width: 50px">出版社</th>
+					<th style="width: 60px">作者</th>
+					<th style="width: 60px">价格(元)</th>
+					<th style="width: 60px">类型</th>
+					<th style="width: 60px">操作</th>
+				</tr>
+			</thead>
+
+			<tbody id="list">
+				
+			</tbody>
+
+		</table>
+
+		<!-- <div id="loadgif" style="width:66px;height:66px;position:absolute;top:50%;left:50%;">
+　　  <img  alt="加载中..." src="<%=basePath%>res/sys/wait.gif"/>
+    </div> -->
+
+
+
+
+		<div class="pagin">
+			<div class="message">
+				共<i class="blue page-count"></i>条纪录，当前显示第&nbsp;<i
+					class="blue current-page"></i>&nbsp;页
+			</div>
+			<ul class="paginList">
+			</ul>
+		</div>
+		
+
+
+
+		<div class="tip" id="update" style="height: 400px;">
+			<div class="tiptop">
+				<span>图书信息修改</span> <a></a>
+			</div>
+			<div class="tipinfo">
+				<table>
+					<input type="hidden" name="updatebuid" id="updatebuid" />
+					<tr>
+						<td>图书编号</td>
+						<td><input type="text" class="form-control"
+							readonly="readonly" name="updatebuid" id="updatebuid" /></td>
+					</tr>
+					<tr>
+						<td>图书名称</td>
+						<td><input type="text" class="form-control" name="updatename"
+							id="updatename" /></td>
+					</tr>
+					<tr>
+						<td>出版社</td>
+						<td><input type="text" class="form-control"
+							name="updatepress" id="updatepress" /></td>
+					</tr>
+					<tr>
+						<td>作者</td>
+						<td><input type="text" class="form-control"
+							name="updateauthor" id="updateauthor" /></td>
+					</tr>
+					<tr>
+						<td>价格(元)</td>
+						<td><input type="text" class="form-control"
+							name="updatevalue" id="updatevalue" /></td>
+					</tr>
+					<tr>
+						<td>类型</td>
+						<td><input type="text" class="form-control"
+							name="updatekindno" id="updatekindno" /></td>
+					</tr>
+				</table>
+			</div>
+			<div class="tipbtn" style="margin-top: 200px;">
+				<input name="" type="button" class="sure" onclick="updateFunction()"
+					value="确定" />&nbsp; <input name="" type="button" class="cancel"
+					value="取消" />
+			</div>
+
+		</div>
+
+
+		<div class="tip">
+			<div class="tiptop">
+				<span>提示信息</span><a></a>
+			</div>
+
+			<div class="tipinfo">
+				<span><img src="<%=basePath%>moban/images/ticon.png" /></span>
+				<div class="tipright">
+					<p>是否确认对信息的修改 ？</p>
+					<cite>如果是请点击确定按钮 ，否则请点取消。</cite>
+				</div>
+			</div>
+
+			<div class="tipbtn">
+				<input name="" type="button" class="sure" value="确定" />&nbsp; <input
+					name="" type="button" class="cancel" value="取消" />
+			</div>
+
+		</div>
+
+
+
+
+	</div>
+
+	<div class="tip">
+		<div class="tiptop">
+			<span>提示信息</span><a></a>
+		</div>
+
+		<div class="tipinfo">
+			<span><img src="<%=basePath%>moban/images/ticon.png" /></span>
+			<div class="tipright">
+				<p>是否确认对信息的修改 ？</p>
+				<cite>如果是请点击确定按钮 ，否则请点取消。</cite>
+			</div>
+		</div>
+
+		<div class="tipbtn">
+			<input name="" type="button" class="sure" value="确定" />&nbsp; <input
+				name="" type="button" class="cancel" value="取消" />
+		</div>
+
+	</div>
+
+	<script type="text/javascript">
+	$('.imgtable tbody tr:odd').addClass('odd');
+	</script>
+
+</body>
+
 <script type="text/javascript">
     function getJSONData(pn,url) {  
     	
     // alert(pn);  
-    $.getJSON(url, function(data) {  
+    $.post(url, function(data) {  
         var totalCount = data.totalCount; // 总记录数  
         var pageSize = 10; // 每页显示几条记录  
         var pageTotal = Math.ceil(totalCount / pageSize); // 总页数  
@@ -74,7 +280,7 @@
 			openUpdate(id);
 			
 		});
-	})
+	},"json")
 }  
 function getPage(url) {  
     $.post(url, function(data) {  
@@ -218,227 +424,6 @@ function gotoPage(pn,url) {
 		});
 	}
 </script>
-<script type="text/javascript">
-    // $(document).ready(function () { $("#loadgif").hide();});
-    // $(".wait").click(function () { $("#loadgif").show();});
-</script>
-<script language="javascript">
- $(function(){	
-	//导航切换
-	$(".imglist li").click(function(){
-		$(".imglist li.selected").removeClass("selected")
-		$(this).addClass("selected");
-	})	
-    
- })	
-</script>
-<script type="text/javascript">
-$(document).ready(function(){
-  $(".click").click(function(){
-  $(".tip").fadeIn(200);
-  });
-  
-  $(".tiptop a").click(function(){
-  $(".tip").fadeOut(200);
-	});
-
-  $(".sure").click(function(){
-  $(".tip").fadeOut(100);
-	});
-
-  $(".cancel").click(function(){
-  $(".tip").fadeOut(100);
-	});
-
-});
-</script>
-</head>
-
-
-<body>
-
-	<div class="place">
-		<span>位置：</span>
-		<ul class="placeul">
-			<li><a href="#">首页</a></li>
-			<li><a href="#">图片列表</a></li>
-		</ul>
-	</div>
-
-	<div class="rightinfo">
-
-		<div class="tools">
-
-			<ul class="toolbar">
-				<li class="click"><span><img
-						src="<%=basePath%>moban/images/t01.png"
-						onclick="location.href='<%=basePath%>jsp/book/add.jsp'" /></span>添加</li>
-				<li class="click"><span><img
-						src="<%=basePath%>moban/images/t02.png"
-						onclick="location.href='<%=basePath%>jsp/book/bookList.jsp'" /></span>修改</li>
-				<li><span><img src="<%=basePath%>moban/images/t03.png" /></span>删除</li>
-				<li><span><img src="<%=basePath%>moban/images/t04.png" /></span>统计</li>
-			</ul>
-			<ul class="toolbar1">
-				<li><span><img src="<%=basePath%>moban/images/t05.png" /></span>设置</li>
-			</ul>
-
-		</div>
-
-
-		<table class="imgtable">
-
-			<thead>
-				<tr>
-					<th style="width: 30px"><input type="checkbox" name=""
-						value="全选"></th>
-					<th style="width: 30px">序号</th>
-					<th style="width: 100px">书名</th>
-					<th width="100px;">缩略图</th>
-					<th style="width: 50px">出版社</th>
-					<th style="width: 60px">作者</th>
-					<th style="width: 60px">价格(元)</th>
-					<th style="width: 60px">类型</th>
-					<th style="width: 60px">操作</th>
-				</tr>
-			</thead>
-
-			<tbody id="list">
-				
-			</tbody>
-
-		</table>
-
-		<!-- <div id="loadgif" style="width:66px;height:66px;position:absolute;top:50%;left:50%;">
-　　  <img  alt="加载中..." src="<%=basePath%>res/sys/wait.gif"/>
-    </div> -->
-
-
-
-
-		<div class="pagin">
-			<div class="message">
-				共<i class="blue page-count"></i>条纪录，当前显示第&nbsp;<i
-					class="blue current-page"></i>&nbsp;页
-			</div>
-			<ul class="paginList">
-				<!-- <li class="paginItem"><a id="prev"><span class="pagepre"></span></a></li>
-        
-        <li class="paginItem"><a id="firstPage">1</a></li>
-        
-        <li class="paginItem current"><a href="javascript:;">2</a></li>
-        <li class="paginItem"><a href="javascript:;">3</a></li>
-        <li class="paginItem"><a href="javascript:;">4</a></li>
-        <li class="paginItem"><a href="javascript:;">5</a></li>
-        <li class="paginItem more"><a href="javascript:;">...</a></li>
-        <li class="paginItem"><a href="javascript:;">10</a></li> 
-        <li class="paginItem"><a id="next"><span class="pagenxt"></span></a></li> -->
-			</ul>
-		</div>
-		
-
-
-
-		<div class="tip" id="update" style="height: 400px;">
-			<div class="tiptop">
-				<span>图书信息修改</span> <a></a>
-			</div>
-			<div class="tipinfo">
-				<table>
-					<input type="hidden" name="updatebuid" id="updatebuid" />
-					<tr>
-						<td>图书编号</td>
-						<td><input type="text" class="form-control"
-							readonly="readonly" name="updatebuid" id="updatebuid" /></td>
-					</tr>
-					<tr>
-						<td>图书名称</td>
-						<td><input type="text" class="form-control" name="updatename"
-							id="updatename" /></td>
-					</tr>
-					<tr>
-						<td>出版社</td>
-						<td><input type="text" class="form-control"
-							name="updatepress" id="updatepress" /></td>
-					</tr>
-					<tr>
-						<td>作者</td>
-						<td><input type="text" class="form-control"
-							name="updateauthor" id="updateauthor" /></td>
-					</tr>
-					<tr>
-						<td>价格(元)</td>
-						<td><input type="text" class="form-control"
-							name="updatevalue" id="updatevalue" /></td>
-					</tr>
-					<tr>
-						<td>类型</td>
-						<td><input type="text" class="form-control"
-							name="updatekindno" id="updatekindno" /></td>
-					</tr>
-				</table>
-			</div>
-			<div class="tipbtn" style="margin-top: 200px;">
-				<input name="" type="button" class="sure" onclick="updateFunction()"
-					value="确定" />&nbsp; <input name="" type="button" class="cancel"
-					value="取消" />
-			</div>
-
-		</div>
-
-
-		<div class="tip">
-			<div class="tiptop">
-				<span>提示信息</span><a></a>
-			</div>
-
-			<div class="tipinfo">
-				<span><img src="<%=basePath%>moban/images/ticon.png" /></span>
-				<div class="tipright">
-					<p>是否确认对信息的修改 ？</p>
-					<cite>如果是请点击确定按钮 ，否则请点取消。</cite>
-				</div>
-			</div>
-
-			<div class="tipbtn">
-				<input name="" type="button" class="sure" value="确定" />&nbsp; <input
-					name="" type="button" class="cancel" value="取消" />
-			</div>
-
-		</div>
-
-
-
-
-	</div>
-
-	<div class="tip">
-		<div class="tiptop">
-			<span>提示信息</span><a></a>
-		</div>
-
-		<div class="tipinfo">
-			<span><img src="<%=basePath%>moban/images/ticon.png" /></span>
-			<div class="tipright">
-				<p>是否确认对信息的修改 ？</p>
-				<cite>如果是请点击确定按钮 ，否则请点取消。</cite>
-			</div>
-		</div>
-
-		<div class="tipbtn">
-			<input name="" type="button" class="sure" value="确定" />&nbsp; <input
-				name="" type="button" class="cancel" value="取消" />
-		</div>
-
-	</div>
-
-	<script type="text/javascript">
-	$('.imgtable tbody tr:odd').addClass('odd');
-	</script>
-
-</body>
-
-
 
 
 </html>

@@ -57,15 +57,11 @@ public class BookController extends HttpServlet {
 
 		String path = Tools.cut(request.getRequestURI());
  
-//		request.getRequestDispatcher("../404.jsp").forward(request, response);
-		
-		System.out.println(path);
-		
+		request.setCharacterEncoding("utf-8");
+		response.setCharacterEncoding("utf-8");
  
 		PrintWriter out =  response.getWriter();
 		
-		// request.getRequestDispatcher("../404.jsp").forward(request,
-		// response);
 		if ("/bookmanager".equals(path)) {
 			request.getRequestDispatcher("../jsp/book/bookList.jsp").forward(request, response);
 
