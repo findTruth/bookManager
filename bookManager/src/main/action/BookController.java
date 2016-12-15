@@ -60,8 +60,9 @@ public class BookController extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
  
+		System.out.println(path);
 		PrintWriter out =  response.getWriter();
-		
+
 		if ("/bookmanager".equals(path)) {
 			request.getRequestDispatcher("../jsp/book/bookList.jsp").forward(request, response);
 
