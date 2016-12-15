@@ -17,7 +17,9 @@ import com.google.gson.JsonObject;
 
 import main.biz.impl.EmployeeBizImpl;
 import main.biz.impl.ManagerBizImpl;
+import main.entity.BookRecord;
 import main.entity.Emp;
+import main.javaBean.Bookrecord;
 import main.tool.Tools;
 
 /**
@@ -39,6 +41,10 @@ public class EmployeeController extends HttpServlet {
 		}else if ("/home".equals(path)) {
 			request.setAttribute("emp", request.getSession().getAttribute("emp"));
 			request.getRequestDispatcher("../jsp/emp/main.jsp").forward(request, response);
+		}else if("/guihuan".equals(path)){
+			request.getRequestDispatcher("../jsp/emp/guihuan.jsp").forward(request, response);
+		}else if("/jieshu".equals(path)){
+			request.getRequestDispatcher("../jsp/emp/jieshu.jsp").forward(request, response);
 		} else {
 			request.getRequestDispatcher("../404.jsp").forward(request, response);
 		}
@@ -65,6 +71,86 @@ public class EmployeeController extends HttpServlet {
 		}else if("/list".equals(path)){
 			List<Emp> list = new EmployeeBizImpl().empList();
 			response.getWriter().append(Tools.json(list));
+			response.getWriter().close();
+		}else if("/HuanShu".equals(path)){
+			int type = 0;
+			String keyword = null;
+			if(request.getParameter("type")==null){}else{
+				type = Integer.valueOf(request.getParameter("type"));
+			}
+			if(request.getParameter("keyword")==null){}else{
+				keyword = request.getParameter("keyword");
+			}
+			List<Bookrecord> list = null;
+			list = new EmployeeBizImpl().bookrecordList(type, keyword);
+			JsonObject json = new JsonObject();
+			if(list==null){
+				json.addProperty("result", "-1");
+				json.addProperty("msg", "查询数据失败");
+				response.getWriter().append(json.toString());
+			}else{
+				response.getWriter().append(Tools.json(list));
+			}
+			response.getWriter().close();
+		}else if("/HuanShuAction".equals(path)){
+			JsonObject json = new JsonObject();
+			if(request.getParameter("RUID")==null){
+				json.addProperty("result", "-1");
+				json.addProperty("msg", "参数错误");
+			}else{
+				int day = new EmployeeBizImpl().huanshuaction(request.getParameter("RUID"));
+				System.out.println(day);
+				double money = 0;
+				if(day>28){
+					money = (day - 28)*0.1;
+					day = day - 28;
+				}else{
+					day = 0;
+				}
+				json.addProperty("result", "0");
+				json.addProperty("money", money);
+				json.addProperty("msg", "还书成功，逾期"+day+"天，需支付"+money+"元");
+			}
+				
+			response.getWriter().append(json.toString());
+			response.getWriter().close();
+		}else if("/JieChu".equals(path)){
+			int type = 0;
+			String keyword = null;
+			if(request.getParameter("type")==null){}else{
+				type = Integer.valueOf(request.getParameter("type"));
+			}
+			if(request.getParameter("keyword")==null){}else{
+				keyword = request.getParameter("keyword");
+			}
+			List<Bookrecord> list = null;
+			list = new EmployeeBizImpl().bookrecordList(type, keyword);
+			JsonObject json = new JsonObject();
+			if(list==null){
+				json.addProperty("result", "-1");
+				json.addProperty("msg", "查询数据失败");
+				response.getWriter().append(json.toString());
+			}else{
+				response.getWriter().append(Tools.json(list));
+			}
+			response.getWriter().close();
+		}else if("/JieChuAction".equals(path)){
+			JsonObject json = new JsonObject();
+			if(request.getParameter("RUID")==null){
+				json.addProperty("result", "-1");
+				json.addProperty("msg", "参数错误");
+			}else{
+				boolean flag = new EmployeeBizImpl().jieshuaction(request.getParameter("RUID"));
+				if(flag){
+					json.addProperty("result", "0");
+					json.addProperty("msg", "借出成功");
+				}else{
+					json.addProperty("result", "-2");
+					json.addProperty("msg", "数据库异常");
+				}
+			}
+				
+			response.getWriter().append(json.toString());
 			response.getWriter().close();
 		}else {
 			request.getRequestDispatcher("../404.jsp").forward(request, response);

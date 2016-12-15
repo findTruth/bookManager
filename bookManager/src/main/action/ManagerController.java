@@ -17,9 +17,11 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
+import main.biz.impl.BookBizImpl;
 import main.biz.impl.EmployeeBizImpl;
 import main.biz.impl.ManagerBizImpl;
 import main.biz.impl.UserBizImpl;
+import main.entity.Book;
 import main.entity.Emp;
 import main.entity.User;
 import main.tool.Tools;
@@ -188,6 +190,20 @@ public class ManagerController extends HttpServlet {
 		}else if("/findUserById".equals(path)){
 			User user = new UserBizImpl().find(request.getParameter("UUID"));
 			out.println(new Gson().toJson(user));
+			out.close();
+		}else if("/changeBook".equals(path)){
+			Book book = new BookBizImpl().findById(request.getParameter("BUID"));
+			Book book1 = new Book(request.getParameter("BUID"), request.getParameter("NAME"), book.getDATE(), request.getParameter("PRESS"), request.getParameter("AUTHOR"), request.getParameter("VALUE"), request.getParameter("KINDNO"), book.getADDRESS(), book.getSTATUS(), book.getPICTURE());
+			boolean flag = new BookBizImpl().updateAll(book1);
+			JsonObject json = new JsonObject();
+			if(flag){
+				json.addProperty("result", "0");
+				json.addProperty("msg", "修改成功");
+			}else{
+				json.addProperty("result", "-1");
+				json.addProperty("msg", "修改失败");
+			}
+			out.println(json.toString());
 			out.close();
 		} else {
 			request.getRequestDispatcher("../404.jsp").forward(request, response);

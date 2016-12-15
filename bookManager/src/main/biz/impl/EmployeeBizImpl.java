@@ -5,6 +5,7 @@ import java.util.List;
 import main.biz.EmployeeBiz;
 import main.dao.impl.EmployeeDaoImpl;
 import main.entity.Emp;
+import main.javaBean.Bookrecord;
 import main.javaBean.EmpWorkItem;
 
 public class EmployeeBizImpl implements EmployeeBiz {
@@ -50,5 +51,29 @@ public class EmployeeBizImpl implements EmployeeBiz {
 	public boolean delEmpList(List<String> list) {
 		return edi.delEmpList(list);
 	}
+
+	@Override
+	public List<Bookrecord> bookrecordList(int type, String keyword) {
+		if(type==0){
+			return edi.listbookrecordall();
+		}else if(type==1){
+			return edi.listbookrecordByPhone(keyword);
+		}else if(type==2){
+			return edi.listbookrecordByBookName(keyword);
+		}
+		return null;
+	}
+
+	@Override
+	public int huanshuaction(String ruid) {
+		edi.changeBookRecordStatus(ruid,1);
+		return edi.countBookRecordDay(ruid);
+	}
+
+	@Override
+	public boolean jieshuaction(String ruid) {
+		return edi.changeBookRecordStatus(ruid, 2);
+	}
+
 
 }

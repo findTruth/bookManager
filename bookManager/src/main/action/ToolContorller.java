@@ -88,10 +88,10 @@ public class ToolContorller extends HttpServlet {
 						JsonObject json = new JsonObject();
 						json.addProperty("result", "2");
 						json.addProperty("msg", "登陆成功");
+						json.addProperty("name", emp.getNAME());
 						out.print(json.toString());
 						out.close();
 					}else{
-						System.out.println("m!ok e!ok");
 						JsonObject json = new JsonObject();
 						json.addProperty("result", "1");
 						json.addProperty("msg", "密码错误");
@@ -120,6 +120,7 @@ public class ToolContorller extends HttpServlet {
 						JsonObject json = new JsonObject();
 						json.addProperty("result", "2");
 						json.addProperty("msg", "登陆成功");
+						json.addProperty("name", emp.getNAME());
 						out.print(json.toString());
 						out.close();
 					}else{
@@ -130,7 +131,6 @@ public class ToolContorller extends HttpServlet {
 						out.close();
 					}
 				}else{
-					System.out.println("else");
 					JsonObject json = new JsonObject();
 					json.addProperty("result", "1");
 					json.addProperty("msg", "密码错误");

@@ -50,29 +50,40 @@ $(function(){
     <a href="">书籍借阅与归还 </a>
     </div>   
      <ul class="menuson">
-        <li><cite></cite><a href="<%=basePath%>user/userJieShu.do" target="rightFrame">书籍借阅</a><i></i></li>
-        <li><cite></cite><a href="<%=basePath%>emp/return.do" target="rightFrame">书籍归还</a><i></i></li>
+        <li><cite></cite><a href="<%=basePath%>employee/jieshu.do" target="rightFrame">书籍借阅</a><i></i></li>
+        <li><cite></cite><a href="<%=basePath%>employee/guihuan.do" target="rightFrame">书籍归还</a><i></i></li>
         </ul>     
     </dd>  
-    <%}else if(emp.getQUAN()>=1){%>
+    <%}if(emp.getQUAN()>=1||emp.getQUAN()>=2){%>
     <dd>
-
-    <div class="title">
-    <span></span><a href="<%=basePath %>emp/userlist.do" target="rightFrame">用户管理</a>
-    </div>
-    <ul class="menuson">
-        <li><cite></cite><a href="<%=basePath %>emp/usechange.do" target="rightFrame">修改用户信息</a><i></i></li>
-        <li><cite></cite><a href="<%=basePath %>emp/usedelete.do" target="rightFrame">删除用户信息</a><i></i></li>
-        </ul>     
-    </dd> 
-    <%}else if(emp.getQUAN()>=2){%>
-	    <dd>
 	    <div class="title">
 	    <span><img src="" /></span>
-	   <a href="<%=basePath %>book/bookmanager.do" target="rightFrame">图书管理 </a>
+	   <a href="">图书管理 </a>
 	    </div>
-	    </dd>
-	    <%} %>
+	    <ul class="menuson">
+    <%}if(emp.getQUAN()>=1){%>
+        <li><cite></cite><a href="<%=basePath %>emp/usechange.do" target="rightFrame">图书录入功能</a><i></i></li>
+        <li><cite></cite><a href="<%=basePath %>emp/usedelete.do" target="rightFrame">图书修改功能</a><i></i></li>
+    <%}if(emp.getQUAN()>=2){%>
+    	<li><cite></cite><a href="<%=basePath %>emp/usechange.do" target="rightFrame">图书删除功能</a><i></i></li>
+	<%}if(emp.getQUAN()>=1||emp.getQUAN()>=2){%>
+	</ul>
+	</dd>
+	<%} if(emp.getQUAN()>=3||emp.getQUAN()>=4){%>
+			<dd>
+		    <div class="title">
+		    <span></span><a href="<%=basePath %>emp/userlist.do" target="rightFrame">用户管理</a>
+		    </div>
+		    <ul class="menuson">
+	<%} if(emp.getQUAN()>=3){%>
+	    <li><cite></cite><a href="<%=basePath %>emp/usechange.do" target="rightFrame">修改用户信息</a><i></i></li>
+	    <%} if(emp.getQUAN()>=4){%>
+	    <li><cite></cite><a href="<%=basePath %>emp/usechange.do" target="rightFrame">新增用户信息</a><i></i></li>
+	    <li><cite></cite><a href="<%=basePath %>emp/usedelete.do" target="rightFrame">删除用户信息</a><i></i></li>
+	    <%} if(emp.getQUAN()>=3||emp.getQUAN()>=4){%>
+	    </ul> 
+	    </dd> 
+	    <%}%>
     </dl>
 
 	

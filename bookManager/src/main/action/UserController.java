@@ -112,7 +112,6 @@ public class UserController extends HttpServlet {
 				out.append(json.toString());
 				out.close();
 			}else {
-				//TODO ASDFAF
 				List<Bookrecord> list=userbizimpl.bookrecordList(longUUID);
 				JsonObject json = new JsonObject();
 				if (list!=null||list.size()==0) {

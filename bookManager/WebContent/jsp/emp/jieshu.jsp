@@ -17,7 +17,7 @@
 //分页
 function getJSONData(pn, url) {
 	// alert(pn);  
-	$.getJSON(url, function(data) {
+	$.post(url, function(data) {
 		var totalCount = data.totalCount; // 总记录数  
 		var pageSize = 10; // 每页显示几条记录  
 		var pageTotal = Math.ceil(totalCount / pageSize); // 总页数  
@@ -35,10 +35,12 @@ function getJSONData(pn, url) {
 				var handle="";
 				if (dataRoot[j].STATUS==0) {
 					status="未归还";
+					
 				}else if (dataRoot[j].STATUS==1) {
 					status="归还";
 				}else {
 					status="预定";
+					handle="借出";
 				}
 				var overtime="";
 				if (dataRoot[j].OVERTIME==null) {
@@ -52,6 +54,7 @@ function getJSONData(pn, url) {
 						"</td>").append("<td class='col4'>" + dataRoot[j].STARTTIME +
 						"</td>").append("<td class='col5'>" + overtime +
 						"</td>").append("<td class='col6'>" + status +
+						"</td>").append("<td class='col7'>" + "<a class='returnButton' style='cursor:pointer'; name="+dataRoot[j].RUID+">"+handle+"</a>" +
 						"</td>");
 			}
 		} else {
@@ -67,6 +70,7 @@ function getJSONData(pn, url) {
 					status="归还";
 				}else {
 					status="预定";
+					handle="借出";
 				}
 				var overtime="";
 				if (dataRoot[j].OVERTIME==null) {
@@ -81,19 +85,22 @@ function getJSONData(pn, url) {
 					"</td>").append("<td class='col4'>" + dataRoot[j].STARTTIME +
 					"</td>").append("<td class='col5'>" + overtime +
 					"</td>").append("<td class='col6'>" + status +
+					"</td>").append("<td class='col7'>" + "<a class='returnButton' style='cursor:pointer'; name="+dataRoot[j].RUID+">"+handle+"</a>" +
 					"</td>");
 			}
 		}
 		$(".page-count").text(totalCount);
 		$(".returnButton").click(function(){			
 			var id = $(this).attr("name");
-			openReturn(id);
+			var tr_tag = $(this).parent().parent();
+			var bname = tr_tag.children('td.col3').html();
+			openHuanshuTop(id,bname);
 		});
-	})
+	},"json")
 }
 
 function getPage(url) {
-	$.getJSON(url, function(data) {
+	$.post(url, function(data) {
 
 		pn = 1;
 		var totalCount = data.totalCount; // 总记录数  
@@ -161,7 +168,7 @@ function getPage(url) {
 		});
 		$("#firstPage").trigger("click");
 
-	})
+	},"json")
 }
 
 function gotoPage(pn, url) {
@@ -171,62 +178,34 @@ function gotoPage(pn, url) {
 }
 
 $(function() {
-	getPage("<%=basePath%>user/userJieShu2.do");
+	getPage("<%=basePath%>employee/HuanShu.do");
 });
 
 function flushPage() {
-	getPage("<%=basePath%>user/userJieShu2.do");
+	getPage("<%=basePath%>employee/HuanShu.do");
 }
 
-function openReturn(id) {
+function openHuanshuTop(id,name){
 	$("#RUID").val(id);
+	$("#returnBname").html('是否借出《'+name+'》?');
 	$("#return").fadeIn(200);
 }
-
-function findflushPage() {
-	var content = $("input[name='Search']").val();
-	getPage("<%=basePath%>user/userJieShu2.do?Content=" + content +"&NUMBER=" + 0);
-}
-
-function Findbookrecord(){
-	var content = $("input[name='Search']").val();
-	$.ajax({
-		type: "GET",
-		url: "<%=basePath%>user/userJieShu2.do?Content=" + content +"&NUMBER=" + 0,
-		async: true,
-		dataType: 'json',
-		success: function(data) {
-			alert(data.msg);
-			findflushPage();
-		},
-		error: function() {
-			alert("网络连接异常，请检查网络设置");
-		}
-	});
-}
-function returnbookrecord(){
-	$("input[name='Search']").attr("value","");
-	flushPage();
-}
-function cancle(){	
-	$("#return").fadeOut(200);
-}
 function ensure(){
-	var RUID = $("input[name='RUID']").val();
+	var RUID = $("#RUID").val();
 	$.ajax({
-		type: "POST",
-		url: "<%=basePath%>user/returnbookrecord.do?RUID=" + RUID,
-		async: true,
-		dataType: 'json',
-		success: function(data) {
+		type:'post',
+	    dataType:'json',
+	    async: true,
+	    url:"<%=basePath%>employee/JieChuAction.do?RUID="+RUID,
+	    success: function(data) {
 			alert(data.msg);
-			returnbookrecord();
-			$("#return").fadeOut(200);
-		},
-		error: function() {
-			alert("网络连接异常，请检查网络设置");
+			flushPage();
 		}
 	});
+}
+function findByName(){
+	var bname = $("input[name='Search']").val();
+	getPage("<%=basePath%>employee/HuanShu.do?type=2&keyword="+bname);
 }
 </script>
 <script language="javascript">
@@ -268,13 +247,13 @@ $(document).ready(function(){
     <span>位置：</span>
     <ul class="placeul">
     <li><a href="../user/index.do">首页</a></li>
-    <li><a href="#">借书记录</a></li>
+    <li><a href="#">借书业务</a></li>
     </ul>
     </div>
     
     <div class="rightinfo"> 
      <div class="tools">
-    	<center style="font-size: 15px;">搜索:&nbsp;&nbsp;<input type="text" value="" name="Search" placeholder="请输入书名" style="width: 200px;height: 40px"/>&nbsp;&nbsp;<input type="button" value="确定" class="Search" style="background:url(../moban/images/buttonbg.png) repeat-x;width:96px; height:35px;" onclick="Findbookrecord()"/>&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value="取消" style="background:url(../moban/images/buttonbg.png) repeat-x;width:96px; height:35px;" onclick="returnbookrecord()"/></center>
+    	<center style="font-size: 15px;">搜索:&nbsp;&nbsp;<input type="text" value="" name="Search" placeholder="请输入书名" style="width: 200px;height: 40px"/>&nbsp;&nbsp;<input type="button" value="搜索" class="Search" style="background:url(../moban/images/buttonbg.png) repeat-x;width:96px; height:35px;" onclick="findByName()"/></center>
     </div></br>   
     <table class="imgtable">
     
@@ -305,18 +284,18 @@ $(document).ready(function(){
  
  <div class="tip" id="return">
 	
-    	<div class="tiptop"><span>还书提示信息</span><a></a></div>        
+    	<div class="tiptop"><span>图书借出提示信息</span><a></a></div>        
       <div class="tipinfo">
         <span><img src="<%=basePath%>moban/images/ticon.png" /></span>
         <div class="tipright">
-        <p>是否还书？</p>
+        <p id="returnBname"></p>
         <input type="hidden" name="RUID" id="RUID"/>
         <cite>如果是请点击确定按钮 ，否则请点取消。</cite>
         </div>
         </div>      
         <div class="tipbtn">
         <input name="" type="button"  class="sure" value="确定" onclick="ensure()"/>&nbsp;
-        <input name="" type="button"   class="cancel" value="取消" onclick="cancle()"/>
+        <input name="" type="button"   class="cancel" value="取消"/>
         </div>   
 </div>     
 <script type="text/javascript">

@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import main.entity.Emp;
+import main.javaBean.Bookrecord;
 import main.javaBean.EmpWorkItem;
 
 public interface EmployeeDao {
@@ -16,6 +17,11 @@ public interface EmployeeDao {
 	public List<EmpWorkItem> listEmpWork();//员工上班记录
 	public boolean addEmpWork(Emp emp);//增加员工上班记录
 	public boolean delEmpList(List<String> list);//批量删除员工
+	public List<Bookrecord> listbookrecordall();//全表查询
+	public List<Bookrecord> listbookrecordByPhone(String phone);
+	public List<Bookrecord> listbookrecordByBookName(String bname);
+	public boolean changeBookRecordStatus(String RUID,int status);
+	public int countBookRecordDay(String RUID);//计数
 	//修改员工信息
 	public boolean changeAll(Emp emp);
 	public boolean updateEmpPassword(String id,String Password);

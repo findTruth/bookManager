@@ -310,7 +310,7 @@ public class UserDaoImpl implements UserDao{
 					+ "T.OVERTIME as OVERTIME,"
 					+ "T.STATUS as STATUS "
 					+ "from TB_BookRecord T,TB_Book B "
-					+ "where B.BUID=T.BUID AND T.UUID=? ORDER BY  OVERTIME DESC";
+					+ "where B.BUID=T.BUID AND T.UUID=? ORDER BY  STARTTIME ASC";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, longUUID);
 			ResultSet rs = ps.executeQuery();
@@ -436,7 +436,7 @@ public class UserDaoImpl implements UserDao{
 		List<Bookkeep> list = new ArrayList<>();
 		try {
 			Connection conn = DBhelper_mysql.getConnection();
-			String sql = "select T.KUID as KUID,B.NAME as NAME,B.PRESS as PRESS,B.AUTHOR as AUTHOR,B.VALUE as VALUE,T.TIME as TIME from TB_Bookkeep T,TB_Book B where B.BUID=T.BUID AND T.UUID=? ORDER BY  TIME DESC";
+			String sql = "select T.KUID as KUID,B.NAME as NAME,B.PRESS as PRESS,B.AUTHOR as AUTHOR,B.VALUE as VALUE,T.TIME as TIME from TB_Bookkeep T,TB_Book B where B.BUID=T.BUID AND T.UUID=? ORDER BY  TIME ASC";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, longUUID);
 			ResultSet rs = ps.executeQuery();
@@ -822,9 +822,9 @@ public class UserDaoImpl implements UserDao{
 				ps.setString(1, a);
 				ps.addBatch();
 			}
-			int n=ps.executeUpdate();
+			int[] n=ps.executeBatch();
 			conn.commit();
-			if (n>=1) {
+			if (n.length>=1) {
 				flag=true;
 			}
 			DBhelper_mysql.closeConnection(null, ps, conn);

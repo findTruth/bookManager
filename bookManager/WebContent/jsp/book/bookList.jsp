@@ -35,6 +35,30 @@
         }  
         var dataRoot = data.jsonRoot;  
         if (pageTotal == 1) {     // 当只有一页时  
+        	var kind = "";
+        	if(dataRoot[j].KINDNO==1){
+        		kind = "文学类";
+        	}else if(dataRoot[j].KINDNO==2){
+        		kind = "历史类";
+        	}else if(dataRoot[j].KINDNO==3){
+        		kind = "哲学类";
+        	}else if(dataRoot[j].KINDNO==4){
+        		kind = "文化、教育类";
+        	}else if(dataRoot[j].KINDNO==5){
+        		kind = "艺术、美学类";
+        	}else if(dataRoot[j].KINDNO==6){
+        		kind = "经济类";
+        	}else if(dataRoot[j].KINDNO==6){
+        		kind = "社会学类";
+        	}else if(dataRoot[j].KINDNO==6){
+        		kind = "心理学类";
+        	}else if(dataRoot[j].KINDNO==6){
+        		kind = "政治类";
+        	}else if(dataRoot[j].KINDNO==6){
+        		kind = "法律类";
+        	}else if(dataRoot[j].KINDNO==6){
+        		kind = "其他";
+        	}
             for (var j = 0; j < totalCount; j++) {  
                 $(".tr-tag").eq(j).append("<td class='col1'><input type='checkbox' value='"+parseInt(j + 1)+"'/></td>")  
                 .append("<td class='col2'>" + parseInt(j + 1)  
@@ -43,7 +67,7 @@
                         + "</td>").append("<td class='col5'>" + dataRoot[j].PRESS  
                         + "</td>").append("<td class='col6'>" + dataRoot[j].AUTHOR  
                         + "</td>").append("<td class='col7'>" + dataRoot[j].VALUE  
-                        + "</td>").append("<td class='col8'>" + dataRoot[j].KINDNO  
+                        + "</td>").append("<td class='col8'>" +   kind
                         + "</td>").append("<td class='col9'>" + "<a class='updateButton' style='cursor:pointer'; name="+dataRoot[j].BUID+">修改</a>"  
                         + "</td>");
             }  
@@ -53,6 +77,30 @@
                 if( j == totalCount){  
                     break;       // 当遍历到最后一条记录时，跳出循环  
                 }  
+                var kind = "";
+	        	if(dataRoot[j].KINDNO==1){
+	        		kind = "文学类";
+	        	}else if(dataRoot[j].KINDNO==2){
+	        		kind = "历史类";
+	        	}else if(dataRoot[j].KINDNO==3){
+	        		kind = "哲学类";
+	        	}else if(dataRoot[j].KINDNO==4){
+	        		kind = "文化、教育类";
+	        	}else if(dataRoot[j].KINDNO==5){
+	        		kind = "艺术、美学类";
+	        	}else if(dataRoot[j].KINDNO==6){
+	        		kind = "经济类";
+	        	}else if(dataRoot[j].KINDNO==6){
+	        		kind = "社会学类";
+	        	}else if(dataRoot[j].KINDNO==6){
+	        		kind = "心理学类";
+	        	}else if(dataRoot[j].KINDNO==6){
+	        		kind = "政治类";
+	        	}else if(dataRoot[j].KINDNO==6){
+	        		kind = "法律类";
+	        	}else if(dataRoot[j].KINDNO==6){
+	        		kind = "其他";
+	        	}
                  $(".tr-tag").eq(k).append("<td class='col1'><input type='checkbox' value='"+parseInt(j + 1)+"'/></td>")  
                 .append("<td class='col2'>" + parseInt(j + 1)  
                         + "</td>").append("<td class='col3'>" + dataRoot[j].NAME + "<p>" + dataRoot[j].DATE + "</p>"
@@ -60,15 +108,14 @@
                         + "</td>").append("<td class='col5'>" + dataRoot[j].PRESS  
                         + "</td>").append("<td class='col6'>" + dataRoot[j].AUTHOR  
                         + "</td>").append("<td class='col7'>" + dataRoot[j].VALUE  
-                        + "</td>").append("<td class='col8'>" + dataRoot[j].KINDNO  
-                        + "</td>").append("<td class='col9'>" + "修改"   
+                        + "</td>").append("<td class='col8'>" + kind 
+                        + "</td>").append("<td class='col9'>" + "<a class='updateButton' style='cursor:pointer'; name="+dataRoot[j].BUID+">修改</a>"  
                         + "</td>");
             }  
         }  
         $(".page-count").text(totalCount); 
 		$(".updateButton").click(function(){
 			var id = $(this).attr("name");
-			alert(id);
 			openUpdate(id);
 			
 		});
@@ -166,7 +213,7 @@ function gotoPage(pn,url) {
 		var data1 = "";
 		$.ajax({
 			type: "POST",
-			url: "<%=basePath%>book/findById.do?=" + id,
+			url: "<%=basePath%>book/findById.do?BUID=" + id,
 			async: false,
 			dataType: 'json',
 			success: function(data) {
@@ -180,10 +227,8 @@ function gotoPage(pn,url) {
 	function openUpdate(id) {
 //		var id = $(this).attr("name");
 		var data = findById(id);
-		
-		alert(data.length);
-		//alert();
-		$("#updatebuid").val(data.BUID);
+
+		$("#updatebuid").val(id);
 		$("#updatename").val(data.NAME);
 		$("#updatepress").val(data.PRESS);
 		$("#updateauthor").val(data.AUTHOR);
@@ -195,6 +240,7 @@ function gotoPage(pn,url) {
 	}
 	//大量修改
 	function updateFunction(){
+		var BUID = $("#updatebuid").val();
 		var NAME = $("#updatename").val();
 		var PRESS = $("#updatepress").val();
 		var AUTHOR = $("#updateauthor").val();
@@ -205,7 +251,7 @@ function gotoPage(pn,url) {
 		var jsondata = {"BUID":BUID,"NAME":NAME,"PRESS":PRESS,"AUTHOR":AUTHOR,"VALUE":VALUE,"KINDNO":KINDNO,"STATUS":STATUS,"DATE":DATE};
 		$.ajax({
 			type: "POST",
-			url: "<%=basePath%>book/updatebook.do",
+			url: "<%=basePath%>manager/changeBook.do",
 			async: true,
 			dataType: 'json',
 			data:jsondata,
@@ -259,7 +305,7 @@ $(document).ready(function(){
 		<span>位置：</span>
 		<ul class="placeul">
 			<li><a href="#">首页</a></li>
-			<li><a href="#">图片列表</a></li>
+			<li><a href="#">书籍列表</a></li>
 		</ul>
 	</div>
 
@@ -271,14 +317,7 @@ $(document).ready(function(){
 				<li class="click"><span><img
 						src="<%=basePath%>moban/images/t01.png"
 						onclick="location.href='<%=basePath%>jsp/book/add.jsp'" /></span>添加</li>
-				<li class="click"><span><img
-						src="<%=basePath%>moban/images/t02.png"
-						onclick="location.href='<%=basePath%>jsp/book/bookList.jsp'" /></span>修改</li>
 				<li><span><img src="<%=basePath%>moban/images/t03.png" /></span>删除</li>
-				<li><span><img src="<%=basePath%>moban/images/t04.png" /></span>统计</li>
-			</ul>
-			<ul class="toolbar1">
-				<li><span><img src="<%=basePath%>moban/images/t05.png" /></span>设置</li>
 			</ul>
 
 		</div>
@@ -343,7 +382,6 @@ $(document).ready(function(){
 			</div>
 			<div class="tipinfo">
 				<table>
-					<input type="hidden" name="updatebuid" id="updatebuid" />
 					<tr>
 						<td>图书编号</td>
 						<td><input type="text" class="form-control"
@@ -371,9 +409,65 @@ $(document).ready(function(){
 					</tr>
 					<tr>
 						<td>类型</td>
-						<td><input type="text" class="form-control"
-							name="updatekindno" id="updatekindno" /></td>
+						<td><select name="updatekindno" id="updatekindno" class="show-tick form-control" style="width: 230px;">
+							<option value="1">文学类</option>
+							<option value="2">历史类</option>
+							<option value="3">哲学类</option>
+							<option value="4">文化、教育类</option>
+							<option value="5">艺术、美学类</option>
+							<option value="6">经济类</option>
+							<option value="7">社会学类</option>
+							<option value="8">心理学类</option>
+							<option value="9">政治类</option>
+							<option value="10">法律类</option>
+							<option value="11">其他</option>
+
+						</select></td>
 					</tr>
+				</table>
+			</div>
+			<div class="tipbtn" style="margin-top: 200px;">
+				<input name="" type="button" class="sure" onclick="updateFunction()"
+					value="确定" />&nbsp; <input name="" type="button" class="cancel"
+					value="取消" />
+			</div>
+
+		</div>
+		
+		
+		<div class="tip" id="add" style="height: 400px;">
+			<div class="tiptop">
+				<span>图书信息新增</span> <a></a>
+			</div>
+			<div class="tipinfo">
+				<table>
+					
+					<tr>
+						<td>图书名称</td>
+						<td><input type="text" class="form-control" name="addname"
+							id="addname" /></td>
+					</tr>
+					<tr>
+						<td>出版社</td>
+						<td><input type="text" class="form-control"
+							name="addpress" id="addpress" /></td>
+					</tr>
+					<tr>
+						<td>作者</td>
+						<td><input type="text" class="form-control"
+							name="addauthor" id="addauthor" /></td>
+					</tr>
+					<tr>
+						<td>价格(元)</td>
+						<td><input type="text" class="form-control"
+							name="addvalue" id="addvalue" /></td>
+					</tr>
+					<tr>
+						<td>类型</td>
+						<td><input type="text" class="form-control"
+							name="addkindno" id="addkindno" /></td>
+					</tr>
+					<tr><td colspan="2"><p id="addmsg"></p></td></tr>
 				</table>
 			</div>
 			<div class="tipbtn" style="margin-top: 200px;">
@@ -385,50 +479,7 @@ $(document).ready(function(){
 		</div>
 
 
-		<div class="tip">
-			<div class="tiptop">
-				<span>提示信息</span><a></a>
-			</div>
-
-			<div class="tipinfo">
-				<span><img src="<%=basePath%>moban/images/ticon.png" /></span>
-				<div class="tipright">
-					<p>是否确认对信息的修改 ？</p>
-					<cite>如果是请点击确定按钮 ，否则请点取消。</cite>
-				</div>
-			</div>
-
-			<div class="tipbtn">
-				<input name="" type="button" class="sure" value="确定" />&nbsp; <input
-					name="" type="button" class="cancel" value="取消" />
-			</div>
-
-		</div>
-
-
-
-
-	</div>
-
-	<div class="tip">
-		<div class="tiptop">
-			<span>提示信息</span><a></a>
-		</div>
-
-		<div class="tipinfo">
-			<span><img src="<%=basePath%>moban/images/ticon.png" /></span>
-			<div class="tipright">
-				<p>是否确认对信息的修改 ？</p>
-				<cite>如果是请点击确定按钮 ，否则请点取消。</cite>
-			</div>
-		</div>
-
-		<div class="tipbtn">
-			<input name="" type="button" class="sure" value="确定" />&nbsp; <input
-				name="" type="button" class="cancel" value="取消" />
-		</div>
-
-	</div>
+		
 
 	<script type="text/javascript">
 	$('.imgtable tbody tr:odd').addClass('odd');

@@ -123,7 +123,7 @@ public boolean updateAll(Book book) {
 	boolean flag=false;
 	try {
 		Connection conn=DBhelper_mysql.getConnection();
-		String sql="update TB_Book set NAME=?,PRESS=?,AUTHOR=?,VALUE=?,KINDNO=?,STATUS=?,DATE=now(),ADDRESS,PICTURE Where BUID=?";
+		String sql="update TB_Book set NAME=?,PRESS=?,AUTHOR=?,VALUE=?,KINDNO=?,STATUS=?,DATE=now(),ADDRESS=?,PICTURE=? Where BUID=?";
 		PreparedStatement ps=conn.prepareStatement(sql);
 		ps.setString(1, book.getNAME());
 	    ps.setString(2, book.getPRESS());

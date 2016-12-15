@@ -65,6 +65,7 @@
                         window.location.href="<%=basePath%>manager/main.do";
                     }else if(data.result==2){
                     	//员工跳转
+                    	alert("员工"+data.name+"欢迎回来！！！");
                     	window.location.href="<%=basePath%>employee/home.do";
                     }
                 }

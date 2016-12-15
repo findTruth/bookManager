@@ -13,6 +13,7 @@ import main.dao.EmployeeDao;
 import main.entity.Book;
 import main.entity.Emp;
 import main.entity.Manager;
+import main.javaBean.Bookrecord;
 import main.javaBean.EmpWorkItem;
 import main.tool.Tools;
 import main.util.DBhelper_mysql;
@@ -52,7 +53,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 			if (rs.next()) {
 				emp = new Emp(rs.getString("EUID"), rs.getString("UNAME"), rs.getString("NAME"),
 						rs.getString("PASSWORD"), rs.getString("PHONE"), rs.getString("QQ"),
-						rs.getString("ID"), rs.getInt("AGE"), Tools.formatDate(rs.getDate("LASTLOGIN")), 
+						rs.getString("ID"), rs.getInt("AGE"), Tools.formatDate(rs.getTimestamp("LASTLOGIN")), 
 						rs.getInt("QUAN"), rs.getInt("STATUS"));
 			}
 			DBhelper_mysql.closeConnection(rs, ps, conn);
@@ -74,7 +75,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 			if (rs.next()) {
 				emp = new Emp(rs.getString("EUID"), rs.getString("UNAME"), rs.getString("NAME"),
 						rs.getString("PASSWORD"), rs.getString("PHONE"), rs.getString("QQ"),
-						rs.getString("ID"), rs.getInt("AGE"), Tools.formatDate(rs.getDate("LASTLOGIN")), 
+						rs.getString("ID"), rs.getInt("AGE"), Tools.formatDate(rs.getTimestamp("LASTLOGIN")), 
 						rs.getInt("QUAN"), rs.getInt("STATUS"));
 			}
 			DBhelper_mysql.closeConnection(rs, ps, conn);
@@ -280,12 +281,143 @@ public class EmployeeDaoImpl implements EmployeeDao {
 				ps.setString(1, a);
 				ps.addBatch();
 			}
-			int n=ps.executeUpdate();
+			int[] n=ps.executeBatch();
 			conn.commit();
-			if (n>=1) {
+			if (n.length>0) {
 				flag=true;
 			}
 			DBhelper_mysql.closeConnection(null, ps, conn);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return flag;
+	}
+
+	@Override
+	public List<Bookrecord> listbookrecordall() {
+		List<Bookrecord> list = new ArrayList<>();
+		try {
+			Connection conn = DBhelper_mysql.getConnection();
+			String sql = "select"
+					+ " T.RUID as RUID,"
+					+ " B.NAME as NAME,"
+					+ "T.STARTTIME as STARTTIME,"
+					+ "T.OVERTIME as OVERTIME,"
+					+ "T.STATUS as STATUS "
+					+ "from TB_BookRecord T,TB_Book B "
+					+ "where B.BUID=T.BUID AND OVERTIME is NULL ORDER BY  STARTTIME DESC";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				Bookrecord bookrecord = new Bookrecord();
+				bookrecord.setRUID(rs.getString("RUID"));
+				bookrecord.setBname(rs.getString("NAME"));	
+				bookrecord.setSTARTTIME(Tools.formatDate(rs.getTimestamp("STARTTIME")));
+				bookrecord.setOVERTIME(Tools.formatDate(rs.getTimestamp("OVERTIME")));
+				bookrecord.setSTATUS(rs.getInt("STATUS"));
+				list.add(bookrecord);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@Override
+	public List<Bookrecord> listbookrecordByPhone(String phone) {
+		List<Bookrecord> list = new ArrayList<>();
+		try {
+			Connection conn = DBhelper_mysql.getConnection();
+			String sql = "select"
+					+ " T.RUID as RUID,"
+					+ " B.NAME as NAME,"
+					+ "T.STARTTIME as STARTTIME,"
+					+ "T.OVERTIME as OVERTIME,"
+					+ "T.STATUS as STATUS "
+					+ "from TB_BookRecord T,TB_Book B,TB_User U "
+					+ "where B.BUID=T.BUID AND U.UUID=T.UUID AND U.UPHONE=? ORDER BY  STARTTIME DESC";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, phone);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				Bookrecord bookrecord = new Bookrecord();
+				bookrecord.setRUID(rs.getString("RUID"));
+				bookrecord.setBname(rs.getString("NAME"));	
+				bookrecord.setSTARTTIME(Tools.formatDate(rs.getTimestamp("STARTTIME")));
+				bookrecord.setOVERTIME(Tools.formatDate(rs.getTimestamp("OVERTIME")));
+				bookrecord.setSTATUS(rs.getInt("STATUS"));
+				list.add(bookrecord);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@Override
+	public List<Bookrecord> listbookrecordByBookName(String bname) {
+		List<Bookrecord> list = new ArrayList<>();
+		try {
+			Connection conn = DBhelper_mysql.getConnection();
+			String sql = "select"
+					+ " T.RUID as RUID,"
+					+ " B.NAME as NAME,"
+					+ "T.STARTTIME as STARTTIME,"
+					+ "T.OVERTIME as OVERTIME,"
+					+ "T.STATUS as STATUS "
+					+ "from TB_BookRecord T,TB_Book B "
+					+ "where B.BUID=T.BUID AND B.NAME like CONCAT('%',concat(?,'%')) and OVERTIME is NULL ORDER BY  STARTTIME DESC";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, bname);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				Bookrecord bookrecord = new Bookrecord();
+				bookrecord.setRUID(rs.getString("RUID"));
+				bookrecord.setBname(rs.getString("NAME"));	
+				bookrecord.setSTARTTIME(Tools.formatDate(rs.getTimestamp("STARTTIME")));
+				bookrecord.setOVERTIME(Tools.formatDate(rs.getTimestamp("OVERTIME")));
+				bookrecord.setSTATUS(rs.getInt("STATUS"));
+				list.add(bookrecord);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@Override
+	public boolean changeBookRecordStatus(String RUID,int status) {
+		boolean flag=false;
+		try {
+			Connection conn=DBhelper_mysql.getConnection();
+			String sql="update TB_Bookrecord set OVERTIME=now(),STATUS=? where RUID=?";
+			PreparedStatement ps=conn.prepareStatement(sql);
+			ps.setInt(1, status);
+			ps.setString(2, RUID);
+			int n = ps.executeUpdate();
+			if(n>0){
+				flag = true;
+			}
+			DBhelper_mysql.closeConnection(null, ps, conn);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return flag;
+	}
+
+	@Override
+	public int countBookRecordDay(String RUID) {
+		int flag=0;
+		try {
+			Connection conn=DBhelper_mysql.getConnection();
+			String sql="select TIMESTAMPDIFF(day,starttime,overtime) as day from tb_bookrecord where ruid=?";
+			PreparedStatement ps=conn.prepareStatement(sql);
+			ps.setString(1, RUID);
+			ResultSet rs = ps.executeQuery();
+			if(rs.next()){
+				flag = Integer.valueOf(rs.getString("day"));
+			}
+			DBhelper_mysql.closeConnection(rs, ps, conn);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
