@@ -60,7 +60,7 @@
         
            <div id="field-group" class="field-group"
             style="display: none;">
-            <span class="trigger">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;密码强度： </span>
+            <span class="trigger">&nbsp;&nbsp;&nbsp;密码强度： </span>
             <span class="status-bar" style="text-indent: 0px;">
             <span style="line-height: 5px;">  </span> 
             </span>
