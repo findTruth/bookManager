@@ -13,6 +13,7 @@ import main.dao.BookDao;
 import main.entity.Book;
 import main.entity.Emp;
 import main.entity.User;
+import main.javaBean.Bookkeep;
 import main.tool.Tools;
 import main.util.DBhelper_mysql;
 
@@ -24,14 +25,13 @@ public class BookDaoImpl implements BookDao {
 	public List<Book> list() {
 		Connection conn = DBhelper_mysql.getConnection();
 		List<Book> list = new ArrayList<Book>();
-		String sql = "select b.BUID,b.NAME,b.DATE,b.PRESS,b.AUTHOR,b.VALUE,(select c.KINDNAME from TB_BookKinds c where b.KINDNO=c.KINDNO) AS KIND,b.STATUS,b.ADDRESS,b.PICTURE from TB_Book b";
-		System.out.println("11111");
+		String sql = "select b.BUID,b.NAME,b.DATE,b.PRESS,b.AUTHOR,b.VALUE,(select c.KINDNO from TB_BookKinds c where b.KINDNO=c.KINDNO) AS KIND,b.STATUS,b.ADDRESS,b.PICTURE from TB_Book b";
 		try {
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ResultSet rs = ps.executeQuery();
 			Book book = null;
 			while (rs.next()) {
-				book = new Book(rs.getString("BUID"), rs.getString("NAME"), rs.getTimestamp("DATE"), rs.getString("PRESS"), rs.getString("AUTHOR"), rs.getString("VALUE"), rs.getString("KIND"),rs.getString("ADDRESS"), rs.getInt("STATUS"),rs.getString("PICTURE"));
+				book = new Book(rs.getString("BUID"), rs.getString("NAME"), Tools.formatDate(rs.getTimestamp("DATE")), rs.getString("PRESS"), rs.getString("AUTHOR"), rs.getString("VALUE"), rs.getString("KIND"),rs.getString("ADDRESS"), rs.getInt("STATUS"),rs.getString("PICTURE"));
 				list.add(book);
 			}
 		} catch (Exception e) {
@@ -51,7 +51,7 @@ public class BookDaoImpl implements BookDao {
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
 				System.out.println(rs.getString("BUID"));
-				book = new Book(rs.getString("BUID"), rs.getString("NAME"), rs.getTimestamp("DATE"), rs.getString("PRESS"), rs.getString("AUTHOR"), rs.getString("VALUE"), rs.getString("KINDNO"),rs.getString("ADDRESS"), rs.getInt("STATUS"),rs.getString("PICTURE"));;
+				book = new Book(rs.getString("BUID"), rs.getString("NAME"), Tools.formatDate(rs.getTimestamp("DATE")), rs.getString("PRESS"), rs.getString("AUTHOR"), rs.getString("VALUE"), rs.getString("KINDNO"),rs.getString("ADDRESS"), rs.getInt("STATUS"),rs.getString("PICTURE"));;
 			}
 			DBhelper_mysql.closeConnection(rs, ps, conn);
 		} catch (SQLException e) {
@@ -59,32 +59,12 @@ public class BookDaoImpl implements BookDao {
 		}
 		return book;
 	}
-
-
-	@Override
-	public Book findByName(String NAME) {
-		String sql = "select BUID,NAME,DATE,PRESS,AUTHOR,VALUE,KINDNO,STATUS,ADDRESS,PICTURE from TB_Book where NAME=?";
-		Book book = null;
-		try {
-			Connection conn = DBhelper_mysql.getConnection();
-			PreparedStatement ps = conn.prepareStatement(sql);
-			ps.setString(1, NAME);
-			ResultSet rs = ps.executeQuery();
-			if (rs.next()) {
-				 book = new Book(rs.getString("BUID"), rs.getString("NAME"), rs.getTimestamp("DATE"), rs.getString("PRESS"), rs.getString("AUTHOR"), rs.getString("VALUE"), rs.getString("KIND"),rs.getString("ADDRESS"), rs.getInt("STATUS"),rs.getString("PICTURE"));;
-			}
-			DBhelper_mysql.closeConnection(rs, ps, conn);
-		} catch (Exception e) {
-		}
-		return book;
-	}
-
 	@Override
 	public boolean add(Book book) {
 		boolean flag=false;
 		String BUID=book.getBUID();
 		String NAME=book.getNAME();
-		Date DATE=book.getDATE();
+		String DATE=book.getDATE();
 		String PRESS=book.getPRESS();
 		String AUTHOR=book.getAUTHOR();
 		String VALUE=book.getVALUE(); 
@@ -94,18 +74,17 @@ public class BookDaoImpl implements BookDao {
 		String PICTURE=book.getPICTURE();
 		try {
 			Connection conn=DBhelper_mysql.getConnection();
-			String sql="insert into TB_Book(BUID,NAME,DATE,PRESS,AUTHOR,VALUE,KINDNO,ADDRESS,STATUS,PICTURE) values(?,?,?,?,?,?,?,?,?,?)";
+			String sql="insert into TB_Book(BUID,NAME,DATE,PRESS,AUTHOR,VALUE,KINDNO,ADDRESS,STATUS,PICTURE) values(?,?,now(),?,?,?,?,?,?,?)";
 			PreparedStatement ps=conn.prepareStatement(sql);
 			ps.setString(1, BUID);
 			ps.setString(2, NAME);
-			ps.setDate(3, (java.sql.Date) DATE);
-			ps.setString(4, PRESS);
-			ps.setString(5, AUTHOR);
-			ps.setString(6, VALUE);
-			ps.setString(7, KINDNO);
-			ps.setString(8, ADDRESS);
-			ps.setInt(9, STATUS);
-			ps.setString(10, PICTURE);
+			ps.setString(3, PRESS);
+			ps.setString(4, AUTHOR);
+			ps.setString(5, VALUE);
+			ps.setString(6, KINDNO);
+			ps.setString(7, ADDRESS);
+			ps.setInt(8, STATUS);
+			ps.setString(9, PICTURE);
 			int n=ps.executeUpdate();
 			if (n==1) {
 				flag=true;
@@ -118,8 +97,6 @@ public class BookDaoImpl implements BookDao {
 		return flag;
 	}
 	
-	
-
 	@Override
 	public boolean deletebookhelp(String BUID) {
 		boolean flag=false;
@@ -146,7 +123,7 @@ public boolean updateAll(Book book) {
 	boolean flag=false;
 	try {
 		Connection conn=DBhelper_mysql.getConnection();
-		String sql="update TB_Book set NAME=?,PRESS=?,AUTHOR=?,VALUE=?,KINDNO=?,STATUS=?,DATE=?,ADDRESS,PICTURE Where BUID=?";
+		String sql="update TB_Book set NAME=?,PRESS=?,AUTHOR=?,VALUE=?,KINDNO=?,STATUS=?,DATE=now(),ADDRESS,PICTURE Where BUID=?";
 		PreparedStatement ps=conn.prepareStatement(sql);
 		ps.setString(1, book.getNAME());
 	    ps.setString(2, book.getPRESS());
@@ -154,10 +131,9 @@ public boolean updateAll(Book book) {
 	    ps.setString(4, book.getVALUE());
 	    ps.setString(5, book.getKINDNO());
 	    ps.setInt(6, book.getSTATUS());
-	    ps.setDate(7, (java.sql.Date) book.getDATE());
-	    ps.setString(8, book.getADDRESS());
-	    ps.setString(9, book.getPICTURE());
-	    ps.setString(10, book.getBUID());
+	    ps.setString(7, book.getADDRESS());
+	    ps.setString(8, book.getPICTURE());
+	    ps.setString(9, book.getBUID());
 		int n=ps.executeUpdate();
 		 if (n==1) {
 			flag=true;
@@ -168,12 +144,71 @@ public boolean updateAll(Book book) {
 	}
 	return flag;
 }
-
-  public static void main(String[] args) {
-	  List<Book> list = new BookDaoImpl().list();
-	  
-	  System.out.println(list.size());
+@Override
+public List<Book> findByName(String content) {
+	List<Book> list = new ArrayList<>();
+	try {
+		Connection conn = DBhelper_mysql.getConnection();
+		String sql = "select b.BUID,b.NAME,b.DATE,b.PRESS,b.AUTHOR,b.VALUE,(select c.KINDNO from TB_BookKinds c where b.KINDNO=c.KINDNO) AS KIND,b.STATUS,b.ADDRESS,b.PICTURE from TB_Book b where b.NAME=? or b.AUTHOR=?";
+		PreparedStatement ps = conn.prepareStatement(sql);
+		ps.setString(1, content);
+		ps.setString(2, content);
+		ResultSet rs = ps.executeQuery();
+		while (rs.next()) {
+			Book book = new Book();
+			book.setBUID(rs.getString("BUID"));
+			book.setNAME(rs.getString("NAME"));
+			book.setAUTHOR(rs.getString("AUTHOR"));
+			book.setSTATUS(rs.getInt("STATUS"));
+			book.setPRESS(rs.getString("PRESS"));
+			book.setVALUE(rs.getString("VALUE"));
+			book.setKINDNO(rs.getString("KIND"));
+			book.setADDRESS(rs.getString("ADDRESS"));
+			book.setPICTURE(rs.getString("PICTURE"));
+			list.add(book);
+		}
+		DBhelper_mysql.closeConnection(rs, ps, conn);
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+	return list;
 }
-
+@Override
+public List<Book> findByKind(String type) {
+	List<Book> list = new ArrayList<>();
+	try{
+		Connection conn = DBhelper_mysql.getConnection();
+		String sql = "select b.BUID,b.NAME,b.DATE,b.PRESS,b.AUTHOR,b.VALUE,(select c.KINDNO from TB_BookKinds c where b.KINDNO=c.KINDNO) AS KIND,b.STATUS,b.ADDRESS,b.PICTURE from TB_Book b where b.KINDNO=?";
+		PreparedStatement ps = conn.prepareStatement(sql);
+		ps.setString(1, type);	
+		ResultSet rs = ps.executeQuery();
+		while (rs.next()) {
+			Book book = new Book();	
+			book.setBUID(rs.getString("BUID"));
+			book.setNAME(rs.getString("NAME"));
+			book.setAUTHOR(rs.getString("AUTHOR"));
+			book.setSTATUS(rs.getInt("STATUS"));
+			book.setPRESS(rs.getString("PRESS"));
+			book.setVALUE(rs.getString("VALUE"));
+			book.setKINDNO(rs.getString("KIND"));
+			book.setADDRESS(rs.getString("ADDRESS"));
+			book.setPICTURE(rs.getString("PICTURE"));		
+			list.add(book);
+		}
+		DBhelper_mysql.closeConnection(rs, ps, conn);
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+	return list;
+}
+//测试
+      // public static void main(String[] args) {
+	 // BookDaoImpl bookdaoimp=new BookDaoImpl();
+     // List<Book> list = bookdaoimp.findByKind("1");
+	  //for (Book b:list) {
+		//System.out.println(b.getNAME());
+		//System.out.println(b.getAUTHOR());
+	//}
+// }
 
 }

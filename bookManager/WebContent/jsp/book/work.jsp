@@ -10,6 +10,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>图书管理</title>
+<link rel="stylesheet" href="<%=basePath%>css/bootstrap.min.css" />
 <link href="<%=basePath %>moban/css/style.css" rel="stylesheet" type="text/css" />
 <script language="JavaScript" src="<%=basePath %>moban/js/jquery.js"></script>
 <script type="text/javascript" src="<%=basePath %>js/jquery-3.1.0.min.js"></script>
@@ -50,30 +51,31 @@ $(document).ready(function(){
     <div class="tools" style="margin-left:25px;">
     
     	<ul class="toolbar">
-        <li class="click"><span><img src="<%=basePath %>moban/images/t01.png" onclick="location.href='<%=basePath %>jsp/book/add.jsp'"/></span>添加</li>
+        <li class="click"><span><img src="<%=basePath %>moban/images/t01.png" onclick="openaddbook()"/></span>添加</li>
         <li class="click"><span><img src="<%=basePath %>moban/images/t02.png" onclick="location.href='<%=basePath %>jsp/book/bookList.jsp'"/></span>修改</li>
-        <li class="click"><span><img src="<%=basePath %>moban/images/t03.png" onclick="location.href='<%=basePath %>jsp/book/add.jsp'"/></span>删除</li>    
+        <li class="click"><span><img src="<%=basePath %>moban/images/t03.png" onclick="location.href='<%=basePath %>jsp/book/bookList.jsp'"/></span>删除</li>    
         <li>
         
         <div class="uew-select">
-	        <select class="select3" style="width:110px;height:30px;">
-	        <option>请选择图书类别</option>
-	        <option>文学类</option>
-	        <option>法律类</option>
-	        <option>历史类</option>
-	        <option>哲学类</option>
-	        <option>文化、教育类</option>
-	        <option>经济类</option>
-	        <option>社会学类</option>
-	        <option>心理学类</option>
-	        <option>政治类</option>
-	        <option>其他</option>	        
+	        <select class="select3" style="width:110px;height:30px;" id="Kindtype">
+	        <option value="请选择图书类别">请选择图书类别</option>
+	        <option value="1">文学类</option>
+	        <option value="10">法律类</option>
+	        <option value="2">历史类</option>
+	        <option value="3">哲学类</option>
+	        <option value="4">文化、教育类</option>
+	        <option value="5">艺术、美学类</option>
+	        <option value="6">经济类</option>
+	        <option value="7">社会学类</option>
+	        <option value="8">心理学类</option>
+	        <option value="9">政治类</option>
+	        <option value="11">其他</option>	        
 	        </select>
        </li>
-       <li class="click"><span><img src="<%=basePath %>moban/images/确定按钮1.png"></span>确定</li>
+       <li><span onclick="findByKind()"><img src="<%=basePath %>moban/images/确定按钮1.png" ></span>确定</li>
        
-        <li><input name="" type="text" class="scinput" placeholder="请输入图书名称"/></li>
-        <li class="click"><span><img src="<%=basePath %>moban/images/ico06.png" onclick=""></span>查询</li>          
+        <li><input name="scinput" type="text" class="scinput" placeholder="请输入图书名称或作者"/></li>
+        <li><span onclick="findByName()"><img src="<%=basePath %>moban/images/ico06.png" ></span>查询</li>          
          </div>
          </div>
           </div>
@@ -121,6 +123,73 @@ $(document).ready(function(){
         </div>
     
     </div>
+    <div class="tip" id="add" style="height: 400px;">
+			<div class="tiptop"><span>图书添加</span>
+				<a></a>
+			</div>
+			
+			<form id="form" action="<%=basePath%>book/add.do" method="post" onSubmit="return check();">							
+					<div class="tipinfo">
+					<table>
+					<tr>
+						<td>图书类型:</td>
+						<td>
+						<select id="addlei" name="addlei" class="show-tick form-control" style="width: 230px;">
+							<option value="请选择图书类型">请选择图书类型</option>				
+							<option value="1">文学类</option>
+							<option value="2">历史类</option>
+							<option value="3">哲学类</option>
+							<option value="4">文化、教育类</option>
+							<option value="5">艺术、美学类</option>
+							<option value="6">经济类</option>
+							<option value="7">社会学类</option>
+							<option value="8">心理学类</option>
+							<option value="9">政治类</option>
+							<option value="10">法律类</option>
+							<option value="11">其他</option>
+
+						</select>
+						</td>
+						</tr>
+						<tr>
+						<td>图书名称:</td>
+						<td>
+						<input type="text" class="form-control"  name="BNAME" id="BNAME" />
+						</td>
+					</tr>
+					<tr>
+						<td>出版社:</td>
+						<td>
+						<input type="text" class="form-control"  name="BPRESS" id="BPRESS" />
+						</td>
+					</tr>
+					<tr>
+						<td>图书作者:</td>
+						<td>
+						<input type="text" class="form-control"  name="BAUTHOR" id="BAUTHOR" />
+						</td>
+					</tr>
+					<tr>
+						<td>图书价格(元):</td>
+						<td>
+						<input type="text" class="form-control"  name="VALUE" id="VALUE" />
+						</td>
+					</tr>
+					<tr>
+					<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+					</tr>
+					<tr>
+						<td>图书封面:</td>
+						<td>
+						<input type="file" name="BADDRESS" id="BADDRESS" style="border: 1px solid white; height: 25px; width: 200px" onblur="checkcb('cb');">
+						</td>
+					</tr>
+					</table>						
+				<div class="addbutton" style="margin-top:70px;margin-left:70px">
+					<input id="submit" type="submit" class="sure" value="确定"  onclick="addBook()"/>
+					<input id="submit" type="button" class="sure" value="返回" onclick="location.href='<%=basePath%>jsp/book/work.jsp'" />
+				</div>
+</form>
        
 </body>
 </html>
@@ -142,7 +211,7 @@ function getJSONData(pn, url) {
 			var dataRoot = data.jsonRoot;
 			if(pageTotal == 1) { // 当只有一页时  
 				for(var j = 0; j < totalCount; j++) {
-					$(".li-tag").eq(j).append("<span><img src='<%=basePath %>"+dataRoot[j].ADDRESS+"'/></span>&nbsp;&nbsp;&nbsp;&nbsp;<h2><a href='#'>"+dataRoot[j].NAME+"</a></h2><p><a href='#'>编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;<a class='deleteButton' style='cursor:pointer'; name="+dataRoot[j].BUID+">删除</a></p>");
+					$(".li-tag").eq(j).append("<span><img src='<%=basePath %>"+dataRoot[j].ADDRESS+"'/></span><h2><a href='#'>"+dataRoot[j].NAME+"</a></h2><p><a href='#'>编辑</a>&nbsp;&nbsp;<a class='deleteButton' style='cursor:pointer'; name="+dataRoot[j].BUID+">删除</a></p>");
 				}
 			} else {
 
@@ -150,7 +219,7 @@ function getJSONData(pn, url) {
 					if(j == totalCount) {
 						break; // 当遍历到最后一条记录时，跳出循环  
 					}
-					$(".li-tag").eq(k).append("<span><img src='<%=basePath %>"+dataRoot[j].ADDRESS+"'/></span>&nbsp;&nbsp;&nbsp;&nbsp;<h2><a href='#'>"+dataRoot[j].NAME+"</a></h2><p><a href='#'>编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;<a class='deleteButton' style='cursor:pointer'; name="+dataRoot[j].BUID+">删除</a></p>");
+					$(".li-tag").eq(k).append("<span><img src='<%=basePath %>"+dataRoot[j].ADDRESS+"'/></span><h2><a href='#'>"+dataRoot[j].NAME+"</a></h2><p><a href='#'>编辑</a>&nbsp;&nbsp;<a class='deleteButton' style='cursor:pointer'; name="+dataRoot[j].BUID+">删除</a></p>");
 				}
 			}
 			$(".page-count").text(totalCount);
@@ -247,9 +316,69 @@ function getJSONData(pn, url) {
 	function flushPage() {
 		getPage("<%=basePath%>book/list.do");
 	}
+	
 	function openDelete(id) {
 		$("#BUID").val(id);
 		$("#delete").fadeIn(200);
+	}
+	function openaddbook(){
+		$("#addbook").fadeIn(200);
+	}
+	//新增图书
+	function addBook(){
+		var jsondata = {
+			"KINDNO":$("#addkindno").val(),
+			"NAME": $("#addname").val(),
+			"PRESS": $("#addpress").val(),
+			"AUTHOR": $("#addauthor").val(),
+			"VALUE": $("#addvalue").val(),
+			"ADDRESS":$("#addaddress").val(),
+		};
+		$.ajax({
+			type: "POST",
+			url: "<%=basePath%>book/add.do",
+			async: true,
+			dataType: 'json',
+			data: jsondata,
+			success: function(data) {
+				alert(data.msg);
+				flushPage();
+			}
+		});
+	}
+	function findByName(){
+		var type="名字查找";
+		var content =$("input[name='scinput']").val();
+		$.ajax({
+			type: "GET",
+			url: "<%=basePath%>book/list.do?Content=" + content +"&type=" + type,
+			async: true,
+			dataType: 'json',
+			success: function(data) {
+				alert(data.msg);
+				getPage("<%=basePath%>book/list.do?Content=" + content +"&type=" + type+"");
+			},
+			error: function() {
+				alert("网络连接异常，请检查网络设置");
+			}
+		});
+	}
+	function findByKind(){
+		var type =$("#Kindtype").val();
+		var content="类别查找";
+		$.ajax({
+			type: "GET",
+			url: "<%=basePath%>book/list.do?Content=" + content +"&type=" + type,
+			async: true,
+			dataType: 'json',
+			success: function(data) {
+				alert(data.msg);
+				getPage("<%=basePath%>book/list.do?Content=" + content +"&type=" + type+"");
+			},
+			error: function() {
+				alert("网络连接异常，请检查网络设置");
+			}
+		});
 	}
  function deleteensure(){
 		var BUID = $("input[name='BUID']").val();

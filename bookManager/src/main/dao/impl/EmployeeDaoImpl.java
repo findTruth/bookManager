@@ -31,7 +31,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 			while (rs.next()) {
 				emp = new Emp(rs.getString("EUID"), rs.getString("UNAME"), rs.getString("NAME"),
 						rs.getString("PASSWORD"), rs.getString("PHONE"), rs.getString("QQ"), rs.getString("ID"),
-						rs.getInt("AGE"), rs.getTimestamp("LASTLOGIN"), rs.getInt("QUAN"), rs.getInt("STATUS"));
+						rs.getInt("AGE"), Tools.formatDate(rs.getTimestamp("LASTLOGIN")), rs.getInt("QUAN"), rs.getInt("STATUS"));
 				list.add(emp);
 			}
 		} catch (Exception e) {
@@ -52,7 +52,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 			if (rs.next()) {
 				emp = new Emp(rs.getString("EUID"), rs.getString("UNAME"), rs.getString("NAME"),
 						rs.getString("PASSWORD"), rs.getString("PHONE"), rs.getString("QQ"),
-						rs.getString("ID"), rs.getInt("AGE"), rs.getDate("LASTLOGIN"), 
+						rs.getString("ID"), rs.getInt("AGE"), Tools.formatDate(rs.getDate("LASTLOGIN")), 
 						rs.getInt("QUAN"), rs.getInt("STATUS"));
 			}
 			DBhelper_mysql.closeConnection(rs, ps, conn);
@@ -74,7 +74,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 			if (rs.next()) {
 				emp = new Emp(rs.getString("EUID"), rs.getString("UNAME"), rs.getString("NAME"),
 						rs.getString("PASSWORD"), rs.getString("PHONE"), rs.getString("QQ"),
-						rs.getString("ID"), rs.getInt("AGE"), rs.getDate("LASTLOGIN"), 
+						rs.getString("ID"), rs.getInt("AGE"), Tools.formatDate(rs.getDate("LASTLOGIN")), 
 						rs.getInt("QUAN"), rs.getInt("STATUS"));
 			}
 			DBhelper_mysql.closeConnection(rs, ps, conn);

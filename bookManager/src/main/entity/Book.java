@@ -5,7 +5,7 @@ import java.util.Date;
 public class Book {
 	private String BUID;
 	private String NAME;
-	private Date DATE;
+	private String DATE;
 	private String PRESS;
 	private String AUTHOR;
 	private String VALUE;
@@ -18,7 +18,7 @@ public class Book {
 	}
 	
 	
-	public Book(String bUID, String nAME, Date dATE, String pRESS, String aUTHOR, String vALUE, String kINDNO,
+	public Book(String bUID, String nAME, String dATE, String pRESS, String aUTHOR, String vALUE, String kINDNO,
 			String aDDRESS, int sTATUS,String pICTURE) {
 		super();
 		BUID = bUID;
@@ -45,10 +45,10 @@ public class Book {
 	public void setNAME(String nAME) {
 		NAME = nAME;
 	}
-	public Date getDATE() {
+	public String getDATE() {
 		return DATE;
 	}
-	public void setDATE(Date dATE) {
+	public void setDATE(String dATE) {
 		DATE = dATE;
 	}
 	public String getPRESS() {

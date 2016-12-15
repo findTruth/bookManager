@@ -11,7 +11,7 @@ public class Emp {
 	private String QQ;
 	private String ID;
 	private int AGE;
-	private Date LASTLOGIN;
+	private String LASTLOGIN;
 	private int QUAN;
 	private int STATUS;
 	
@@ -19,7 +19,7 @@ public class Emp {
 	}
 	
 	public Emp(String eUID, String uNAME, String nAME, String pASSWORD, String pHONE, String qQ, String iD, int aGE,
-			Date lASTLOGIN, int qUAN, int sTATUS) {
+			String lASTLOGIN, int qUAN, int sTATUS) {
 		EUID = eUID;
 		UNAME = uNAME;
 		NAME = nAME;
@@ -80,10 +80,10 @@ public class Emp {
 	public void setAGE(int aGE) {
 		AGE = aGE;
 	}
-	public Date getLASTLOGIN() {
+	public String getLASTLOGIN() {
 		return LASTLOGIN;
 	}
-	public void setLASTLOGIN(Date lASTLOGIN) {
+	public void setLASTLOGIN(String lASTLOGIN) {
 		LASTLOGIN = lASTLOGIN;
 	}
 	public int getQUAN() {
