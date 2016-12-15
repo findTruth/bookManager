@@ -86,8 +86,7 @@ public class BookController extends HttpServlet {
 				}else {
 					json.addProperty("msg", "查找失败，该类型的图书暂无");	
 				}
-				out.append(json.toString());
-				out.close();
+				
 			}else if(type.equals("名字查找")&&content!=""){
 				list=bookbizimpl.findByName(content);
 				if (list.size()!=0) {
@@ -97,19 +96,15 @@ public class BookController extends HttpServlet {
 				}else {
 					json.addProperty("msg", "查找失败，请仔细想想图书名称或作者");	
 				}
-				out.append(json.toString());
-				out.close();
 			}else if(type==""&&content==""){
 				list=bookbizimpl.bookList();
 				json.addProperty("totalCount", list.size());
 				json.add("jsonRoot", new Gson().toJsonTree(list));
-				out.append(json.toString());
-				out.close();
 			}else {
 				json.addProperty("msg", "查找失败");
-				out.append(json.toString());
-				out.close();
-			}						
+			}	
+			out.append(json.toString());
+			out.close();					
 		}else if ("/UserBook".equals(path)) {
 
 			response.setContentType("text/plain");
