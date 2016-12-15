@@ -50,7 +50,6 @@ public class BookController extends HttpServlet {
 		PrintWriter out =  response.getWriter();
 		if ("/bookmanager".equals(path)) {
 			request.getRequestDispatcher("../jsp/book/bookList.jsp").forward(request, response);
-
 		}else if ("/bookkindmanager".equals(path)) {
 			
 		}else if ("/bookrecordmanager".equals(path)) {

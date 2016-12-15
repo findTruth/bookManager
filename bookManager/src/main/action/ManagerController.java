@@ -139,8 +139,24 @@ public class ManagerController extends HttpServlet {
 			}
 			out.println(json.toString());
 			out.close();
+		} else if("/addEmp".equals(path)){
+			Emp emp = new Emp(Tools.UUID(), request.getParameter("UNAME"), request.getParameter("NAME"), Tools.MD5(request.getParameter("PASSWORD")),
+					request.getParameter("PHONE"), request.getParameter("QQ"), request.getParameter("ID"),
+					Integer.valueOf(request.getParameter("AGE")), null, Integer.valueOf(request.getParameter("QUAN")),
+					0);
+			boolean flag = new EmployeeBizImpl().addEmp(emp);
+			JsonObject json = new JsonObject();
+			if (flag) {
+				json.addProperty("result", "0");
+				json.addProperty("msg", "增加成功");
+			} else {
+				json.addProperty("result", "-1");
+				json.addProperty("msg", "增加失败");
+			}
+			out.print(json.toString());
+			out.close();
 		} else if ("/changeUser".equals(path)) {
-			User user = new User(request.getParameter("UUID"), request.getParameter("PHONE"),
+			User user = new User(Tools.UUID(), request.getParameter("PHONE"),
 					request.getParameter("EMAIL"), null, null, null, request.getParameter("NICNAME"), null,
 					Integer.valueOf(request.getParameter("STATUS")), Integer.valueOf(request.getParameter("SEX")), null,
 					null, null, null);

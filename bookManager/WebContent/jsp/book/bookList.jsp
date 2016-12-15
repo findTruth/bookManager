@@ -22,7 +22,7 @@
     function getJSONData(pn,url) {  
     	
     // alert(pn);  
-    $.getJSON(url, function(data) {  
+    $.post(url, function(data) {  
         var totalCount = data.totalCount; // 总记录数  
         var pageSize = 10; // 每页显示几条记录  
         var pageTotal = Math.ceil(totalCount / pageSize); // 总页数  
@@ -72,7 +72,7 @@
 			openUpdate(id);
 			
 		});
-	})
+	},"json")
 }  
 function getPage(url) {  
     $.post(url, function(data) {  

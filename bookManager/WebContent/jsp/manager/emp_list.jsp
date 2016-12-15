@@ -458,12 +458,10 @@
 				$("#changeEmpQuanTop").fadeIn(200);
 			});
 			$(".changeButton").click(function() {
-				//				alert($(this).attr("name"));
 				var id = $(this).attr("name");
 				openChange(id);
 			});
 			$("#all").click(function(){
-//				$("checkbox[name='checkBox']").each.attr("checked", !$(this).attr("checked"));
 				$("#list :checkbox,#all").attr("checked", true); 
 			});
 		},"json")
@@ -700,6 +698,31 @@
 	   $.ajax({
 			type: "POST",
 			url: "<%=basePath%>manager/delEmp.do",
+			async: true,
+			dataType: 'json',
+			data: jsondata,
+			success: function(data) {
+				alert(data.msg);
+				flushPage();
+			}
+		});
+	}
+
+	//新增员工
+	function addEmp(){
+		var jsondata = {
+			"UNAME": $("#adduname").val(),
+			"PASSWORD": $("#addpassword").val(),
+			"NAME": $("#addname").val(),
+			"PHONE": $("#addphone").val(),
+			"QQ": $("#addqq").val(),
+			"ID": $("#addid").val(),
+			"AGE": $("#addage").val(),
+			"QUAN": $("#addquan").val()
+		};
+		$.ajax({
+			type: "POST",
+			url: "<%=basePath%>manager/addEmp.do",
 			async: true,
 			dataType: 'json',
 			data: jsondata,
