@@ -46,7 +46,7 @@ public class UserController extends HttpServlet {
 			userbizimpl.UpdateUserLoginTime(longUUID);
 			request.getRequestDispatcher("../jsp/user/home.jsp").forward(request, response);
 		}else if ("/BookCentre".equals(path)) {
-			request.getRequestDispatcher("../book/UserBook.do").forward(request, response);
+			request.getRequestDispatcher("../jsp/book/worker.jsp").forward(request, response);
 		}else if ("/userGeRen".equals(path)) {
 			User user=userbizimpl.find(longUUID);
 			request.setAttribute("Nicname", user.getNICNAME());

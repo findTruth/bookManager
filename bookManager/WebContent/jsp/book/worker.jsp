@@ -112,7 +112,7 @@ $(document).ready(function(){
 <script>
 function getJSONData(pn, url) {
 		// alert(pn);  
-		$.getJSON(url, function(data) {
+		$.post(url, function(data) {
 			var totalCount = data.totalCount; // 总记录数  
 			var pageSize = 10; // 每页显示几条记录  
 			var pageTotal = Math.ceil(totalCount / pageSize); // 总页数  
@@ -146,11 +146,11 @@ function getJSONData(pn, url) {
 				var id = $(this).attr("name");
 				Addbookrecord(id);
 			});
-		});	
+		},"json");	
 	}
 
 	function getPage(url) {
-		$.getJSON(url, function(data) {
+		$.post(url, function(data) {
 
 			pn = 1;
 			var totalCount = data.totalCount; // 总记录数  
@@ -218,7 +218,7 @@ function getJSONData(pn, url) {
 			});
 			$("#firstPage").trigger("click");
 
-		})
+		},"json")
 	}
 
 	function gotoPage(pn, url) {
